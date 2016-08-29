@@ -4,10 +4,56 @@
   <solid>0</solid>
   <visible>-1</visible>
   <depth>0</depth>
-  <persistent>0</persistent>
+  <persistent>-1</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
-  <events/>
+  <events>
+    <event eventtype="0" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>//SAVE DATA
+stats[0] = 0.0; //Batting Average
+stats[1] = 0.0; //Hit Percentage
+stats[2] = 0.0; //Seagulls Hit
+stats[3] = 0.0; //Best Streak
+stats[4] = 0.0; //Strikeout Percentage
+stats[5] = 0.0; //Max Damage
+stats[6] = 0.0; //Total Damage
+
+equip[0] = 0; //Bat
+equip[1] = 0; //Field
+
+setting[0] = true; //Music
+setting[1] = true; //Sound Effects
+setting[2] = true; //Vibration
+setting[3] = false; //Power Saver
+
+rpg[0] = 0; //Player Experience
+rpg[1] = 1; //Player Level
+
+gifts = 0; //Number of "Gifts" in Stock. 
+
+gems = ds_list_create(); //Gem List
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+  </events>
   <PhysicsObject>0</PhysicsObject>
   <PhysicsObjectSensor>0</PhysicsObjectSensor>
   <PhysicsObjectShape>0</PhysicsObjectShape>

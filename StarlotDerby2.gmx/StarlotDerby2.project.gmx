@@ -77,6 +77,7 @@
     <extension index="0">extensions\Display Scaler - Edge Engine</extension>
     <extension index="1">extensions\Essential Scripts</extension>
     <extension index="2">extensions\CSV Manager</extension>
+    <extension index="3">extensions\Savegame Custom plus Encrypt</extension>
   </NewExtensions>
   <sounds name="sound"/>
   <sprites name="sprites">
@@ -119,21 +120,31 @@
     <script>scripts\csv_save.gml</script>
     <script>scripts\loadData.gml</script>
     <script>scripts\array_draw_debug.gml</script>
+    <script>scripts\savegame_save.gml</script>
+    <script>scripts\savegame_load.gml</script>
+    <script>scripts\savegame_clear.gml</script>
+    <script>scripts\string_save_encrypted.gml</script>
+    <script>scripts\string_load_encrypted.gml</script>
   </scripts>
   <shaders name="shaders">
     <shader type="GLSLES">shaders\shader0.shader</shader>
   </shaders>
+  <fonts name="fonts">
+    <font>fonts\f_std</font>
+  </fonts>
   <objects name="objects">
     <object>objects\manager</object>
-    <object>objects\player</object>
+    <object>objects\bat</object>
     <objects name="Edge Display Scaler">
       <object>objects\obj_scaler</object>
     </objects>
     <object>objects\obj_example</object>
+    <object>objects\o_system</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\rm_example</room>
     <room>rooms\room1</room>
+    <room>rooms\r_test</room>
   </rooms>
   <help>
     <rtf>help.rtf</rtf>
