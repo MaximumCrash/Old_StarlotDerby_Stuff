@@ -25,7 +25,27 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//SAVE DATA
+            <string>//Compile Info
+debug = true; 
+debugType = 0;
+
+//UI Positioning
+floatLeft = view_xview[0];
+floatTop = view_yview[0];
+floatxMid = view_xview[0] + (view_wview[0]*0.5);
+floatyMid = view_yview[0] + (view_hview[0]*0.5);
+floatRight =  view_xview[0] + view_wview[0];
+floatBottom = view_yview[0] + view_hview[0];
+quarterX = view_wview[0] * 0.25;
+quarterY = view_hview[0] * 0.25;
+padding = 15;
+lineHeight = 15;
+
+offset = 0;
+length = 9;
+list = ds_list_create();
+
+//SAVE DATA
 stats[0] = 0.0; //Batting Average
 stats[1] = 0.0; //Hit Percentage
 stats[2] = 0.0; //Seagulls Hit
@@ -35,19 +55,158 @@ stats[5] = 0.0; //Max Damage
 stats[6] = 0.0; //Total Damage
 
 equip[0] = 0; //Bat
-equip[1] = 0; //Field
+equip[1] = 0; //Speed
+equip[2] = 0; //Power
 
 setting[0] = true; //Music
 setting[1] = true; //Sound Effects
 setting[2] = true; //Vibration
 setting[3] = false; //Power Saver
 
-rpg[0] = 0; //Player Experience
-rpg[1] = 1; //Player Level
+player[0] = 0; //Player Experience
+player[1] = 1; //Player Level
+player[2] = 0; //High Score Batting **********NEW
+player[3] = 0; //High Score Pitching ***********NEW
 
+ 
 gifts = 0; //Number of "Gifts" in Stock. 
 
 gems = ds_list_create(); //Gem List
+
+var itemList, gemList, fieldList, dictionary; //List of "String" terms and their appropriate data. 
+
+loadDB();
+
+//Game Info
+strikes = 0;
+swings = 0;
+score = 0;
+dirMulti = 1;
+birdMulti = 1;
+fever = 0;
+
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="1" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>ds_list_destroy(list);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if (keyboard_check_pressed(vk_anykey) == true)
+{
+    switch (keyboard_key)
+    {
+        case vk_down:
+        offset = max(offset - 1, 0);
+        break;
+        case vk_up:
+        offset = min(offset + 1, (ds_list_size(list) - min(ds_list_size(list), length)));
+        break;
+        case vk_space:
+        ds_list_add(list, "MESSAGE! " + string(ds_list_size(list) + 1));
+        break;
+        case ord("1"):
+        debugType = 0;
+        break;
+        case ord("2"):
+        debugType = 1;
+        break;
+    }
+}
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>manager</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if (debug) {
+    draw_set_color(c_black);
+    draw_set_alpha(0.2); 
+    draw_rectangle(floatLeft,floatBottom-quarterY,floatRight,floatBottom,false);
+    
+    draw_set_alpha(1);
+    draw_set_color(c_white); 
+    switch (debugType) 
+    {
+        case 0 : { //Event Reporting
+            var i, n, line = "";
+            for (i = 0; i &lt; min(ds_list_size(list), length); i++)
+            {
+                line += string(ds_list_find_value(list, i + max(ds_list_size(list) - length, 0) - offset)) + "#";
+            }
+            draw_text(floatLeft + padding,(floatBottom-quarterY)+padding, line);
+            break;
+        }    
+        case 1 : { //Batting 
+            draw_text(floatLeft + padding,(floatBottom-quarterY)+padding, "Current Bat: " + itemList[0,equip[0]]);
+            draw_text(floatLeft + padding,(floatBottom-quarterY)+padding+lineHeight, "Current Speed: " + string(equip[1]) + " Current Power: " + string(equip[2])); 
+            draw_text(floatLeft + padding,(floatBottom-quarterY)+padding+(lineHeight*2), "Directional Multiplier: " + string(dirMulti) + " Bird Multiplier: " + string(birdMulti));
+               break;
+        }
+        case 2 : { //Pitching
+        
+            break;
+        }
+        
+    }
+    
+}
 </string>
           </argument>
         </arguments>
