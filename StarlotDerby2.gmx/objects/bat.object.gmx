@@ -32,7 +32,6 @@ var swingPower = manager.stat[1];
 var canSwing = false; 
 var heatGauge = 0;
 
-
 </string>
           </argument>
         </arguments>

@@ -28,8 +28,14 @@
             <string>//Compile Info
 debug = true; 
 debugType = 0;
+offset = 0;
+length = 9;
+list = ds_list_create();
 
-//UI Positioning
+if (debug) 
+ds_list_add(manager.list, "Initializing...");
+
+//*****************UI Positioning
 floatLeft = view_xview[0];
 floatTop = view_yview[0];
 floatxMid = view_xview[0] + (view_wview[0]*0.5);
@@ -41,11 +47,11 @@ quarterY = view_hview[0] * 0.25;
 padding = 15;
 lineHeight = 15;
 
-offset = 0;
-length = 9;
-list = ds_list_create();
+//*********************DATABASE
+var itemList, gemList, fieldList, curseList, dictionary; 
+loadDB();
 
-//SAVE DATA
+//********************SAVE DATA
 stats[0] = 0.0; //Batting Average
 stats[1] = 0.0; //Hit Percentage
 stats[2] = 0.0; //Seagulls Hit
@@ -55,8 +61,11 @@ stats[5] = 0.0; //Max Damage
 stats[6] = 0.0; //Total Damage
 
 equip[0] = 0; //Bat
-equip[1] = 0; //Speed
-equip[2] = 0; //Power
+equip[1] = 0; //Power = Base + Extra
+equip[2] = 0; //Speed
+equip[3] = 0; //Gem0
+equip[4] = 0; //Gem1
+equip[5] = 0; //Gem2 
 
 setting[0] = true; //Music
 setting[1] = true; //Sound Effects
@@ -68,22 +77,61 @@ player[1] = 1; //Player Level
 player[2] = 0; //High Score Batting **********NEW
 player[3] = 0; //High Score Pitching ***********NEW
 
- 
 gifts = 0; //Number of "Gifts" in Stock. 
 
 gems = ds_list_create(); //Gem List
 
-var itemList, gemList, fieldList, dictionary; //List of "String" terms and their appropriate data. 
 
-loadDB();
+
+//Object Variables
+
+//*******BATS
+batShapeShift = false;
+batOverHeat = false;
+batRiskyBusiness = false;
+batSlugBat = false;
+batLefty = false;
+
+//********BIRDS
+birdHappyBirthday = false;
+
+//********PITCHER
+pitcherSeeingDouble = false;
+pitcherUltraMan = false;
+
+//*******BALL
+ballMaxSpeed = false;
+ballGhost = false;
+
+//Curse Effected Values
+powerCurseExtra = 0;
+speedCurseExtra = 0;
+feverSafety = 0;
+futureChance = 0;
+foggyWindows = false;
+earthquake = false;
+wavy = false;
+wizKid = false;
+multiplier = 1;
 
 //Game Info
+gameState = 0;
 strikes = 0;
 swings = 0;
+swingArc = 0;
+ballExitSpeed = 0;
+ballState = 0;
 score = 0;
+
 dirMulti = 1;
 birdMulti = 1;
 fever = 0;
+maxFever = 3;
+var powerCount; 
+
+savegame_load(); 
+
+
 
 
 </string>
@@ -141,9 +189,40 @@ fever = 0;
         case vk_up:
         offset = min(offset + 1, (ds_list_size(list) - min(ds_list_size(list), length)));
         break;
-        case vk_space:
-        ds_list_add(list, "MESSAGE! " + string(ds_list_size(list) + 1));
+        case vk_left: {
+        if (equip[0] == 0) {
+            equip[0] = array_height_2d(itemList)-5;
+            setEquipment(equip[0]);
+        }
+        else {
+            equip[0]--;
+            setEquipment(equip[0]);
+        }
         break;
+        }
+        case vk_right:
+        {
+        if (equip[0] == array_height_2d(itemList)-5) {
+            equip[0] = 0;
+            setEquipment(equip[0]);
+        }
+        else {
+            equip[0]++;
+            setEquipment(equip[0]);
+        }
+        break;
+        }
+        case vk_space:
+        {
+        if (debug) {
+            debug = false;
+            obj_scaler.visible = false;
+        }
+        else {
+            debug = true;
+            obj_scaler.visible = true;
+        }
+        break;}
         case ord("1"):
         debugType = 0;
         break;
@@ -194,10 +273,13 @@ fever = 0;
             break;
         }    
         case 1 : { //Batting 
-            draw_text(floatLeft + padding,(floatBottom-quarterY)+padding, "Current Bat: " + itemList[0,equip[0]]);
+            draw_text(floatLeft + padding,(floatBottom-quarterY)+padding, "Current Bat: " + itemList[equip[0],0]);
             draw_text(floatLeft + padding,(floatBottom-quarterY)+padding+lineHeight, "Current Speed: " + string(equip[1]) + " Current Power: " + string(equip[2])); 
             draw_text(floatLeft + padding,(floatBottom-quarterY)+padding+(lineHeight*2), "Directional Multiplier: " + string(dirMulti) + " Bird Multiplier: " + string(birdMulti));
-               break;
+            draw_text(floatLeft + padding,(floatBottom-quarterY)+padding+(lineHeight*3), "Exit Swing Arc: " + string(swingArc) + " Exit Ball Speed: " + string(ballExitSpeed));
+            draw_text(floatLeft + padding,(floatBottom-quarterY)+padding+(lineHeight*4), "Ball State: " + string(ballState) + " Game State: " + string(gameState));
+             draw_text(floatLeft + padding,(floatBottom-quarterY)+padding+(lineHeight*5), "Current Fever: " + string(fever) + " Max Fever: " + string(maxFever));
+                                   break;
         }
         case 2 : { //Pitching
         

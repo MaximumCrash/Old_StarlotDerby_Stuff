@@ -1,0 +1,1 @@
+setEquipment(0); 
