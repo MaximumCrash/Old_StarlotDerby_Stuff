@@ -90,7 +90,7 @@ edgeds_init_scale(0);
           <argument>
             <kind>1</kind>
             <string>//Calculate and set the display scale
-edgeds_set_scale(false,0,0,0,1);
+edgeds_set_scale(true,0,0,0,1);
 </string>
           </argument>
         </arguments>

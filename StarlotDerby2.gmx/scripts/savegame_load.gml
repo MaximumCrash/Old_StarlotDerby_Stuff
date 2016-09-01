@@ -29,7 +29,7 @@ manager.player[3] = list[| 15];
 manager.gifts = list[| 16];
 
 for (var i=0; i<ds_list_size(manager.gems); i++) {
-  manager.gem[| i] = list[| 17+i];
+  manager.gems[| i] = list[| 17+i];
 }
 
 }

@@ -40,7 +40,7 @@ floatLeft = view_xview[0];
 floatTop = view_yview[0];
 floatxMid = view_xview[0] + (view_wview[0]*0.5);
 floatyMid = view_yview[0] + (view_hview[0]*0.5);
-floatRight =  view_xview[0] + view_wview[0];
+//floatRight =  ;
 floatBottom = view_yview[0] + view_hview[0];
 quarterX = view_wview[0] * 0.25;
 quarterY = view_hview[0] * 0.25;
@@ -49,6 +49,9 @@ lineHeight = 15;
 
 //*********************DATABASE
 var itemList, gemList, fieldList, curseList, dictionary; 
+powerCount = 0;
+curseCount = 0;
+
 loadDB();
 
 //********************SAVE DATA
@@ -127,7 +130,6 @@ dirMulti = 1;
 birdMulti = 1;
 fever = 0;
 maxFever = 3;
-var powerCount; 
 
 savegame_load(); 
 
@@ -256,8 +258,8 @@ savegame_load();
             <kind>1</kind>
             <string>if (debug) {
     draw_set_color(c_black);
-    draw_set_alpha(0.2); 
-    draw_rectangle(floatLeft,floatBottom-quarterY,floatRight,floatBottom,false);
+    draw_set_alpha(0.5); 
+    draw_rectangle(view_xview[0],view_yview[0] + view_hview[0]-(view_hview[0] * 0.25),view_xview[0] + view_wview[0],view_yview[0] + view_hview[0],false);
     
     draw_set_alpha(1);
     draw_set_color(c_white); 
@@ -269,16 +271,16 @@ savegame_load();
             {
                 line += string(ds_list_find_value(list, i + max(ds_list_size(list) - length, 0) - offset)) + "#";
             }
-            draw_text(floatLeft + padding,(floatBottom-quarterY)+padding, line);
+            draw_text(view_xview[0] + padding,(view_yview[0] + view_hview[0]-(view_hview[0] * 0.25))+padding, line);
             break;
         }    
         case 1 : { //Batting 
-            draw_text(floatLeft + padding,(floatBottom-quarterY)+padding, "Current Bat: " + itemList[equip[0],0]);
-            draw_text(floatLeft + padding,(floatBottom-quarterY)+padding+lineHeight, "Current Speed: " + string(equip[1]) + " Current Power: " + string(equip[2])); 
-            draw_text(floatLeft + padding,(floatBottom-quarterY)+padding+(lineHeight*2), "Directional Multiplier: " + string(dirMulti) + " Bird Multiplier: " + string(birdMulti));
-            draw_text(floatLeft + padding,(floatBottom-quarterY)+padding+(lineHeight*3), "Exit Swing Arc: " + string(swingArc) + " Exit Ball Speed: " + string(ballExitSpeed));
-            draw_text(floatLeft + padding,(floatBottom-quarterY)+padding+(lineHeight*4), "Ball State: " + string(ballState) + " Game State: " + string(gameState));
-             draw_text(floatLeft + padding,(floatBottom-quarterY)+padding+(lineHeight*5), "Current Fever: " + string(fever) + " Max Fever: " + string(maxFever));
+            draw_text(view_xview[0] + padding,(view_yview[0] + view_hview[0]-(view_hview[0] * 0.25))+padding, "Current Bat: " + itemList[equip[0],0]);
+            draw_text(view_xview[0] + padding,(view_yview[0] + view_hview[0]-(view_hview[0] * 0.25))+padding+lineHeight, "Current Speed: " + string(equip[1]) + " Current Power: " + string(equip[2])); 
+            draw_text(view_xview[0] + padding,(view_yview[0] + view_hview[0]-(view_hview[0] * 0.25))+padding+(lineHeight*2), "Directional Multiplier: " + string(dirMulti) + " Bird Multiplier: " + string(birdMulti));
+            draw_text(view_xview[0] + padding,(view_yview[0] + view_hview[0]-(view_hview[0] * 0.25))+padding+(lineHeight*3), "Exit Swing Arc: " + string(swingArc) + " Exit Ball Speed: " + string(ballExitSpeed));
+            draw_text(view_xview[0] + padding,(view_yview[0] + view_hview[0]-(view_hview[0] * 0.25))+padding+(lineHeight*4), "Ball State: " + string(ballState) + " Game State: " + string(gameState));
+             draw_text(view_xview[0] + padding,(view_yview[0] + view_hview[0]-(view_hview[0] * 0.25))+padding+(lineHeight*5), "Current Fever: " + string(fever) + " Max Fever: " + string(maxFever));
                                    break;
         }
         case 2 : { //Pitching
@@ -289,6 +291,9 @@ savegame_load();
     }
     
 }
+
+//edgeds_draw_background(background0, view_xview[0]-37,0, 0, false, false, 0);
+ 
 </string>
           </argument>
         </arguments>

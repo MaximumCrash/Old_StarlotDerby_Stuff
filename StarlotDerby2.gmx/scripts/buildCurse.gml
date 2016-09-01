@@ -39,7 +39,7 @@ for (var g = 0; g < array_length_1d(manager.equip)+2; g++)
             else 
             {
                 if (tempCheckArray[0] == curseCount) {
-                    tempCheckArray[0] = irandom_range(0, curseCound - 1);
+                    tempCheckArray[0] = irandom_range(0, curseCount - 1);
                 }
                 //ITS A CURSE  
                 switch (tempCheckArray[0]) 

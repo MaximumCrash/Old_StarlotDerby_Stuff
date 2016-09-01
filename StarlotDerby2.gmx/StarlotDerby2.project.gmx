@@ -121,7 +121,9 @@
     </sprites>
     <sprite>sprites\spr_ex</sprite>
   </sprites>
-  <backgrounds name="background"/>
+  <backgrounds name="background">
+    <background>background\background0</background>
+  </backgrounds>
   <paths name="paths">
     <path>paths\path0</path>
   </paths>
@@ -154,7 +156,6 @@
     <script>scripts\trace.gml</script>
     <script>scripts\csv_load.gml</script>
     <script>scripts\csv_save.gml</script>
-    <script>scripts\loadData.gml</script>
     <script>scripts\new_game.gml</script>
     <script>scripts\buildCurse.gml</script>
     <script>scripts\setEquipment.gml</script>

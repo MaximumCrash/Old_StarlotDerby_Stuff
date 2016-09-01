@@ -25,7 +25,7 @@ list[| 15] = manager.player[3];
 list[| 16] = manager.gifts;
 
 for (var i=0; i<ds_list_size(manager.gems); i++) {
-  list[| 17+i] = manager.gem[| i];
+  list[| 17+i] = manager.gems[| i];
 }
 
 // file save and encryption
