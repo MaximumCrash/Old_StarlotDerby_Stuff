@@ -8,21 +8,22 @@
  */
 var str = argument0;
 var split = argument1;
-var list = ds_list_create();
+var list;
 var number = string_count(split, str);
+
 if (number == 0)
 {
-    ds_list_add(list, str);
+    list[number] = str; 
 }
 else
 {
     for (var i = 0; i < number; i++)
     {
         var pos = string_pos(split, str);
-        ds_list_add(list, string_copy(str, 1, pos-1));
+        list[i] = string_copy(str,1,pos-1);
         str = string_delete(str, 1, pos);
     }
-    ds_list_add(list, str);
+    //ds_list_add(list, str);
 }
 return list;
 

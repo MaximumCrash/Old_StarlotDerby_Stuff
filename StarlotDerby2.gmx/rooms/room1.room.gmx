@@ -53,6 +53,7 @@
   <instances>
     <instance objName="obj_scaler" x="64" y="-64" name="inst_2F9A4814" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="manager" x="448" y="160" name="inst_B2B02E36" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="bat" x="192" y="352" name="inst_E2585E56" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>

@@ -26,10 +26,11 @@ manager.player[0] = list[| 12];
 manager.player[1] = list[| 13];
 manager.player[2] = list[| 14];
 manager.player[3] = list[| 15];
-manager.gifts = list[| 16];
+manager.player[4] = list[| 16];
+manager.gifts = list[| 17];
 
 for (var i=0; i<ds_list_size(manager.gems); i++) {
-  manager.gems[| i] = list[| 17+i];
+  manager.gems[| i] = list[| 18+i];
 }
 
 }

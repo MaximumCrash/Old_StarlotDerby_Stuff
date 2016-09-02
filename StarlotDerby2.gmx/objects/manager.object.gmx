@@ -35,6 +35,8 @@ list = ds_list_create();
 if (debug) 
 ds_list_add(manager.list, "Initializing...");
 
+
+
 //*****************UI Positioning
 floatLeft = view_xview[0];
 floatTop = view_yview[0];
@@ -53,6 +55,8 @@ powerCount = 0;
 curseCount = 0;
 
 loadDB();
+
+tempGem = 0;
 
 //********************SAVE DATA
 stats[0] = 0.0; //Batting Average
@@ -79,12 +83,13 @@ player[0] = 0; //Player Experience
 player[1] = 1; //Player Level
 player[2] = 0; //High Score Batting **********NEW
 player[3] = 0; //High Score Pitching ***********NEW
+player[4] = 0; //Coins
 
 gifts = 0; //Number of "Gifts" in Stock. 
 
 gems = ds_list_create(); //Gem List
 
-
+ds_list_add(manager.list, string(array_length_1d(manager.equip)));
 
 //Object Variables
 
@@ -111,6 +116,7 @@ powerCurseExtra = 0;
 speedCurseExtra = 0;
 feverSafety = 0;
 futureChance = 0;
+snipeChance = 0;
 foggyWindows = false;
 earthquake = false;
 wavy = false;
@@ -120,7 +126,10 @@ multiplier = 1;
 //Game Info
 gameState = 0;
 strikes = 0;
-swings = 0;
+
+canSwing = true; 
+swingLong = false;
+swingCount = 0;
 swingArc = 0;
 ballExitSpeed = 0;
 ballState = 0;
@@ -185,20 +194,46 @@ savegame_load();
 {
     switch (keyboard_key)
     {
-        case vk_down:
+        case vk_down:{
         offset = max(offset - 1, 0);
+        if (tempGem == 0) {
+            tempGem = array_height_2d(gemList)-1;
+            equip[3] = tempGem;
+            equip[4] = 9999999;
+            equip[5] = 9999999;
+            
+        }
+        else {
+            tempGem--;
+            equip[3] = tempGem;
+            equip[4] = 9999999;
+            equip[5] = 9999999;
+            
+        }
         break;
-        case vk_up:
+        }
+        case vk_up:{
         offset = min(offset + 1, (ds_list_size(list) - min(ds_list_size(list), length)));
-        break;
+        if (tempGem == array_height_2d(gemList)-1) {
+            tempGem = 0;
+            equip[3] = tempGem;
+            equip[4] = 9999999;
+            equip[5] = 9999999;
+        }
+        else {
+            tempGem++;
+            equip[3] = tempGem;
+            equip[4] = 9999999;
+            equip[5] = 9999999;
+        }
+         break;
+        }
         case vk_left: {
         if (equip[0] == 0) {
             equip[0] = array_height_2d(itemList)-5;
-            setEquipment(equip[0]);
         }
         else {
             equip[0]--;
-            setEquipment(equip[0]);
         }
         break;
         }
@@ -206,23 +241,25 @@ savegame_load();
         {
         if (equip[0] == array_height_2d(itemList)-5) {
             equip[0] = 0;
-            setEquipment(equip[0]);
         }
         else {
             equip[0]++;
-            setEquipment(equip[0]);
         }
         break;
         }
         case vk_space:
         {
+        equip[3] = tempGem;
+            equip[4] = 9999999;
+            equip[5] = 9999999;
+        setEquipment(equip[0]);
         if (debug) {
-            debug = false;
-            obj_scaler.visible = false;
+            //debug = false;
+            //obj_scaler.visible = false;
         }
         else {
-            debug = true;
-            obj_scaler.visible = true;
+         //   debug = true;
+          //  obj_scaler.visible = true;
         }
         break;}
         case ord("1"):
@@ -231,9 +268,33 @@ savegame_load();
         case ord("2"):
         debugType = 1;
         break;
+        case ord("A"):
+        canSwing = false;
+        break;
+        case ord("D"):{
+        canSwing = false;
+        swingLong = true;
+        break;}
+        
     }
 }
 
+if (!canSwing) {
+if (swingArc &lt; 360) {
+if (!swingLong) {
+swingArc += equip[2];
+}
+else {
+swingArc += equip[2]*.65;
+}
+
+}
+else {
+swingArc = 0;
+canSwing = true;
+swingLong = false;
+}
+}
 </string>
           </argument>
         </arguments>
@@ -276,13 +337,15 @@ savegame_load();
         }    
         case 1 : { //Batting 
             draw_text(view_xview[0] + padding,(view_yview[0] + view_hview[0]-(view_hview[0] * 0.25))+padding, "Current Bat: " + itemList[equip[0],0]);
-            draw_text(view_xview[0] + padding,(view_yview[0] + view_hview[0]-(view_hview[0] * 0.25))+padding+lineHeight, "Current Speed: " + string(equip[1]) + " Current Power: " + string(equip[2])); 
+            draw_text(view_xview[0] + padding,(view_yview[0] + view_hview[0]-(view_hview[0] * 0.25))+padding+lineHeight, "Current Power: " + string(equip[1]) + " Current Speed: " + string(equip[2])); 
             draw_text(view_xview[0] + padding,(view_yview[0] + view_hview[0]-(view_hview[0] * 0.25))+padding+(lineHeight*2), "Directional Multiplier: " + string(dirMulti) + " Bird Multiplier: " + string(birdMulti));
             draw_text(view_xview[0] + padding,(view_yview[0] + view_hview[0]-(view_hview[0] * 0.25))+padding+(lineHeight*3), "Exit Swing Arc: " + string(swingArc) + " Exit Ball Speed: " + string(ballExitSpeed));
             draw_text(view_xview[0] + padding,(view_yview[0] + view_hview[0]-(view_hview[0] * 0.25))+padding+(lineHeight*4), "Ball State: " + string(ballState) + " Game State: " + string(gameState));
              draw_text(view_xview[0] + padding,(view_yview[0] + view_hview[0]-(view_hview[0] * 0.25))+padding+(lineHeight*5), "Current Fever: " + string(fever) + " Max Fever: " + string(maxFever));
+               draw_text(view_xview[0] + padding,(view_yview[0] + view_hview[0]-(view_hview[0] * 0.25))+padding+(lineHeight*6), "Gem 0: " + string(gemList[tempGem,0]));
+                draw_text(view_xview[0] + padding,(view_yview[0] + view_hview[0]-(view_hview[0] * 0.25))+padding+(lineHeight*7), "Power Curse Extra: " + string(powerCurseExtra) + " speedCurseExtra: " + string(speedCurseExtra));
                                    break;
-        }
+        }  //+ " Gem 1: " + string(gemList[0,equip[4]]) + " Gem 2: " + string(gemList[0,equip[5]]))
         case 2 : { //Pitching
         
             break;

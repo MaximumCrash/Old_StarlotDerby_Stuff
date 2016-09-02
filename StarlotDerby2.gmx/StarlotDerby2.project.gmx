@@ -3,7 +3,7 @@
   <Configs name="configs">
     <Config>Configs\Default</Config>
   </Configs>
-  <datafiles number="17" name="datafiles">
+  <datafiles number="24" name="datafiles">
     <datafile>
       <name>Edge Display Scaler Reference Guide.pdf</name>
       <exists>-1</exists>
@@ -22,9 +22,9 @@
       <filename>Edge Display Scaler Reference Guide.pdf</filename>
     </datafile>
     <datafile>
-      <name>gList.csv</name>
+      <name>glist.csv</name>
       <exists>-1</exists>
-      <size>1152</size>
+      <size>1021</size>
       <exportAction>2</exportAction>
       <exportDir></exportDir>
       <overwrite>0</overwrite>
@@ -36,7 +36,7 @@
           <CopyToMask>9223372036854775807</CopyToMask>
         </Config>
       </ConfigOptions>
-      <filename>gList.csv</filename>
+      <filename>glist.csv</filename>
     </datafile>
     <datafile>
       <name>cList.csv</name>
@@ -112,6 +112,8 @@
     <extension index="1">extensions\Essential Scripts</extension>
     <extension index="2">extensions\CSV Manager</extension>
     <extension index="3">extensions\Savegame Custom plus Encrypt</extension>
+    <extension index="4">extensions\Tweenline Animation Engine</extension>
+    <extension index="5">extensions\tweenline</extension>
   </NewExtensions>
   <sounds name="sound"/>
   <sprites name="sprites">
@@ -128,6 +130,11 @@
     <path>paths\path0</path>
   </paths>
   <scripts name="scripts">
+    <scripts name="CSV">
+      <script>scripts\csv_load.gml</script>
+      <script>scripts\csv_save.gml</script>
+      <script>scripts\array_draw_debug.gml</script>
+    </scripts>
     <scripts name="Edge Display Scaler">
       <scripts name="Display Scaling">
         <script>scripts\edgeds_init_scale.gml</script>
@@ -146,26 +153,253 @@
       </scripts>
     </scripts>
     <scripts name="Essential Scripts">
-      <scripts name="Approach Value">
-        <script>scripts\smooth_approach.gml</script>
-      </scripts>
       <scripts name="String Manipulation">
         <script>scripts\string_split.gml</script>
       </scripts>
+      <script>scripts\trace.gml</script>
     </scripts>
-    <script>scripts\trace.gml</script>
-    <script>scripts\csv_load.gml</script>
-    <script>scripts\csv_save.gml</script>
-    <script>scripts\new_game.gml</script>
-    <script>scripts\buildCurse.gml</script>
-    <script>scripts\setEquipment.gml</script>
-    <script>scripts\array_draw_debug.gml</script>
-    <script>scripts\savegame_save.gml</script>
-    <script>scripts\savegame_load.gml</script>
-    <script>scripts\savegame_clear.gml</script>
-    <script>scripts\string_save_encrypted.gml</script>
-    <script>scripts\loadDB.gml</script>
-    <script>scripts\string_load_encrypted.gml</script>
+    <scripts name="GAME">
+      <scripts name="SYSTEM">
+        <script>scripts\setEquipment.gml</script>
+        <script>scripts\buildCurse.gml</script>
+        <script>scripts\loadDB.gml</script>
+      </scripts>
+      <scripts name="IN-GAME">
+        <script>scripts\foulBall.gml</script>
+        <script>scripts\strikeBall.gml</script>
+        <script>scripts\subtractFever.gml</script>
+      </scripts>
+    </scripts>
+    <scripts name="Saving/Loading">
+      <script>scripts\string_load_encrypted.gml</script>
+      <script>scripts\string_save_encrypted.gml</script>
+      <script>scripts\new_game.gml</script>
+      <script>scripts\savegame_save.gml</script>
+      <script>scripts\savegame_clear.gml</script>
+      <script>scripts\savegame_load.gml</script>
+    </scripts>
+    <scripts name="basic_button">
+      <script>scripts\bb_create.gml</script>
+      <script>scripts\__bb_private.gml</script>
+    </scripts>
+    <scripts name="tweenline">
+      <scripts name="tweenline_engine">
+        <scripts name="system">
+          <scripts name="obj_tweenline">
+            <script>scripts\tween_system_init.gml</script>
+            <script>scripts\tween_system_step.gml</script>
+            <script>scripts\tween_system_roomend.gml</script>
+          </scripts>
+          <scripts name="get">
+            <script>scripts\tween_system_get_tween_count.gml</script>
+            <script>scripts\tween_system_get_singleton.gml</script>
+            <script>scripts\tween_system_is_tweenline.gml</script>
+            <script>scripts\tween_system_is_tween.gml</script>
+          </scripts>
+          <scripts name="set">
+            <script>scripts\tween_system_set_default_ease.gml</script>
+            <script>scripts\tween_system_set_speed.gml</script>
+            <script>scripts\tween_system_lazy_events.gml</script>
+          </scripts>
+          <scripts name="vars_and_setters">
+            <script>scripts\__tweenline_VARS.gml</script>
+            <script>scripts\__tweenline_SETTERS.gml</script>
+            <script>scripts\tween_system_setter_add.gml</script>
+            <scripts name="advanced">
+              <script>scripts\tween_system_get_setter_script.gml</script>
+              <script>scripts\tween_system_get_var_script.gml</script>
+            </scripts>
+          </scripts>
+        </scripts>
+        <scripts name="tween">
+          <scripts name="creation">
+            <script>scripts\tween_to.gml</script>
+            <script>scripts\tween_from.gml</script>
+            <script>scripts\tween_fromto.gml</script>
+            <script>scripts\tween_set.gml</script>
+            <script>scripts\tween_destroy.gml</script>
+            <script>scripts\tween_duplicate.gml</script>
+            <script>scripts\tween_exists.gml</script>
+            <script>scripts\tween_stagger_to.gml</script>
+            <script>scripts\tween_stagger_from.gml</script>
+            <script>scripts\tween_stagger_fromto.gml</script>
+          </scripts>
+          <scripts name="get">
+            <script>scripts\tween_is_playing.gml</script>
+            <script>scripts\tween_get_target.gml</script>
+            <script>scripts\tween_get_ease.gml</script>
+            <script>scripts\tween_get_time.gml</script>
+            <script>scripts\tween_get_progress.gml</script>
+            <script>scripts\tween_get_delay.gml</script>
+            <script>scripts\tween_get_duration.gml</script>
+            <script>scripts\tween_get_direction.gml</script>
+            <script>scripts\tween_get_speed.gml</script>
+            <script>scripts\tween_get_yoyo.gml</script>
+            <script>scripts\tween_get_repeat.gml</script>
+            <script>scripts\tween_get_parent.gml</script>
+            <script>scripts\tween_get_useframes.gml</script>
+            <script>scripts\tween_get_persistent.gml</script>
+            <script>scripts\tween_get_starttime.gml</script>
+            <script>scripts\tween_get_endtime.gml</script>
+          </scripts>
+          <scripts name="set">
+            <script>scripts\tween_set_ease.gml</script>
+            <script>scripts\tween_set_time.gml</script>
+            <script>scripts\tween_set_progress.gml</script>
+            <script>scripts\tween_set_delay.gml</script>
+            <script>scripts\tween_set_useframes.gml</script>
+            <script>scripts\tween_set_speed.gml</script>
+            <script>scripts\tween_set_yoyo.gml</script>
+            <script>scripts\tween_set_repeat.gml</script>
+            <script>scripts\tween_set_target.gml</script>
+            <script>scripts\tween_set_direction.gml</script>
+            <script>scripts\tween_set_modifiers.gml</script>
+            <script>scripts\tween_set_duration.gml</script>
+            <script>scripts\tween_set_persistent.gml</script>
+          </scripts>
+          <scripts name="control">
+            <script>scripts\tween_play.gml</script>
+            <script>scripts\tween_pause.gml</script>
+            <script>scripts\tween_stop.gml</script>
+            <script>scripts\tween_restart.gml</script>
+            <script>scripts\tween_reverse.gml</script>
+            <script>scripts\tween_resume.gml</script>
+            <script>scripts\tween_seek.gml</script>
+            <script>scripts\tween_progress.gml</script>
+            <script>scripts\tween_render.gml</script>
+          </scripts>
+          <scripts name="lazy_events">
+            <script>scripts\tween_oncomplete.gml</script>
+            <script>scripts\tween_onreversecomplete.gml</script>
+            <script>scripts\tween_onupdate.gml</script>
+            <script>scripts\tween_onrepeat.gml</script>
+            <script>scripts\tween_onstart.gml</script>
+          </scripts>
+        </scripts>
+        <scripts name="tweenline">
+          <scripts name="creation">
+            <script>scripts\tweenline_create.gml</script>
+            <script>scripts\tweenline_destroy.gml</script>
+            <script>scripts\tweenline_exists.gml</script>
+          </scripts>
+          <scripts name="add">
+            <script>scripts\tweenline_add.gml</script>
+            <script>scripts\tweenline_remove.gml</script>
+            <script>scripts\tweenline_to.gml</script>
+            <script>scripts\tweenline_from.gml</script>
+            <script>scripts\tweenline_fromto.gml</script>
+            <script>scripts\tweenline_stagger_to.gml</script>
+            <script>scripts\tweenline_stagger_from.gml</script>
+            <script>scripts\tweenline_stagger_fromto.gml</script>
+            <script>scripts\tweenline_edit.gml</script>
+          </scripts>
+          <scripts name="get">
+            <script>scripts\tweenline_is_playing.gml</script>
+            <script>scripts\tweenline_get_duration.gml</script>
+            <script>scripts\tweenline_get_tween.gml</script>
+            <script>scripts\tweenline_get_priority.gml</script>
+            <script>scripts\tweenline_get_list.gml</script>
+            <script>scripts\tweenline_get_size.gml</script>
+            <script>scripts\tweenline_get_time.gml</script>
+            <script>scripts\tweenline_get_speed.gml</script>
+            <script>scripts\tweenline_get_progress.gml</script>
+            <script>scripts\tweenline_get_tweens_at_time.gml</script>
+            <script>scripts\tweenline_get_tweens_by_target.gml</script>
+          </scripts>
+          <scripts name="set">
+            <script>scripts\tweenline_set_speed.gml</script>
+            <script>scripts\tweenline_set_yoyo.gml</script>
+            <script>scripts\tweenline_set_repeat.gml</script>
+            <script>scripts\tweenline_set_persistent.gml</script>
+            <script>scripts\tweenline_set_direction.gml</script>
+            <script>scripts\tweenline_set_time.gml</script>
+            <script>scripts\tweenline_set_progress.gml</script>
+          </scripts>
+          <scripts name="control">
+            <script>scripts\tweenline_play.gml</script>
+            <script>scripts\tweenline_resume.gml</script>
+            <script>scripts\tweenline_pause.gml</script>
+            <script>scripts\tweenline_reverse.gml</script>
+            <script>scripts\tweenline_restart.gml</script>
+            <script>scripts\tweenline_stop.gml</script>
+            <script>scripts\tweenline_seek.gml</script>
+            <script>scripts\tweenline_progress.gml</script>
+          </scripts>
+          <scripts name="label">
+            <script>scripts\tweenline_label_find_time.gml</script>
+            <script>scripts\tweenline_label_list.gml</script>
+          </scripts>
+        </scripts>
+        <scripts name="utils">
+          <script>scripts\array.gml</script>
+          <script>scripts\singleton.gml</script>
+          <script>scripts\script_execute_ext.gml</script>
+          <script>scripts\array_join.gml</script>
+        </scripts>
+        <scripts name="private_DO_NOT_USE_IT">
+          <script>scripts\__tl_private.gml</script>
+          <scripts name="error">
+            <script>scripts\__tl_private_error.gml</script>
+          </scripts>
+          <scripts name="parsing">
+            <script>scripts\__tl_private_prop_set.gml</script>
+          </scripts>
+        </scripts>
+        <scripts name="easing">
+          <script>scripts\ease_FAQ.gml</script>
+          <script>scripts\ease_linear.gml</script>
+          <script>scripts\ease_quadin.gml</script>
+          <script>scripts\ease_cubicin.gml</script>
+          <script>scripts\ease_quartin.gml</script>
+          <script>scripts\ease_quintin.gml</script>
+          <script>scripts\ease_sinein.gml</script>
+          <script>scripts\ease_expoin.gml</script>
+          <script>scripts\ease_circin.gml</script>
+          <script>scripts\ease_bouncein.gml</script>
+          <script>scripts\ease_backin.gml</script>
+          <script>scripts\ease_powin.gml</script>
+          <script>scripts\ease_elasticin.gml</script>
+          <script>scripts\ease_slowmotion.gml</script>
+        </scripts>
+        <scripts name="customvar">
+          <scripts name="system">
+            <script>scripts\cv_system_init.gml</script>
+            <script>scripts\cv_system_roomend.gml</script>
+            <script>scripts\cv_system_gc.gml</script>
+          </scripts>
+          <script>scripts\cv_set.gml</script>
+          <script>scripts\cv_get.gml</script>
+          <script>scripts\cv_has.gml</script>
+          <script>scripts\cv_delete.gml</script>
+          <script>scripts\cv_clear_object.gml</script>
+        </scripts>
+        <scripts name="debug_tweens">
+          <script>scripts\tween_get_string.gml</script>
+        </scripts>
+      </scripts>
+      <scripts name="tweenline_debug">
+        <scripts name="drawing">
+          <scripts name="anti_alias">
+            <script>scripts\draw_aa_init.gml</script>
+            <script>scripts\draw_line_width_aa.gml</script>
+          </scripts>
+          <script>scripts\tl_draw_easing_graph.gml</script>
+          <script>scripts\tl_draw_debug.gml</script>
+          <script>scripts\tl_draw_tweenline.gml</script>
+          <script>scripts\tl_draw_tween_graph.gml</script>
+        </scripts>
+        <scripts name="playhead_visual">
+          <script>scripts\tl_playhead.gml</script>
+        </scripts>
+      </scripts>
+      <scripts name="instance_select">
+        <script>scripts\instance_select_array.gml</script>
+        <script>scripts\instance_select_filter.gml</script>
+        <script>scripts\instance_select_numb.gml</script>
+        <script>scripts\instance_select_sort.gml</script>
+        <script>scripts\instance_select_filter_sort.gml</script>
+      </scripts>
+    </scripts>
   </scripts>
   <shaders name="shaders">
     <shader type="GLSLES">shaders\shader0.shader</shader>
@@ -182,6 +416,9 @@
     </objects>
     <object>objects\obj_example</object>
     <object>objects\o_system</object>
+    <objects name="tweenline">
+      <object>objects\obj_tweenline</object>
+    </objects>
   </objects>
   <rooms name="rooms">
     <room>rooms\room1</room>

@@ -25,11 +25,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>
-sprite_index = manager.equip[0];
-var canSwing = false; 
-var heatGauge = 0;
-
+            <string>tween_to(bat, 1, array("y",y-6,"patrol",ease_sineinout));
 </string>
           </argument>
         </arguments>
@@ -52,7 +48,8 @@ var heatGauge = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/*sprite_index = Controller.equipBat;
+            <string>image_angle = manager.swingArc; 
+/*sprite_index = Controller.equipBat;
 
 if conPlayField.hyperon = true {
 image_index = 0;
@@ -243,7 +240,8 @@ batlock = true;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/*image_yscale = 1 + yscale;
+            <string>draw_self();
+/*image_yscale = 1 + yscale;
 image_xscale = image_yscale; 
 
 if yscale &gt; 0 {
