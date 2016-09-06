@@ -119,8 +119,9 @@
   <sprites name="sprites">
     <sprites name="Edge Display Scaler">
       <sprite>sprites\spr_scaler</sprite>
-      <sprite>sprites\sprBat</sprite>
     </sprites>
+    <sprite>sprites\sprBall</sprite>
+    <sprite>sprites\sprBat</sprite>
     <sprite>sprites\spr_ex</sprite>
   </sprites>
   <backgrounds name="background">
@@ -409,6 +410,7 @@
   </fonts>
   <objects name="objects">
     <object>objects\manager</object>
+    <object>objects\ball</object>
     <object>objects\bat</object>
     <objects name="Edge Display Scaler">
       <object>objects\obj_scaler</object>
