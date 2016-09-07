@@ -3,7 +3,7 @@
   <Configs name="configs">
     <Config>Configs\Default</Config>
   </Configs>
-  <datafiles number="24" name="datafiles">
+  <datafiles number="25" name="datafiles">
     <datafile>
       <name>Edge Display Scaler Reference Guide.pdf</name>
       <exists>-1</exists>
@@ -73,6 +73,23 @@
       <filename>flist.csv</filename>
     </datafile>
     <datafile>
+      <name>plist.csv</name>
+      <exists>-1</exists>
+      <size>98</size>
+      <exportAction>2</exportAction>
+      <exportDir></exportDir>
+      <overwrite>0</overwrite>
+      <freeData>-1</freeData>
+      <removeEnd>0</removeEnd>
+      <store>0</store>
+      <ConfigOptions>
+        <Config name="Default">
+          <CopyToMask>9223372036854775807</CopyToMask>
+        </Config>
+      </ConfigOptions>
+      <filename>plist.csv</filename>
+    </datafile>
+    <datafile>
       <name>iList.csv</name>
       <exists>-1</exists>
       <size>326</size>
@@ -114,6 +131,7 @@
     <extension index="3">extensions\Savegame Custom plus Encrypt</extension>
     <extension index="4">extensions\Tweenline Animation Engine</extension>
     <extension index="5">extensions\tweenline</extension>
+    <extension index="6">extensions\Advanced Dialogue Box</extension>
   </NewExtensions>
   <sounds name="sound"/>
   <sprites name="sprites">
@@ -123,12 +141,24 @@
     <sprite>sprites\sprBall</sprite>
     <sprite>sprites\sprBat</sprite>
     <sprite>sprites\spr_ex</sprite>
+    <sprite>sprites\spr_portrait</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\background0</background>
   </backgrounds>
   <paths name="paths">
-    <path>paths\path0</path>
+    <paths name="Regular Pitches">
+      <paths name="start">
+        <path>paths\startStraight</path>
+      </paths>
+      <paths name="mid">
+        <path>paths\midStraight</path>
+      </paths>
+      <paths name="end">
+        <path>paths\endStraight</path>
+      </paths>
+    </paths>
+    <paths name="RIGHT Pitches"/>
   </paths>
   <scripts name="scripts">
     <scripts name="CSV">
@@ -163,10 +193,12 @@
       <scripts name="SYSTEM">
         <script>scripts\setEquipment.gml</script>
         <script>scripts\buildCurse.gml</script>
+        <script>scripts\addRandomGems.gml</script>
         <script>scripts\loadDB.gml</script>
       </scripts>
       <scripts name="IN-GAME">
         <script>scripts\foulBall.gml</script>
+        <script>scripts\queuePitch.gml</script>
         <script>scripts\strikeBall.gml</script>
         <script>scripts\subtractFever.gml</script>
       </scripts>
@@ -401,29 +433,34 @@
         <script>scripts\instance_select_filter_sort.gml</script>
       </scripts>
     </scripts>
+    <script>scripts\newChat.gml</script>
   </scripts>
   <shaders name="shaders">
     <shader type="GLSLES">shaders\shader0.shader</shader>
   </shaders>
   <fonts name="fonts">
     <font>fonts\f_std</font>
+    <font>fonts\f_chat</font>
   </fonts>
   <objects name="objects">
+    <object>objects\pitcher</object>
     <object>objects\manager</object>
     <object>objects\ball</object>
     <object>objects\bat</object>
     <objects name="Edge Display Scaler">
       <object>objects\obj_scaler</object>
-      <object>objects\pitcher</object>
     </objects>
     <object>objects\obj_example</object>
     <object>objects\o_system</object>
     <objects name="tweenline">
       <object>objects\obj_tweenline</object>
     </objects>
+    <object>objects\obj_camera</object>
+    <object>objects\obj_dialogue</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room1</room>
+    <room>rooms\dialogtesting</room>
     <room>rooms\rm_example</room>
     <room>rooms\r_test</room>
   </rooms>

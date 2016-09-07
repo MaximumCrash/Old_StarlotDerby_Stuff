@@ -29,13 +29,16 @@
 debug = true; 
 debugType = 0;
 offset = 0;
+doffset = 0;
 length = 9;
 list = ds_list_create();
+savelist = ds_list_create(); 
 
 if (debug) 
 ds_list_add(manager.list, "Initializing...");
 
-
+message[0] = "\0Hi I'm \4Rejon";
+newChat(message, "none"); 
 
 //*****************UI Positioning
 floatLeft = view_xview[0];
@@ -50,7 +53,7 @@ padding = 15;
 lineHeight = 15;
 
 //*********************DATABASE
-var itemList, gemList, fieldList, curseList, dictionary; 
+var itemList, gemList, fieldList, curseList, pitchList, dictionary; 
 powerCount = 0;
 curseCount = 0;
 
@@ -80,16 +83,15 @@ setting[2] = true; //Vibration
 setting[3] = false; //Power Saver
 
 player[0] = 0; //Player Experience
-player[1] = 1; //Player Level
-player[2] = 0; //High Score Batting **********NEW
-player[3] = 0; //High Score Pitching ***********NEW
-player[4] = 0; //Coins
+player[1] = 0; //High Score Batting **********NEW
+player[2] = 0; //High Score Pitching ***********NEW
+player[3] = 0; //Coins
 
 gifts = 0; //Number of "Gifts" in Stock. 
 
 gems = ds_list_create(); //Gem List
 
-ds_list_add(manager.list, string(array_length_1d(manager.equip)));
+
 
 //Object Variables
 
@@ -140,7 +142,10 @@ birdMulti = 1;
 fever = 0;
 maxFever = 3;
 
-savegame_load(); 
+//Temporary Variables
+lastBuiltCurse = 999;
+
+
 
 
 
@@ -196,6 +201,7 @@ savegame_load();
     {
         case vk_down:{
         offset = max(offset - 1, 0);
+        doffset = max(doffset - 1, 0);
         if (tempGem == 0) {
             tempGem = array_height_2d(gemList)-1;
             equip[3] = tempGem;
@@ -214,6 +220,7 @@ savegame_load();
         }
         case vk_up:{
         offset = min(offset + 1, (ds_list_size(list) - min(ds_list_size(list), length)));
+        doffset  = min(doffset + 1, (ds_list_size(savelist) - min(ds_list_size(savelist), length)));
         if (tempGem == array_height_2d(gemList)-1) {
             tempGem = 0;
             equip[3] = tempGem;
@@ -262,6 +269,15 @@ savegame_load();
           //  obj_scaler.visible = true;
         }
         break;}
+        case ord("0"): {
+        if (debug) {
+            debug = false;
+        }
+        else {
+            debug = true;
+        }
+        break;
+        }
         case ord("1"):
         debugType = 0;
         break;
@@ -271,10 +287,25 @@ savegame_load();
         case ord("A"):
         canSwing = false;
         break;
+        case ord("3"): 
+        debugType = 2; 
+        break;
         case ord("D"):{
         canSwing = false;
         swingLong = true;
         break;}
+        case ord("4") : {
+        savegame_save(); 
+        break;
+        }
+        case ord("5"): {
+        savegame_load(); 
+        break;
+        }
+        case ord("R"): {
+        addRandomGems(); 
+        break; 
+        }
         
     }
 }
@@ -346,10 +377,15 @@ swingLong = false;
                 draw_text(view_xview[0] + padding,(view_yview[0] + view_hview[0]-(view_hview[0] * 0.25))+padding+(lineHeight*7), "Power Curse Extra: " + string(powerCurseExtra) + " speedCurseExtra: " + string(speedCurseExtra));
                                    break;
         }  //+ " Gem 1: " + string(gemList[0,equip[4]]) + " Gem 2: " + string(gemList[0,equip[5]]))
-        case 2 : { //Pitching
-        
+        case 2: { //Event Reporting
+            var i, n, line = "";
+            for (i = 0; i &lt; min(ds_list_size(savelist), length); i++)
+            {
+                line += string(ds_list_find_value(savelist, i + max(ds_list_size(savelist) - length, 0) - doffset)) + "#";
+            }
+            draw_text(view_xview[0] + padding,(view_yview[0] + view_hview[0]-(view_hview[0] * 0.25))+padding, line);
             break;
-        }
+        }  
         
     }
     

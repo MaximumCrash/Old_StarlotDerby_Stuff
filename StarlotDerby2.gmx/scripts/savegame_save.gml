@@ -1,7 +1,7 @@
 var list, path;
 
 list = ds_list_create();
-
+ds_list_add(manager.list, "Saving Game Data...");
 csv_save("ilist",manager.itemList,",");
 
 // PLACE YOUR VARIABLES HERE
@@ -14,19 +14,21 @@ list[| 4] = manager.stats[4];
 list[| 5] = manager.stats[5];
 list[| 6] = manager.stats[6];
 list[| 7] = manager.equip[0];
-list[| 8] = manager.setting[0];
-list[| 9] = manager.setting[1];
-list[| 10] = manager.setting[2];
-list[| 11] = manager.setting[3];
-list[| 12] = manager.player[0];
-list[| 13] = manager.player[1];
-list[| 14] = manager.player[2];
-list[| 15] = manager.player[3];
-list[| 16] = manager.player[4];
-list[| 17] = manager.gifts;
+list[| 8] = manager.equip[3];
+list[| 9] = manager.equip[4];
+list[| 10] = manager.equip[5];
+list[| 11] = manager.setting[0];
+list[| 12] = manager.setting[1];
+list[| 13] = manager.setting[2];
+list[| 14] = manager.setting[3];
+list[| 15] = manager.player[0];
+list[| 16] = manager.player[1];
+list[| 17] = manager.player[2];
+list[| 18] = manager.player[3];
+list[| 19] = manager.gifts;
 
 for (var i=0; i<ds_list_size(manager.gems); i++) {
-  list[| 18+i] = manager.gems[| i];
+  list[| 20+i] = manager.gems[| i];
 }
 
 // file save and encryption
