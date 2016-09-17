@@ -33,7 +33,7 @@ doffset = 0;
 length = 9;
 list = ds_list_create();
 savelist = ds_list_create(); 
-
+precision = 0; 
 if (debug) 
 ds_list_add(manager.list, "Initializing...");
 
@@ -82,7 +82,7 @@ setting[1] = true; //Sound Effects
 setting[2] = true; //Vibration
 setting[3] = false; //Power Saver
 
-player[0] = 0; //Player Experience
+player[0] = 321; //Player Experience
 player[1] = 0; //High Score Batting **********NEW
 player[2] = 0; //High Score Pitching ***********NEW
 player[3] = 0; //Coins
@@ -91,6 +91,11 @@ gifts = 0; //Number of "Gifts" in Stock.
 
 gems = ds_list_create(); //Gem List
 
+prestige = 0;
+xpRequired = 0; 
+currentLevel = getLevel();  
+
+//XP TO NEXT LEVEL = xpRequired - player[0];
 
 
 //Object Variables
@@ -126,9 +131,9 @@ wizKid = false;
 multiplier = 1;
 
 //Game Info
-gameState = 0;
+gameState = 0; //0 = Loading, 1 = Menus, 2 = In Game, 3 = Game Over, 4 = OS Paused
 strikes = 0;
-
+currentField = 0; 
 canSwing = true; 
 swingLong = false;
 swingCount = 0;
@@ -136,17 +141,20 @@ swingArc = 0;
 ballExitSpeed = 0;
 ballState = 0;
 score = 0;
-
+difficulty = 0; 
 dirMulti = 1;
 birdMulti = 1;
 fever = 0;
 maxFever = 3;
 
+
 //Temporary Variables
 lastBuiltCurse = 999;
 
+gameStart(); 
 
 
+alarm[0] = 1; 
 
 
 
@@ -173,6 +181,30 @@ lastBuiltCurse = 999;
           <argument>
             <kind>1</kind>
             <string>ds_list_destroy(list);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>ds_list_add(manager.list, "CURRENT DIFFICULTY: " + string(difficulty));
+alarm[0]=30; 
 </string>
           </argument>
         </arguments>
@@ -216,6 +248,7 @@ lastBuiltCurse = 999;
             equip[5] = 9999999;
             
         }
+
         break;
         }
         case vk_up:{
@@ -233,6 +266,7 @@ lastBuiltCurse = 999;
             equip[4] = 9999999;
             equip[5] = 9999999;
         }
+        score++; 
          break;
         }
         case vk_left: {
@@ -295,11 +329,13 @@ lastBuiltCurse = 999;
         swingLong = true;
         break;}
         case ord("4") : {
-        savegame_save(); 
+                if (score &gt; 0) {
+        score--; 
+        }
         break;
         }
         case ord("5"): {
-        savegame_load(); 
+           score++; 
         break;
         }
         case ord("R"): {
@@ -325,6 +361,17 @@ swingArc = 0;
 canSwing = true;
 swingLong = false;
 }
+}
+
+//Difficulty Manager
+
+difficulty = logn(100-currentLevel, power(score,3));
+
+if (difficulty &lt; 0) 
+    difficulty = 0; 
+
+if os_is_paused() {
+
 }
 </string>
           </argument>
@@ -390,7 +437,7 @@ swingLong = false;
     }
     
 }
-
+draw_text(view_wview[0]/2,view_hview[0]/2,score); 
 //edgeds_draw_background(background0, view_xview[0]-37,0, 0, false, false, 0);
  
 </string>

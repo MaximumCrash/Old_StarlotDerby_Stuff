@@ -39,12 +39,12 @@ while (true) {
         if (string_count(sep, str) > 0) {
             arr_tmp[i, j] = string_copy(str, 1, string_pos(sep, str)-1);
             str = string_delete(str, 1, string_pos(sep, str));
-            trace("Array[" + string(i) + "," + string(j) + "] = " + string(arr_tmp[i, j]));
+            //trace("Array[" + string(i) + "," + string(j) + "] = " + string(arr_tmp[i, j]));
             j++;
         }
         else {
             arr_tmp[i, j] = string_copy(str, 1, string_length(str));
-            trace("Array[" + string(i) + "," + string(j) + "] = " + string(arr_tmp[i, j]));
+         //   trace("Array[" + string(i) + "," + string(j) + "] = " + string(arr_tmp[i, j]));
             break;
         }
     }

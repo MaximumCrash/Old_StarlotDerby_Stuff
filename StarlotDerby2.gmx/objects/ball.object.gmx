@@ -27,7 +27,209 @@
             <kind>1</kind>
             <string>hit = false;
 currentPath = 0;
-path_start(pitcher.pitch[0, currentPath], pitcher.ballSpeed, path_action_continue,1);
+//path_start(pitcher.pitch[0, currentPath], pitcher.ballSpeed, path_action_continue,1);
+
+loadPitch();
+timer = 0; 
+trail_init();
+hue =0 ;
+
+trickCount = 0;  
+trick = 0;//trickChance(1); //0 = None, 1 = HardStop, 2=Speed Up, 3=Slow Down, 4=Rewind
+trickRun = false;
+trickPosition = random_range(0.35,0.8); 
+hardTimer = irandom_range(10, 60); //Between 0.5 seconds and 2 seconds. 
+ 
+maxY =  1000;
+extraYscale = 0;  
+baseScale = 0.2;
+lastY = 0;
+currentY = 0; 
+image_xscale = 0; 
+image_yscale = 0; 
+alarm[2] = 1; 
+
+ 
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="1" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>ds_list_add(manager.list, "Ball Destroyed...");
+pitcher.alarm[0] = 10; 
+trail_destroy();
+
+with(ballExtra) {
+instance_destroy(); 
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="2">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>instance_create(x, y, ballExtra); 
+
+
+instance_create(x, y, ballExtra); 
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="1">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>switch (trick) {
+case 1: {
+path_speed = pitcher.ballSpeed; 
+break;
+}
+
+case 2: {
+path_speed = smooth_approach(path_speed, pitcher.ballSpeed, random_range(0,1)); 
+break;
+}
+
+case 3: {
+path_speed = smooth_approach(path_speed, pitcher.ballSpeed, random_range(0,1)); 
+break;
+}
+}
+
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>instance_destroy();
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="2">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>trail_calculate(32);
+
+if (hue &lt; 255) {
+hue+= 2;
+}
+
+if (path_position &gt; trickPosition &amp;&amp; !trickRun) {
+//Run a Trick if Possible
+  if (percent_chance(100) == true &amp;&amp; currentPath &gt; 0 &amp;&amp; trickCount &lt; 2) 
+    {
+        trickRun = true; 
+        
+    switch (trick) {
+      case 1: {  
+        path_speed = 0;
+        alarm[1] = hardTimer; 
+        ds_list_add(manager.list, "TRICK: HARD STOP");
+        
+        break;
+     }
+    
+     case 2: {
+      path_speed = smooth_approach(path_speed, path_speed * (random_range(1.25, 2)), random_range(0,1)); 
+      alarm[1] = hardTimer; 
+      ds_list_add(manager.list, "TRICK: SPEED UP");
+      break;
+    }
+    
+    case 3: {
+    path_speed = smooth_approach(path_speed, path_speed * (random_range(.25, .75)), random_range(0,1)); 
+      alarm[1] = hardTimer; 
+      ds_list_add(manager.list, "TRICK: SLOW DOWN");
+    break;
+    }
+
+}
+}
+}
+
+
 </string>
           </argument>
         </arguments>
@@ -78,8 +280,80 @@ ds_list_add(manager.list, "HIT BALL!");
             <kind>1</kind>
             <string>if (currentPath &lt; 2) {
 currentPath++;
-path_start(pitcher.pitch[0,currentPath], pitcher.ballSpeed, path_action_continue,0);
+
+if (pitcher.pitch[0,0] == asset_get_index("startWarp") &amp;&amp; currentPath = 1) {
+  path_start(pitcher.pitch[0,currentPath], pitcher.ballSpeed, path_action_continue,true);
 }
+else {
+  path_start(pitcher.pitch[0,currentPath], pitcher.ballSpeed, path_action_continue,false);
+}
+  
+
+ds_list_add(manager.list, "Current Pitch: " + string(pitcher.pitch[0, currentPath]));
+trickRun = false; 
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>alarm[0] = 30;
+
+ 
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>draw_trail_ext((sprite_width+6),make_colour_hsv(35, 255, 255),-1,true,1);
+draw_circle_colour(x,y,sprite_width*.59,make_colour_hsv(35, 255, 255),make_colour_hsv(35, 255, 255),false);
+draw_self();
+
+
+if (currentY &lt; y &amp;&amp; currentY &lt; maxY) {
+currentY = y; 
+
+image_yscale = (currentY/maxY)+baseScale+extraYscale;
+}
+
+image_xscale = image_yscale+extraYscale;
+
+x = mouse_x; 
+y = mouse_y;  
 </string>
           </argument>
         </arguments>

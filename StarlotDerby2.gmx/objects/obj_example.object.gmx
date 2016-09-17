@@ -26,13 +26,10 @@
           <argument>
             <kind>1</kind>
             <string>// Load, modify and save a .csv
-my_csv = csv_load("ilist"); // Load the demo csv into the "my_csv" array
+my_csv = csv_load("plist"); // Load the demo csv into the "my_csv" array
 
-//show_debug_message(my_csv[3,4]);
+show_debug_message(my_csv[0,1]);
 
-if (my_csv[2,3] == "") {
-show_debug_message(array_length_2d(my_csv,1));
-}
 </string>
           </argument>
         </arguments>

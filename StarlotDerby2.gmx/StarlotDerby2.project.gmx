@@ -3,7 +3,7 @@
   <Configs name="configs">
     <Config>Configs\Default</Config>
   </Configs>
-  <datafiles number="25" name="datafiles">
+  <datafiles number="26" name="datafiles">
     <datafile>
       <name>Edge Display Scaler Reference Guide.pdf</name>
       <exists>-1</exists>
@@ -123,6 +123,23 @@
       </ConfigOptions>
       <filename>Getting Started.pdf</filename>
     </datafile>
+    <datafile>
+      <name>Instructions.pdf</name>
+      <exists>-1</exists>
+      <size>73010</size>
+      <exportAction>2</exportAction>
+      <exportDir></exportDir>
+      <overwrite>0</overwrite>
+      <freeData>-1</freeData>
+      <removeEnd>0</removeEnd>
+      <store>0</store>
+      <ConfigOptions>
+        <Config name="Default">
+          <CopyToMask>9223372036854775807</CopyToMask>
+        </Config>
+      </ConfigOptions>
+      <filename>Instructions.pdf</filename>
+    </datafile>
   </datafiles>
   <NewExtensions>
     <extension index="0">extensions\Display Scaler - Edge Engine</extension>
@@ -132,6 +149,7 @@
     <extension index="4">extensions\Tweenline Animation Engine</extension>
     <extension index="5">extensions\tweenline</extension>
     <extension index="6">extensions\Advanced Dialogue Box</extension>
+    <extension index="7">extensions\Draw Trail</extension>
   </NewExtensions>
   <sounds name="sound"/>
   <sprites name="sprites">
@@ -142,23 +160,60 @@
     <sprite>sprites\sprBat</sprite>
     <sprite>sprites\spr_ex</sprite>
     <sprite>sprites\spr_portrait</sprite>
+    <sprite>sprites\spr_zigzag</sprite>
+    <sprite>sprites\sprite6</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\background0</background>
+    <background>background\bck_grid</background>
   </backgrounds>
   <paths name="paths">
     <paths name="Regular Pitches">
       <paths name="start">
         <path>paths\startStraight</path>
+        <path>paths\startCurve</path>
+        <path>paths\startLoop</path>
+        <path>paths\startSlurve</path>
+        <path>paths\startDiamond</path>
+        <path>paths\startBeat</path>
+        <path>paths\startBounce</path>
+        <path>paths\startWarp</path>
+        <path>paths\startDrift</path>
+        <path>paths\startStitch</path>
+        <path>paths\startZipper</path>
+        <path>paths\startLightning</path>
+        <path>paths\startWave</path>
       </paths>
       <paths name="mid">
         <path>paths\midStraight</path>
+        <path>paths\midCurve</path>
+        <path>paths\midLoop</path>
+        <path>paths\midSlurve</path>
+        <path>paths\midDiamond</path>
+        <path>paths\midBeat</path>
+        <path>paths\midBounce</path>
+        <path>paths\midDrift</path>
+        <path>paths\midStitch</path>
+        <path>paths\midZipper</path>
+        <path>paths\midLightning</path>
+        <path>paths\midWave</path>
       </paths>
       <paths name="end">
         <path>paths\endStraight</path>
+        <path>paths\endCurve</path>
+        <path>paths\endLoop</path>
+        <path>paths\endSlurve</path>
+        <path>paths\endDiamond</path>
+        <path>paths\endBeat</path>
+        <path>paths\endBounce</path>
+        <path>paths\endWarp</path>
+        <path>paths\endDrift</path>
+        <path>paths\endStitch</path>
+        <path>paths\endZipper</path>
+        <path>paths\endLightning</path>
+        <path>paths\endWave</path>
       </paths>
     </paths>
-    <paths name="RIGHT Pitches"/>
   </paths>
   <scripts name="scripts">
     <scripts name="CSV">
@@ -183,21 +238,20 @@
         <script>scripts\move_link.gml</script>
       </scripts>
     </scripts>
-    <scripts name="Essential Scripts">
-      <scripts name="String Manipulation">
-        <script>scripts\string_split.gml</script>
-      </scripts>
-      <script>scripts\trace.gml</script>
-    </scripts>
+    <script>scripts\string_split.gml</script>
     <scripts name="GAME">
       <scripts name="SYSTEM">
         <script>scripts\setEquipment.gml</script>
         <script>scripts\buildCurse.gml</script>
         <script>scripts\addRandomGems.gml</script>
+        <script>scripts\getLevel.gml</script>
+        <script>scripts\gameStart.gml</script>
         <script>scripts\loadDB.gml</script>
       </scripts>
       <scripts name="IN-GAME">
         <script>scripts\foulBall.gml</script>
+        <script>scripts\trickChance.gml</script>
+        <script>scripts\loadPitch.gml</script>
         <script>scripts\queuePitch.gml</script>
         <script>scripts\strikeBall.gml</script>
         <script>scripts\subtractFever.gml</script>
@@ -434,6 +488,21 @@
       </scripts>
     </scripts>
     <script>scripts\newChat.gml</script>
+    <script>scripts\draw_trail.gml</script>
+    <script>scripts\trail_init.gml</script>
+    <script>scripts\draw_trail_ext.gml</script>
+    <script>scripts\trail_calculate.gml</script>
+    <script>scripts\trail_destroy.gml</script>
+    <scripts name="Essential Scripts">
+      <scripts name="Approach Value">
+        <script>scripts\approach.gml</script>
+        <script>scripts\smooth_approach.gml</script>
+      </scripts>
+      <scripts name="Chance Functions">
+        <script>scripts\set_chance.gml</script>
+        <script>scripts\percent_chance.gml</script>
+      </scripts>
+    </scripts>
   </scripts>
   <shaders name="shaders">
     <shader type="GLSLES">shaders\shader0.shader</shader>
@@ -445,6 +514,7 @@
   <objects name="objects">
     <object>objects\pitcher</object>
     <object>objects\manager</object>
+    <object>objects\ballExtra</object>
     <object>objects\ball</object>
     <object>objects\bat</object>
     <objects name="Edge Display Scaler">
@@ -457,12 +527,18 @@
     </objects>
     <object>objects\obj_camera</object>
     <object>objects\obj_dialogue</object>
+    <object>objects\obj_trail1</object>
+    <object>objects\obj_trail_ext1</object>
+    <object>objects\obj_trail2</object>
+    <object>objects\obj_trail_ext2</object>
+    <object>objects\obj_spawner</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room1</room>
-    <room>rooms\dialogtesting</room>
+    <room>rooms\room_example</room>
     <room>rooms\rm_example</room>
     <room>rooms\r_test</room>
+    <room>rooms\dialogtesting</room>
   </rooms>
   <help>
     <rtf>help.rtf</rtf>

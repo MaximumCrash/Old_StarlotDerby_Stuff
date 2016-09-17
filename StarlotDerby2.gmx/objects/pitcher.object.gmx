@@ -31,15 +31,12 @@ if (random(1) &gt;= 0.5) {
 //Left Or RIght
 dirString = "R"
 }
-pitchType = irandom_range(0,array_height_2d(manager.pitchList)-manager.difficulty); // &lt;- Difficulty Pitch Mod Goes Here
-pitchString = manager.pitchList[pitchType] + string(irandom_range(0,3));
 
-pitch[0,0] = asset_get_index(pitchString[0]); //START
-pitch[0,1] = asset_get_index(pitchString[1]);//MID
-pitch[0,2] = asset_get_index(pitchString[2]); //END
 
+//Initalize Game
+pitch = queuePitch();
 nextPitch = queuePitch(); //Returns an Array.
-afterNextPitch = queuePitch(); 
+
 
 ballSpeed = 10;
 alarm[0] = 60;
@@ -66,7 +63,7 @@ alarm[0] = 60;
           <argument>
             <kind>1</kind>
             <string>instance_create(x,y,ball); 
-alarm[0] = 60;
+
 </string>
           </argument>
         </arguments>
