@@ -3,7 +3,7 @@
   <spriteName>sprBall</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>0</depth>
+  <depth>4</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -27,7 +27,7 @@
             <kind>1</kind>
             <string>hit = false;
 currentPath = 0;
-//path_start(pitcher.pitch[0, currentPath], pitcher.ballSpeed, path_action_continue,1);
+path_start(pitcher.pitch[0, currentPath], manager.ballSpeed, path_action_continue,1);
 
 loadPitch();
 timer = 0; 
@@ -47,9 +47,10 @@ lastY = 0;
 currentY = 0; 
 image_xscale = 0; 
 image_yscale = 0; 
-alarm[2] = 1; 
+//alarm[2] = 1; 
 
- 
+goodHit = false; 
+batAngle = 0; 
 </string>
           </argument>
         </arguments>
@@ -78,6 +79,50 @@ trail_destroy();
 
 with(ballExtra) {
 instance_destroy(); 
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="3">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>ds_list_add(manager.list, "FLYING!");
+
+if (batAngle &gt;= 105 &amp;&amp; batAngle &lt; 135) //RIGHT FOUL
+{
+move_towards_point( 448, 132, manager.ballSpeed );
+}
+else if (batAngle &gt;= 135 &amp;&amp; batAngle &lt; 165) //RIGHT FIELD
+{
+move_towards_point( 448, 132, manager.ballSpeed );
+}
+else if (batAngle &gt;= 165 &amp;&amp; batAngle &lt; 195) //CENTER FIELD
+{
+move_towards_point( 448, 132, manager.ballSpeed );
+}
+else if (batAngle &gt;= 195 &amp;&amp; batAngle &lt; 225) //LEFT FIELD
+{
+move_towards_point( 448, 132, manager.ballSpeed );
+}
+else if (batAngle &gt;= 225 &amp;&amp; batAngle &lt; 255) //LEFT FOUL
+{
+move_towards_point( 448, 132, manager.ballSpeed );
 }
 </string>
           </argument>
@@ -255,6 +300,10 @@ if (path_position &gt; trickPosition &amp;&amp; !trickRun) {
             <string>if (!hit) {
 hit = true;
 ds_list_add(manager.list, "HIT BALL!");
+path_end();
+path_speed = 0; 
+batAngle = manager.swingArc;
+alarm[3] = 1;
 }
 </string>
           </argument>
@@ -278,14 +327,14 @@ ds_list_add(manager.list, "HIT BALL!");
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (currentPath &lt; 2) {
+            <string>if (currentPath &lt; 2 &amp;&amp; !hit) {
 currentPath++;
 
 if (pitcher.pitch[0,0] == asset_get_index("startWarp") &amp;&amp; currentPath = 1) {
-  path_start(pitcher.pitch[0,currentPath], pitcher.ballSpeed, path_action_continue,true);
+  path_start(pitcher.pitch[0,currentPath], manager.ballSpeed, path_action_continue,true);
 }
 else {
-  path_start(pitcher.pitch[0,currentPath], pitcher.ballSpeed, path_action_continue,false);
+  path_start(pitcher.pitch[0,currentPath], manager.ballSpeed, path_action_continue,false);
 }
   
 
@@ -339,7 +388,8 @@ trickRun = false;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_trail_ext((sprite_width+6),make_colour_hsv(35, 255, 255),-1,true,1);
+            <string>
+draw_trail_ext((sprite_width+6),make_colour_hsv(35, 255, 255),-1,true,1);
 draw_circle_colour(x,y,sprite_width*.59,make_colour_hsv(35, 255, 255),make_colour_hsv(35, 255, 255),false);
 draw_self();
 
@@ -352,8 +402,9 @@ image_yscale = (currentY/maxY)+baseScale+extraYscale;
 
 image_xscale = image_yscale+extraYscale;
 
+/*
 x = mouse_x; 
-y = mouse_y;  
+y = mouse_y;  */
 </string>
           </argument>
         </arguments>

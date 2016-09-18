@@ -3,7 +3,7 @@
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>0</depth>
+  <depth>3</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -57,7 +57,7 @@ trail_init();
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>trail_calculate(12);
+            <string>trail_calculate(24);
 </string>
           </argument>
         </arguments>
@@ -83,7 +83,14 @@ trail_init();
             <string>orbit_speed = 600/ room_speed; 
 orbit_angle += orbit_speed; 
 x = ball.x + orbit_radius * cos(orbit_angle * pi /180); 
-y = ball.y - orbit_radius * sin(orbit_angle * pi /180); 
+y = (ball.y-10) - orbit_radius * sin(orbit_angle * pi /180); 
+
+if (y &lt; ball.y-20) {
+depth = 3;
+}
+else {
+depth = 5; 
+}
 </string>
           </argument>
         </arguments>
@@ -107,9 +114,10 @@ y = ball.y - orbit_radius * sin(orbit_angle * pi /180);
           <argument>
             <kind>1</kind>
             <string>
-draw_trail_ext(6,c_teal,-1,true,1);
+draw_trail_ext(9,c_teal,-1,true,1);
 draw_set_color(c_white); 
-draw_circle(x, y, 8, false); 
+draw_circle(x, y, 4, false); 
+
 </string>
           </argument>
         </arguments>

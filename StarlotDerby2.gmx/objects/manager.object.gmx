@@ -25,7 +25,9 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//Compile Info
+            <string>display_reset(4,false); 
+
+//Compile Info
 debug = true; 
 debugType = 0;
 offset = 0;
@@ -155,6 +157,7 @@ gameStart();
 
 
 alarm[0] = 1; 
+ballSpeed = 10;
 
 
 
@@ -341,6 +344,14 @@ alarm[0]=30;
         case ord("R"): {
         addRandomGems(); 
         break; 
+        }
+        case ord("P"): {
+        if (debug) {
+           debug = false;
+        }
+        else {
+        debug = true; 
+        }
         }
         
     }

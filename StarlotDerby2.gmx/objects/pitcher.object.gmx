@@ -38,7 +38,7 @@ pitch = queuePitch();
 nextPitch = queuePitch(); //Returns an Array.
 
 
-ballSpeed = 10;
+
 alarm[0] = 60;
 </string>
           </argument>

@@ -253,6 +253,7 @@
         <script>scripts\trickChance.gml</script>
         <script>scripts\loadPitch.gml</script>
         <script>scripts\queuePitch.gml</script>
+        <script>scripts\scr_move_out.gml</script>
         <script>scripts\strikeBall.gml</script>
         <script>scripts\subtractFever.gml</script>
       </scripts>
