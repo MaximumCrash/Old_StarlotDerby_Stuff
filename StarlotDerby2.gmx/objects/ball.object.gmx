@@ -25,7 +25,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>hit = false;
+            <string>manager.ballhHit = false;
 currentPath = 0;
 path_start(pitcher.pitch[0, currentPath], manager.ballSpeed, path_action_continue,1);
 
@@ -47,10 +47,18 @@ lastY = 0;
 currentY = 0; 
 image_xscale = 0; 
 image_yscale = 0; 
-//alarm[2] = 1; 
+alarm[2] = 1; 
 
 goodHit = false; 
 batAngle = 0; 
+hitPositionX = 0; 
+hitPositionY = 0;
+exitPositionX = 0; 
+exitPositionY = 0; 
+currentDistance = 0;
+exitDistance = 1; 
+
+initialBatAngle = 105;
 </string>
           </argument>
         </arguments>
@@ -73,10 +81,9 @@ batAngle = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>ds_list_add(manager.list, "Ball Destroyed...");
-pitcher.alarm[0] = 10; 
+            <string>pitcher.alarm[0] = 10; 
 trail_destroy();
-
+manager.ballHit = false;
 with(ballExtra) {
 instance_destroy(); 
 }
@@ -104,26 +111,36 @@ instance_destroy();
             <kind>1</kind>
             <string>ds_list_add(manager.list, "FLYING!");
 
-if (batAngle &gt;= 105 &amp;&amp; batAngle &lt; 135) //RIGHT FOUL
-{
-move_towards_point( 448, 132, manager.ballSpeed );
+if (batAngle &gt;= initialBatAngle &amp;&amp; batAngle &lt; (initialBatAngle + (30*1))) 
+{ //RIGHT FOUL
+exitPositionX = 528;
+exitPositionY = 272; 
 }
-else if (batAngle &gt;= 135 &amp;&amp; batAngle &lt; 165) //RIGHT FIELD
-{
-move_towards_point( 448, 132, manager.ballSpeed );
+else if (batAngle &gt;= (initialBatAngle + (30*1)) &amp;&amp; batAngle &lt; (initialBatAngle + (30*2))) 
+{ //RIGHT FIELD
+exitPositionX = room_width;
+exitPositionY = -112;
 }
-else if (batAngle &gt;= 165 &amp;&amp; batAngle &lt; 195) //CENTER FIELD
-{
-move_towards_point( 448, 132, manager.ballSpeed );
+else if (batAngle &gt;= (initialBatAngle + (30*2)) &amp;&amp; batAngle &lt; (initialBatAngle + (30*3)))
+{  //CENTER FIELD
+exitPositionX = room_width/2;
+exitPositionY = -112;
 }
-else if (batAngle &gt;= 195 &amp;&amp; batAngle &lt; 225) //LEFT FIELD
-{
-move_towards_point( 448, 132, manager.ballSpeed );
+else if (batAngle &gt;= (initialBatAngle + (30*3)) &amp;&amp; batAngle &lt; (initialBatAngle + (30*4))) 
+{ //LEFT FIELD
+exitPositionX = 0;
+exitPositionY = -112;
 }
-else if (batAngle &gt;= 225 &amp;&amp; batAngle &lt; 255) //LEFT FOUL
-{
-move_towards_point( 448, 132, manager.ballSpeed );
+else if (batAngle &gt;= (initialBatAngle + (30*4)) &amp;&amp; batAngle &lt; (initialBatAngle + (30*5))) 
+{ //LEFT FOUL
+exitPositionX = -153;
+exitPositionY = 272;
 }
+ 
+
+exitDistance = point_distance(hitPositionX, hitPositionY, exitPositionX, exitPositionY);
+move_towards_point(exitPositionX, exitPositionY, manager.ballSpeed);
+ 
 </string>
           </argument>
         </arguments>
@@ -274,7 +291,19 @@ if (path_position &gt; trickPosition &amp;&amp; !trickRun) {
 }
 }
 
+if (currentY &lt; y &amp;&amp; currentY &lt; maxY &amp;&amp; !manager.ballHit) {
+currentY = y; 
 
+image_yscale = (currentY/maxY)+baseScale+extraYscale;
+}
+else if (manager.ballHit){
+currentDistance = point_distance(x,y,exitPositionX,exitPositionY);
+image_yscale = (currentDistance/exitDistance)+baseScale+extraYscale;
+}
+if (image_yscale &gt; 1) {
+image_yscale = 1; 
+}
+image_xscale = image_yscale+extraYscale;
 </string>
           </argument>
         </arguments>
@@ -297,11 +326,13 @@ if (path_position &gt; trickPosition &amp;&amp; !trickRun) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (!hit) {
-hit = true;
+            <string>if (!manager.ballHit) {
+manager.ballHit = true;
 ds_list_add(manager.list, "HIT BALL!");
 path_end();
 path_speed = 0; 
+hitPositionX = x; 
+hitPositionY = y; 
 batAngle = manager.swingArc;
 alarm[3] = 1;
 }
@@ -327,7 +358,7 @@ alarm[3] = 1;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (currentPath &lt; 2 &amp;&amp; !hit) {
+            <string>if (currentPath &lt; 2 &amp;&amp; !manager.ballHit) {
 currentPath++;
 
 if (pitcher.pitch[0,0] == asset_get_index("startWarp") &amp;&amp; currentPath = 1) {
@@ -338,7 +369,7 @@ else {
 }
   
 
-ds_list_add(manager.list, "Current Pitch: " + string(pitcher.pitch[0, currentPath]));
+//ds_list_add(manager.list, "Current Pitch: " + string(pitcher.pitch[0, currentPath]));
 trickRun = false; 
 }
 </string>
@@ -394,13 +425,7 @@ draw_circle_colour(x,y,sprite_width*.59,make_colour_hsv(35, 255, 255),make_colou
 draw_self();
 
 
-if (currentY &lt; y &amp;&amp; currentY &lt; maxY) {
-currentY = y; 
 
-image_yscale = (currentY/maxY)+baseScale+extraYscale;
-}
-
-image_xscale = image_yscale+extraYscale;
 
 /*
 x = mouse_x; 

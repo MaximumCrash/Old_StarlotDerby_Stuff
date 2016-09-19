@@ -528,14 +528,10 @@
     </objects>
     <object>objects\obj_camera</object>
     <object>objects\obj_dialogue</object>
-    <object>objects\obj_trail1</object>
-    <object>objects\obj_trail_ext1</object>
-    <object>objects\obj_trail2</object>
-    <object>objects\obj_trail_ext2</object>
-    <object>objects\obj_spawner</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room1</room>
+    <room>rooms\room5</room>
     <room>rooms\room_example</room>
     <room>rooms\rm_example</room>
     <room>rooms\r_test</room>

@@ -139,7 +139,9 @@ currentField = 0;
 canSwing = true; 
 swingLong = false;
 swingCount = 0;
+swingCharge = 0; 
 swingArc = 0;
+ballHit = false; 
 ballExitSpeed = 0;
 ballState = 0;
 score = 0;
@@ -184,30 +186,6 @@ ballSpeed = 10;
           <argument>
             <kind>1</kind>
             <string>ds_list_destroy(list);
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="2" enumb="0">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>ds_list_add(manager.list, "CURRENT DIFFICULTY: " + string(difficulty));
-alarm[0]=30; 
 </string>
           </argument>
         </arguments>
@@ -352,26 +330,33 @@ alarm[0]=30;
         else {
         debug = true; 
         }
-        }
-        
+        }   
     }
 }
 
 if (!canSwing) {
 if (swingArc &lt; 360) {
-if (!swingLong) {
+
+if (manager.ballHit) {
+swingArc += equip[2]*.85;
+}
+else if (!swingLong) {
 swingArc += equip[2];
 }
 else {
 swingArc += equip[2]*.65;
 }
-
 }
 else {
 swingArc = 0;
 canSwing = true;
 swingLong = false;
 }
+}
+else {
+swingArc = 0;
+canSwing = true;
+swingLong = false;
 }
 
 //Difficulty Manager
@@ -384,6 +369,7 @@ if (difficulty &lt; 0)
 if os_is_paused() {
 
 }
+
 </string>
           </argument>
         </arguments>
