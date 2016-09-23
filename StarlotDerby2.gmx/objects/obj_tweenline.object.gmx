@@ -109,7 +109,7 @@ tween_system_roomend();
             <string>/// DRAW DEBUG
 
 //comment this line if you don't want to draw the debug info
-if (visible) { tl_draw_debug(5,5); }
+//if (visible) { tl_draw_debug(5,5); }
 
 
 

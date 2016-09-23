@@ -26,12 +26,11 @@
           <argument>
             <kind>1</kind>
             <string>if (instance_number(ballExtra) &lt; 2) {
-orbit_angle = 30; 
-orbit_radius = 32; 
-}
-else {
-orbit_angle = 210; 
-orbit_radius = 32; 
+    orbit_angle = 30;
+    orbit_radius = 32;
+} else {
+    orbit_angle = 210;
+    orbit_radius = 32;
 }
 
 trail_init();
@@ -103,16 +102,15 @@ trail_init();
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>orbit_speed = 600/ room_speed; 
-orbit_angle += orbit_speed; 
-x = ball.x + orbit_radius * cos(orbit_angle * pi /180); 
-y = (ball.y-10) - orbit_radius * sin(orbit_angle * pi /180); 
+            <string>orbit_speed = 600 / room_speed;
+orbit_angle += orbit_speed;
+x = ball.x + orbit_radius * cos(orbit_angle * pi / 180);
+y = (ball.y - 10) - orbit_radius * sin(orbit_angle * pi / 180);
 
-if (y &lt; ball.y-20) {
-depth = 3;
-}
-else {
-depth = 5; 
+if (y &lt; ball.y - 20) {
+    depth = 3;
+} else {
+    depth = 5;
 }
 </string>
           </argument>
@@ -137,8 +135,8 @@ depth = 5;
           <argument>
             <kind>1</kind>
             <string>image_yscale = ball.image_yscale;
-draw_trail_ext(9*image_yscale,c_teal,-1,true,1);
-draw_set_color(c_white); 
+draw_trail_ext(9*image_yscale,manager.cBlue,-1,true,1);
+draw_set_color(manager.csRed); 
 draw_circle(x, y, 4*image_yscale, false); 
 
 

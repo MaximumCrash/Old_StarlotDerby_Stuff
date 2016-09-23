@@ -26,37 +26,37 @@
           <argument>
             <kind>1</kind>
             <string>manager.ballhHit = false;
-currentPath = 0;
-path_start(pitcher.pitch[0, currentPath], manager.ballSpeed, path_action_continue,1);
-
-loadPitch();
-timer = 0; 
 trail_init();
-hue =0 ;
+currentPath = 0;
+path_start(pitcher.pitch[0, currentPath], manager.ballSpeed, path_action_continue, 1);
 
-trickCount = 0;  
-trick = 0;//trickChance(1); //0 = None, 1 = HardStop, 2=Speed Up, 3=Slow Down, 4=Rewind
+
+timer = 0;
+hue = 0;
+
+trickCount = 0;
+trick = trickPitch(3); //Takes in Max Number of Tricks (Curently 3)
 trickRun = false;
-trickPosition = random_range(0.35,0.8); 
-hardTimer = irandom_range(10, 60); //Between 0.5 seconds and 2 seconds. 
- 
-maxY =  1000;
-extraYscale = 0;  
+trickPosition = random_range(0.25, 0.9);
+hardTimer = irandom_range(10, 30); //Between 0.1 seconds and 0.5 seconds. 
+
+maxY = 1000;
+extraYscale = 0;
 baseScale = 0.2;
 lastY = 0;
-currentY = 0; 
-image_xscale = 0; 
-image_yscale = 0; 
-alarm[2] = 1; 
+currentY = 0;
+image_xscale = 0;
+image_yscale = 0;
+alarm[2] = 1;
 
-goodHit = false; 
-batAngle = 0; 
-hitPositionX = 0; 
+goodHit = false;
+batAngle = 0;
+hitPositionX = 0;
 hitPositionY = 0;
-exitPositionX = 0; 
-exitPositionY = 0; 
+exitPositionX = 0;
+exitPositionY = 0;
 currentDistance = 0;
-exitDistance = 1; 
+exitDistance = 1;
 
 initialBatAngle = 105;
 </string>
@@ -81,12 +81,16 @@ initialBatAngle = 105;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>pitcher.alarm[0] = 10; 
+            <string>if (!manager.ballHit) {
+    addStrike();
+}
+with(ballExtra) {
+    instance_destroy();
+}
+
+pitcher.alarm[0] = 5; //Tell the Pitcher to make a new Ball. 
 trail_destroy();
 manager.ballHit = false;
-with(ballExtra) {
-instance_destroy(); 
-}
 </string>
           </argument>
         </arguments>
@@ -109,38 +113,23 @@ instance_destroy();
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>ds_list_add(manager.list, "FLYING!");
+            <string>//After Collision this Script is Run. 
+//Depending on the Angle of the Bat the ball will fly to 
+//predetermined points outside of the screen. 
 
-if (batAngle &gt;= initialBatAngle &amp;&amp; batAngle &lt; (initialBatAngle + (30*1))) 
-{ //RIGHT FOUL
-exitPositionX = 528;
-exitPositionY = 272; 
+if (batAngle &gt; 0 &amp;&amp; batAngle &lt; (initialBatAngle + (30 * 1))) { //RIGHT FOUL
+    exitBall(528, 272, true, 0);
+} else if (batAngle &gt;= (initialBatAngle + (30 * 1)) &amp;&amp; batAngle &lt; (initialBatAngle + (30 * 2))) { //RIGHT FIELD
+    exitBall(room_width, -112, false, 1);
+} else if (batAngle &gt;= (initialBatAngle + (30 * 2)) &amp;&amp; batAngle &lt; (initialBatAngle + (30 * 3))) { //CENTER FIELD
+    exitBall(room_width / 2, -112, false, 2);
+} else if (batAngle &gt;= (initialBatAngle + (30 * 3)) &amp;&amp; batAngle &lt; (initialBatAngle + (30 * 4))) { //LEFT FIELD
+    exitBall(0, -112, false, 3);
+} else if (batAngle &gt;= (initialBatAngle + (30 * 4)) &amp;&amp; batAngle &lt; (initialBatAngle + (30 * 5))) { //LEFT FOUL
+    exitBall(-153, 272, true, 4);
+} else if (batAngle &gt;= (initialBatAngle + (30 * 5)) &amp;&amp; batAngle &lt;= 360) { //LEFT FOUL
+    exitBall(-153, 272, true, 4);
 }
-else if (batAngle &gt;= (initialBatAngle + (30*1)) &amp;&amp; batAngle &lt; (initialBatAngle + (30*2))) 
-{ //RIGHT FIELD
-exitPositionX = room_width;
-exitPositionY = -112;
-}
-else if (batAngle &gt;= (initialBatAngle + (30*2)) &amp;&amp; batAngle &lt; (initialBatAngle + (30*3)))
-{  //CENTER FIELD
-exitPositionX = room_width/2;
-exitPositionY = -112;
-}
-else if (batAngle &gt;= (initialBatAngle + (30*3)) &amp;&amp; batAngle &lt; (initialBatAngle + (30*4))) 
-{ //LEFT FIELD
-exitPositionX = 0;
-exitPositionY = -112;
-}
-else if (batAngle &gt;= (initialBatAngle + (30*4)) &amp;&amp; batAngle &lt; (initialBatAngle + (30*5))) 
-{ //LEFT FOUL
-exitPositionX = -153;
-exitPositionY = 272;
-}
- 
-
-exitDistance = point_distance(hitPositionX, hitPositionY, exitPositionX, exitPositionY);
-move_towards_point(exitPositionX, exitPositionY, manager.ballSpeed);
- 
 </string>
           </argument>
         </arguments>
@@ -163,9 +152,8 @@ move_towards_point(exitPositionX, exitPositionY, manager.ballSpeed);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>instance_create(x, y, ballExtra); 
-
-
+            <string>//Create Fancy Spinning EXTRAs
+instance_create(x, y, ballExtra); 
 instance_create(x, y, ballExtra); 
 </string>
           </argument>
@@ -189,23 +177,44 @@ instance_create(x, y, ballExtra);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>switch (trick) {
-case 1: {
-path_speed = pitcher.ballSpeed; 
+            <string>//STOP ALL TRICKS and RESET
+
+switch (trick) {
+case 1: { //HARD STOP
+path_speed = manager.ballSpeed; 
 break;
 }
 
-case 2: {
-path_speed = smooth_approach(path_speed, pitcher.ballSpeed, random_range(0,1)); 
+case 2: { //SPEED UP
+path_speed = smooth_approach(path_speed, manager.ballSpeed, random_range(0,1)); 
 break;
 }
 
-case 3: {
-path_speed = smooth_approach(path_speed, pitcher.ballSpeed, random_range(0,1)); 
+case 3: { //SLOW DOWN
+path_speed = smooth_approach(path_speed, manager.ballSpeed, random_range(0,1)); 
 break;
 }
 }
+//STOP ALL TRICKS and RESET
+switch (trick) {
+    case 1:
+        { //HARD STOP
+            path_speed = manager.ballSpeed;
+            break;
+        }
 
+    case 2:
+        { //SPEED UP
+            path_speed = smooth_approach(path_speed, manager.ballSpeed, random_range(0, 1));
+            break;
+        }
+
+    case 3:
+        { //SLOW DOWN
+            path_speed = smooth_approach(path_speed, manager.ballSpeed, random_range(0, 1));
+            break;
+        }
+}
 
 </string>
           </argument>
@@ -229,7 +238,7 @@ break;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>instance_destroy();
+            <string>instance_destroy(); 
 </string>
           </argument>
         </arguments>
@@ -254,56 +263,60 @@ break;
             <kind>1</kind>
             <string>trail_calculate(32);
 
+//This is for FEVER Balls Only
 if (hue &lt; 255) {
-hue+= 2;
+    hue += 2;
 }
 
+//Runs a Trick depending on a couple of Parameters. 
 if (path_position &gt; trickPosition &amp;&amp; !trickRun) {
-//Run a Trick if Possible
-  if (percent_chance(100) == true &amp;&amp; currentPath &gt; 0 &amp;&amp; trickCount &lt; 2) 
-    {
-        trickRun = true; 
-        
-    switch (trick) {
-      case 1: {  
-        path_speed = 0;
-        alarm[1] = hardTimer; 
-        ds_list_add(manager.list, "TRICK: HARD STOP");
-        
-        break;
-     }
-    
-     case 2: {
-      path_speed = smooth_approach(path_speed, path_speed * (random_range(1.25, 2)), random_range(0,1)); 
-      alarm[1] = hardTimer; 
-      ds_list_add(manager.list, "TRICK: SPEED UP");
-      break;
-    }
-    
-    case 3: {
-    path_speed = smooth_approach(path_speed, path_speed * (random_range(.25, .75)), random_range(0,1)); 
-      alarm[1] = hardTimer; 
-      ds_list_add(manager.list, "TRICK: SLOW DOWN");
-    break;
-    }
+    if (manager.difficulty &gt;= 2 &amp;&amp; manager.difficulty &lt; 3.25) {
+        //Run a Trick if Possible
+        if (random(10) &gt;= 9 &amp;&amp; currentPath == 1 &amp;&amp; trickCount &lt; 2) {
+            trickRun = true;
+            switch (trick) {
+                case 1:
+                    {
+                        path_speed = 0;
+                        alarm[1] = hardTimer;
+                        break;
+                    }
 
-}
-}
+                case 2:
+                    {
+                        if (manager.ballSpeed &lt; 13) {
+                            path_speed = manager.ballSpeed * random_range(1.5, 2.25);
+                            alarm[1] = hardTimer;
+                        }
+                        break;
+                    }
+
+                case 3:
+                    {
+                        if (manager.ballSpeed &gt; 10) {
+                            path_speed = manager.ballSpeed * random_range(.1, .25);
+                            alarm[1] = hardTimer;
+                        }
+                        break;
+                    }
+            }
+        }
+    }
 }
 
+//Handles the Size of the Ball depending on it's distance.
+//Creates a fake (Ball coming towards the screen effect. 
 if (currentY &lt; y &amp;&amp; currentY &lt; maxY &amp;&amp; !manager.ballHit) {
-currentY = y; 
-
-image_yscale = (currentY/maxY)+baseScale+extraYscale;
-}
-else if (manager.ballHit){
-currentDistance = point_distance(x,y,exitPositionX,exitPositionY);
-image_yscale = (currentDistance/exitDistance)+baseScale+extraYscale;
+    currentY = y;
+    image_yscale = (currentY / maxY) + baseScale + extraYscale;
+} else if (manager.ballHit) {
+    currentDistance = point_distance(x, y, exitPositionX, exitPositionY);
+    image_yscale = (currentDistance / exitDistance) + baseScale + extraYscale;
 }
 if (image_yscale &gt; 1) {
-image_yscale = 1; 
+    image_yscale = 1;
 }
-image_xscale = image_yscale+extraYscale;
+image_xscale = image_yscale + extraYscale;
 </string>
           </argument>
         </arguments>
@@ -326,9 +339,10 @@ image_xscale = image_yscale+extraYscale;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (!manager.ballHit) {
+            <string>//We have collided with the Bat. 
+//Stop everything and EXIT the Ball. 
+if (!manager.ballHit) {
 manager.ballHit = true;
-ds_list_add(manager.list, "HIT BALL!");
 path_end();
 path_speed = 0; 
 hitPositionX = x; 
@@ -358,20 +372,24 @@ alarm[3] = 1;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (currentPath &lt; 2 &amp;&amp; !manager.ballHit) {
+            <string>//If We're at the end of a Weird Path Destroy the Ball. 
+if (pitcher.pitch[0,currentPath] == asset_get_index("endWarp") || pitcher.pitch[0,currentPath] == asset_get_index("endWarpR")) {
+instance_destroy(); 
+}
+
+//Start our New Path! 
+if (currentPath &lt; 2 &amp;&amp; !manager.ballHit) {
 currentPath++;
-
-if (pitcher.pitch[0,0] == asset_get_index("startWarp") &amp;&amp; currentPath = 1) {
-  path_start(pitcher.pitch[0,currentPath], manager.ballSpeed, path_action_continue,true);
-}
-else {
-  path_start(pitcher.pitch[0,currentPath], manager.ballSpeed, path_action_continue,false);
-}
-  
-
-//ds_list_add(manager.list, "Current Pitch: " + string(pitcher.pitch[0, currentPath]));
+path_start(pitcher.pitch[0,currentPath], manager.ballSpeed, path_action_continue,true);
 trickRun = false; 
+if (currentPath == 2) {
+trickPosition = random_range(0.1,0.5); 
 }
+}
+
+
+
+
 </string>
           </argument>
         </arguments>
@@ -394,7 +412,8 @@ trickRun = false;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>alarm[0] = 30;
+            <string>//Runs a destroy timer. 
+alarm[0] = 40;
 
  
 </string>
@@ -419,17 +438,10 @@ trickRun = false;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>
-draw_trail_ext((sprite_width+6),make_colour_hsv(35, 255, 255),-1,true,1);
-draw_circle_colour(x,y,sprite_width*.59,make_colour_hsv(35, 255, 255),make_colour_hsv(35, 255, 255),false);
+            <string>draw_trail_ext((sprite_width+6),manager.cYellow,-1,true,1);
+draw_circle_colour(x,y,sprite_width*.59,manager.cYellow,manager.cYellow,false);
 draw_self();
 
-
-
-
-/*
-x = mouse_x; 
-y = mouse_y;  */
 </string>
           </argument>
         </arguments>

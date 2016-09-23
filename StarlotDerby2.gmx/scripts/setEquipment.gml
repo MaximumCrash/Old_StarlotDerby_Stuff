@@ -1,27 +1,18 @@
+/***************************************************
+  setEquipment - Last Edited 9/23/2016
+  
+  -First we build our Curse by checking what Gems 
+    we have set inside of our equip[#] variables.
+  -Then we set our Stats depending on what Bat and
+    Gems we have equiped. 
+    
+  See buildCurse(); for more on Gems. 
+ ***************************************************/
 ds_list_add(manager.list, "Building Equipment...");
-//RESET Curse Effected Values
-manager.powerCurseExtra = 0;
-manager.speedCurseExtra = 0;
-manager.feverSafety = 0;
-manager.futureChance = 0;
-manager.snipeChance = 0;
-manager.foggyWindows = false;
-manager.earthquake = false;
-manager.wavy = false;
-manager.wizKid = false;
-manager.multiplier = 1;
-
 
 //Set GEMS
-manager.itemList[argument0,4] = manager.equip[3];
-manager.itemList[argument0,5] = manager.equip[4];
-manager.itemList[argument0,6] = manager.equip[5];
-buildCurse(); 
+buildCurse();
 
 //Set STATS
-manager.equip[1] = real(manager.itemList[argument0,1]) + manager.powerCurseExtra;
-manager.equip[2] = real(manager.itemList[argument0,2]) + manager.speedCurseExtra;
-
-
-
-
+manager.equip[1] = real(manager.itemList[argument0, 1]) + manager.powerCurseExtra;
+manager.equip[2] = real(manager.itemList[argument0, 2]) + manager.speedCurseExtra;

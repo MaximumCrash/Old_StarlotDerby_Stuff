@@ -1,7 +1,6 @@
 var path, list;
 
 // file load and decryption
-ds_list_add(manager.list, "Loading Save Data...");
 path = working_directory+'savegame'; // file path, please don't change, may not work 
 
 if (file_exists(path)) { // check file in directory
