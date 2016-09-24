@@ -58,6 +58,8 @@ csBlue = make_colour_rgb(92, 132, 242);
 csYellow = make_colour_rgb(254, 190, 5);
 csBlack = make_colour_rgb(55, 60, 77);
 
+padding = 20; 
+
 //*********************DATABASE
 var itemList, gemList, fieldList, curseList, pitchList, dictionary;
 powerCount = 0;
