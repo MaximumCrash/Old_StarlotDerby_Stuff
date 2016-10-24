@@ -52,13 +52,18 @@ ds_list_add(manager.savelist, "Current Coins: " + string(manager.player[3]));
 ds_list_add(manager.savelist, "Gift Storage: " + string(manager.gifts));
 ds_list_add(manager.savelist, "GEM LIST SIZE: " + string(ds_list_size(manager.gems)));
 
+var postUnlockCount = 20; 
+for (var b=0; b<array_height_2d(manager.unlocked); b++) {
+    manager.unlocked[b] = list[| 20+b];
+    postUnlockCount++;
+}
+
 for (var i=0; i<ds_list_size(manager.gems); i++) {
-  manager.gems[| i] = list[| 20+i];
+  manager.gems[| i] = list[| postUnlockCount+i];
   ds_list_add(manager.savelist, "Gem " + string(i) + ": "+ string(manager.gems[| i]));
 }
 
-
-
+verifyEquip(); //Verifies Equipment is something we actually have unlocked.  
 }
 else {
 new_game(); 

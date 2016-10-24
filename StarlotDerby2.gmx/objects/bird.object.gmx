@@ -27,18 +27,28 @@
             <kind>1</kind>
             <string>turnDir = 0; //False = Right, True = Left
 lastX = x; //We use this to check if we're turning left or right. 
-floorY = y; 
+currentY = y; 
+maxY = currentY + 198; 
 type = 0; //Type of Bird. 0 = Normal, 1 = Golden, 2 = Gem
 moveSpeed = 4; //Speed to hop ahead. 
-stopTime = random_range(60,180);
+stopTime = random_range(100,180);
 hopMaximum = irandom_range(5, 3); 
 hopCount = 0; 
-currentPath = choose(birdPath,birdPathR); 
+//currentPath = choose(birdPath,birdPathR); 
+if (x &gt; room_width) {
+currentPath = birdPathR;
+}
+else {
+currentPath = birdPath; 
+}
 path_start(currentPath,0,path_action_reverse,false);
  image_speed = 0.15;
  state = 0; //0 = Walking, 1 = Waiting, 2 = Dead
  dead = false;
- 
+ baseScale = 0.25;
+ extraYscale = 0;
+ finalScale = image_yscale;
+ flip = true; 
 </string>
           </argument>
         </arguments>
@@ -63,8 +73,20 @@ path_start(currentPath,0,path_action_reverse,false);
             <kind>1</kind>
             <string>if (!dead) {
 dead = true;
-currentPath = choose(birdDead,birdDeadR);
-path_start(currentPath, moveSpeed+2, path_action_stop, false); 
+finalScale = image_yscale;
+
+if (finalScale != 1 || finalScale != -1) {
+    finalScale = 1; 
+} 
+
+if (manager.birdDeadPath == birdDead) {
+manager.birdDeadPath = birdDeadR; 
+}
+else {
+manager.birdDeadPath = birdDead; 
+}
+
+path_start(manager.birdDeadPath, moveSpeed+2, path_action_stop, false); 
 
 switch (type) {
     case 0: { //If Normal
@@ -81,44 +103,6 @@ switch (type) {
     }
 }
 }
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="2" enumb="1">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/*if (hopCount = hopMaximum) {
-
-if (turnDir ==0) {
-turnDir = irandom_range(1,2);
-}
-else {
-if (turnDir == 1) {
-turnDir = 2; 
-}
-else {
-turnDir = 1; 
-}
-}
-
-alarm[1] = 30; 
-}*/
 </string>
           </argument>
         </arguments>
@@ -146,6 +130,7 @@ path_speed = moveSpeed;
 hopCount = 0; 
 image_speed = 0.25; 
 turnDir = 0; 
+state = 0; 
 </string>
           </argument>
         </arguments>
@@ -170,16 +155,12 @@ turnDir = 0;
             <kind>1</kind>
             <string>
 //Handles Flipping
-if (state != 2){
+if (state != 2 &amp;&amp; state != 1){
 if (x &lt; lastX &amp;&amp; hopCount != hopMaximum) {
-if (image_xscale &gt; -1) {
-image_xscale = smooth_approach(image_xscale, -1, 0.25); 
-} 
+flip = false;
 }
 else {
-if (image_xscale &lt; 1) {
-image_xscale = smooth_approach(image_xscale, 1, 0.25); 
-}
+flip = true; 
 }
 
 
@@ -187,12 +168,12 @@ lastX = x;
 
 if (turnDir == 1) {
 if (image_xscale &gt; -1) {
-image_xscale = smooth_approach(image_xscale, -1, 0.25); 
-} 
+image_xscale = smooth_approach(image_xscale, -image_xscale, 0.25); 
+}
 }
 else if (turnDir == 2) {
 if (image_xscale &lt; 1) {
-image_xscale = smooth_approach(image_xscale, 1, 0.25); 
+image_xscale = smooth_approach(image_xscale, -image_xscale, 0.25); 
 }
 }
 }
@@ -201,10 +182,35 @@ if (state == 2)
 {
     //Set Sprite to Dead.  
     alarm[2] = 1; 
-if (currentPath == birdDead || currentPath == birdDeadR) {
-image_angle += 10; 
+if (manager.birdDeadPath == birdDeadR) {
+image_angle += 16; 
+}   
+else if (manager.birdDeadPath == birdDead) {
+image_angle -= 16; 
 }
 path_speed = smooth_approach(path_speed, moveSpeed + 5, 0.5); 
+}
+//Handles the Size of the Bird depending on it's distance.
+//Creates a fake (Ball coming towards the screen effect. 
+if (state == 2) {
+    image_yscale = 1;
+    moveSpeed += 0.5;
+    path_speed = moveSpeed; 
+    image_xscale = 1;
+}
+else {
+ currentY = y;
+    image_yscale = (currentY / maxY) + baseScale + extraYscale;
+}
+if (image_yscale &gt; 1) {
+    image_yscale=1;
+}
+
+if (flip) {
+image_xscale = smooth_approach(image_xscale,image_yscale + extraYscale,0.25);
+}
+else {
+image_xscale = smooth_approach(image_xscale,-(image_yscale + extraYscale),0.25);
 }
 
 </string>
@@ -269,6 +275,14 @@ if (hopCount = hopMaximum &amp;&amp; state != 2)
     state = 1; 
     alarm[0] = stopTime;
     alarm[1] = 5; 
+    
+    if (flip) {
+        flip = false;
+    }
+    else {
+        flip = true; 
+    }
+    
 }
 </string>
           </argument>

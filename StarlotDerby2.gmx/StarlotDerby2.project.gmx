@@ -5,23 +5,6 @@
   </Configs>
   <datafiles number="26" name="datafiles">
     <datafile>
-      <name>Edge Display Scaler Reference Guide.pdf</name>
-      <exists>-1</exists>
-      <size>517690</size>
-      <exportAction>2</exportAction>
-      <exportDir></exportDir>
-      <overwrite>0</overwrite>
-      <freeData>-1</freeData>
-      <removeEnd>0</removeEnd>
-      <store>0</store>
-      <ConfigOptions>
-        <Config name="Default">
-          <CopyToMask>9223372036854775807</CopyToMask>
-        </Config>
-      </ConfigOptions>
-      <filename>Edge Display Scaler Reference Guide.pdf</filename>
-    </datafile>
-    <datafile>
       <name>glist.csv</name>
       <exists>-1</exists>
       <size>1021</size>
@@ -544,14 +527,27 @@
     </scripts>
     <scripts name="GAME">
       <scripts name="SYSTEM">
-        <script>scripts\setEquipment.gml</script>
-        <script>scripts\buildCurse.gml</script>
-        <script>scripts\addRandomGems.gml</script>
-        <script>scripts\getLevel.gml</script>
-        <script>scripts\gameStart.gml</script>
-        <script>scripts\isConnected.gml</script>
-        <script>scripts\gameOver.gml</script>
-        <script>scripts\loadDB.gml</script>
+        <scripts name="SOUND">
+          <script>scripts\soundPlay.gml</script>
+        </scripts>
+        <scripts name="DATA">
+          <script>scripts\verifyEquip.gml</script>
+          <script>scripts\unlockAll.gml</script>
+          <script>scripts\loadDB.gml</script>
+        </scripts>
+        <scripts name="MECHANICS">
+          <script>scripts\getLevel.gml</script>
+          <script>scripts\addRandomGems.gml</script>
+          <script>scripts\buildCurse.gml</script>
+          <script>scripts\setEquipment.gml</script>
+        </scripts>
+        <scripts name="NETWORK">
+          <script>scripts\isConnected.gml</script>
+        </scripts>
+        <scripts name="STATE">
+          <script>scripts\gameStart.gml</script>
+          <script>scripts\gameOver.gml</script>
+        </scripts>
       </scripts>
       <scripts name="IN-GAME">
         <script>scripts\exitBall.gml</script>
@@ -562,9 +558,17 @@
         <script>scripts\adjustDifficulty.gml</script>
         <script>scripts\givePoint.gml</script>
         <script>scripts\addStrike.gml</script>
+        <script>scripts\runCurse.gml</script>
+        <script>scripts\reverseCurse.gml</script>
         <script>scripts\initFever.gml</script>
         <script>scripts\addFever.gml</script>
         <script>scripts\subtractFever.gml</script>
+      </scripts>
+      <scripts name="MASTER VIEW CONTROLLER">
+        <script>scripts\mvcPlay.gml</script>
+        <script>scripts\mvcPause.gml</script>
+        <script>scripts\mvcRewind.gml</script>
+        <script>scripts\mvcFastForward.gml</script>
       </scripts>
     </scripts>
   </scripts>
@@ -589,6 +593,7 @@
       <object>objects\ballExtra</object>
     </objects>
     <objects name="MANAGERS">
+      <object>objects\mvc</object>
       <object>objects\manager</object>
       <object>objects\pitcher</object>
     </objects>

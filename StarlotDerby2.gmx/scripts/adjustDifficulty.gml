@@ -9,4 +9,9 @@
     see setDifficulty() for more info. 
  ***************************************************/
 manager.ballSpeed = manager.minBallSpeed + floor((manager.difficulty*8)/3);
+
+if (manager.ballMaxSpeed) {
+manager.ballSpeed = manager.ballSpeed + 3; 
+}
+
 manager.pitchRange = floor(((manager.difficulty*10)/3)-2);

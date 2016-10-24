@@ -14,6 +14,8 @@ gemList = csv_load("glist");
 fieldList = csv_load("flist");
 curseList = csv_load("clist");
 pitchList = csv_load("plist");
+unlocked[array_height_2d(itemList) - 5] = 0; //Current Bats unlocked. 
+
 //manager.dictionary = csv_load("dictionary");
 
 for (var c = 0; c < array_height_2d(curseList); c++) {

@@ -61,7 +61,7 @@ csBlack = make_colour_rgb(55, 60, 77);
 padding = 20; 
 
 //*********************DATABASE
-var itemList, gemList, fieldList, curseList, pitchList, dictionary;
+var itemList, gemList, fieldList, curseList, pitchList, dictionary, unlocked;
 powerCount = 0;
 curseCount = 0;
 
@@ -95,9 +95,11 @@ player[1] = 0; //High Score Batting
 player[2] = 0; //High Score Pitching 
 player[3] = 0; //Coins
 
+
 gifts = 0; //Number of "Gifts" in Stock. 
 
 gems = ds_list_create(); //Gem List
+
 
 prestige = 0;
 xpRequired = 0;
@@ -109,21 +111,24 @@ currentLevel = getLevel();
 
 //*******BATS
 batShapeShift = false; //Curse
-batOverHeat = false; //Curse
+batOverHeat = true; //Curse
 batRiskyBusiness = false; //Curse
 batSlugBat = false; //Curse
-batLefty = false; //Curse
+batLefty = true; //Curse
+currentBat = equip[0]; 
 //MVC
 canSwing = true;
 swingCount = 0;
 swingMax = 3;
 swingCharge = 0;
 swingChargeMax = 150; //180 = 3 Seconds 240 = 4 Seconds 
+chargeCount = 1; 
 swingArc = 0;
 heatCount = 0;
 
 //********BIRDS
 birdHappyBirthday = false; //Curse
+birdDeadPath = birdDead; 
 
 //********PITCHER 
 pitcherSeeingDouble = false; //Curse
@@ -168,6 +173,8 @@ dirMulti = 1;
 dirMultiMax = 3; //This multiplier becomes 5 during Starstorms. 
 fever = 0;
 maxFever = 3;
+maxBirdCount = 6;
+birdCount = 0; 
 
 //Temporary Variables
 lastBuiltCurse = 999;
@@ -175,6 +182,7 @@ lastBuiltCurse = 999;
 gameStart();
 
 alarm[0] = 1;
+
 </string>
           </argument>
         </arguments>
@@ -266,6 +274,7 @@ alarm[0] = 1;
                     equip[0] = array_height_2d(itemList) - 5;
                 } else {
                     equip[0]--;
+                    verifyEquip(); 
                 }
                 break;
             }
@@ -275,6 +284,7 @@ alarm[0] = 1;
                     equip[0] = 0;
                 } else {
                     equip[0]++;
+                    verifyEquip(); 
                 }
                 break;
             }
@@ -358,9 +368,17 @@ alarm[0] = 1;
                 savegame_load();
                 break;
             }
-        case vk_backspace:
+       /* case vk_backspace:
             {
                 game_restart();
+                break;
+            }*/
+        case vk_backspace: {
+                runCurse(); 
+                break; 
+            }
+            case ord("L"): {
+                unlockAll(); 
                 break;
             }
 
@@ -372,7 +390,27 @@ if (!canSwing) {
         if (manager.ballHit) {
             swingArc += equip[2] * .85;
         } else {
-            swingArc += equip[2];
+            if (swingCharge &gt; manager.swingChargeMax/3) {
+                if (manager.batSlugBat) 
+                {
+                    swingArc += equip[2];
+                }
+                else 
+                {
+                    swingArc += equip[2] * 1.25;
+                }
+            }
+            else {
+                if (manager.batSlugBat) 
+                {
+                    swingArc += equip[2] *.75;
+                }
+                else 
+                {
+                    swingArc += equip[2];
+                }
+                
+            }
         }
     } else {
         swingArc = 0;
@@ -407,6 +445,10 @@ if (ballSpeed &gt; maxBallSpeed) {
     ballSpeed = maxBallSpeed;
 }
 
+//Bird Spawner
+
+
+
 //Touch Controls
 
 //IF IN GAME 
@@ -417,7 +459,7 @@ if device_mouse_check_button(0, mb_left) &amp;&amp; point_in_rectangle(mouse_x, 
     if (swingCharge &lt; swingChargeMax) {
         if (heatCount == 0) {
             if (swingArc == 0) {
-                swingCharge++;
+                swingCharge+= chargeCount;
             }
         }
     } else {

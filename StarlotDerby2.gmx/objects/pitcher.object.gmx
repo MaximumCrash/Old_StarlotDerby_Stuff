@@ -34,6 +34,32 @@ alarm[0] = 60;
         </arguments>
       </action>
     </event>
+    <event eventtype="2" enumb="1">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if (manager.birdCount &lt; manager.maxBirdCount) {
+instance_create(choose(-32,room_width+32), irandom_range(32,170),bird); 
+manager.birdCount++; 
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="2" enumb="0">
       <action>
         <libid>1</libid>
@@ -52,7 +78,12 @@ alarm[0] = 60;
           <argument>
             <kind>1</kind>
             <string>loadPitch();
-instance_create(x,y,ball); 
+instance_create(x,y,ball);
+
+//Load Bird
+if (random(5) &gt;= 3) {
+alarm[1] = irandom_range(30,120);
+} 
 
 </string>
           </argument>

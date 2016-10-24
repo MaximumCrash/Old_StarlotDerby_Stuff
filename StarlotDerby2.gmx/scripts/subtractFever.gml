@@ -11,10 +11,10 @@ var foul = argument0;
 if (manager.fever > 0) {
     if (foul) {
         manager.fever -= ceil(ceil(manager.maxFever * .3) * .25);
-        ds_list_add(manager.list, "Subtract Fever: " + string(ceil(ceil(manager.maxFever * .3) * .25)));
+        ds_list_add(manager.list, "Subtract Fever: " + string(abs(ceil(ceil(manager.maxFever * .3) * .25)-manager.feverSafety)));
     } else {
         manager.fever -= ceil(manager.maxFever * .3);
-        ds_list_add(manager.list, "Subtract Fever: " + string(ceil(manager.maxFever * .6)));
+        ds_list_add(manager.list, "Subtract Fever: " + string(abs(ceil(manager.maxFever * .6)-manager.feverSafety)));
     }
 
 }

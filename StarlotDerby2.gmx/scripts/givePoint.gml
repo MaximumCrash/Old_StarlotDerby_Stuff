@@ -9,7 +9,6 @@
  ***************************************************/
 pointsToGive = argument0; 
 manager.score += pointsToGive; 
-
 //READJUST DIFFICULTY
 setDifficulty(); 
 adjustDifficulty();

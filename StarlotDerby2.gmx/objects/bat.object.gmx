@@ -26,6 +26,11 @@
           <argument>
             <kind>1</kind>
             <string>tween_to(bat, 1, array("y",y-6,"patrol",ease_sineinout));
+
+if (manager.batLefty) {
+x = room_width-x; 
+image_xscale = -image_xscale; 
+}
 </string>
           </argument>
         </arguments>
@@ -48,7 +53,13 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>image_angle = manager.swingArc; 
+            <string>if (manager.batLefty) {
+image_angle = -manager.swingArc;
+}
+else {
+image_angle = manager.swingArc;
+}
+ 
 
 </string>
           </argument>

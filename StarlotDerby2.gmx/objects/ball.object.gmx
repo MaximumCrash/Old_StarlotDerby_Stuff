@@ -322,32 +322,6 @@ image_xscale = image_yscale + extraYscale;
         </arguments>
       </action>
     </event>
-    <event eventtype="4" ename="bird">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>if (manager.ballHit &amp;&amp; other.state!=2) {
-ds_list_add(manager.list, "BIRD HIT!");
-    other.state = 2; //Sets Bird State to Dead. 
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
     <event eventtype="4" ename="bat">
       <action>
         <libid>1</libid>
@@ -375,6 +349,37 @@ hitPositionX = x;
 hitPositionY = y; 
 batAngle = manager.swingArc;
 alarm[3] = 1;
+
+if (manager.batShapeShift) {
+if (percent_chance(irandom_range(25,80))) {
+//Cha
+}
+}
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="4" ename="bird">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if (manager.ballHit &amp;&amp; other.state!=2) {
+    other.state = 2; //Sets Bird State to Dead. 
 }
 </string>
           </argument>

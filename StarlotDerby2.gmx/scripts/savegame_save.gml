@@ -27,8 +27,15 @@ list[| 17] = manager.player[2];
 list[| 18] = manager.player[3];
 list[| 19] = manager.gifts;
 
+var postUnlockCount = 20;
+
+for (var b=0; b<array_height_2d(manager.unlocked); b++) {
+    list[| 20+b] = manger.unlocked[b];
+    postUnlockCount++;
+}
+
 for (var i=0; i<ds_list_size(manager.gems); i++) {
-  list[| 20+i] = manager.gems[| i];
+    list[| postUnlockCount+i] = manager.gems[| i];
 }
 
 // file save and encryption
