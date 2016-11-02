@@ -36,12 +36,14 @@ if (foul) {
     } else {
         subtractFever(true);
     }
-
+    
+    screenShake(2,-2); 
     //Lower Difficulty by 11.5%
     manager.difficulty -= manager.difficultySubtract * .25;
     adjustDifficulty(); 
     manager.dirMulti = 1;
 } else {
+     
     if (manager.lastDirection == dir) {
         if (manager.dirMulti < manager.dirMultiMax) {
             manager.dirMulti++;
@@ -50,7 +52,8 @@ if (foul) {
         manager.lastDirection = dir;
         manager.dirMulti = 1;
     }
-
+    
+    
     addFever();
     givePoint(floor((manager.swingCharge / (manager.swingChargeMax / 3) + 1) * manager.dirMulti));
 }

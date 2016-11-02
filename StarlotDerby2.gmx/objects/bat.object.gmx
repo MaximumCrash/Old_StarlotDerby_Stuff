@@ -25,7 +25,12 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>tween_to(bat, 1, array("y",y-6,"patrol",ease_sineinout));
+            <string>if (singleton()) {
+    exit;
+}
+
+
+tween_to(bat, 1, array("y",y-6,"patrol",ease_sineinout));
 
 if (manager.batLefty) {
 x = room_width-x; 

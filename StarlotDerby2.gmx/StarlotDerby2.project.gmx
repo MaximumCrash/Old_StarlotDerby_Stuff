@@ -561,6 +561,9 @@
         <script>scripts\runCurse.gml</script>
         <script>scripts\reverseCurse.gml</script>
         <script>scripts\initFever.gml</script>
+        <script>scripts\shakeReset.gml</script>
+        <script>scripts\screenShake.gml</script>
+        <script>scripts\runQuake.gml</script>
         <script>scripts\addFever.gml</script>
         <script>scripts\subtractFever.gml</script>
       </scripts>
@@ -568,6 +571,7 @@
         <script>scripts\mvcPlay.gml</script>
         <script>scripts\mvcPause.gml</script>
         <script>scripts\mvcRewind.gml</script>
+        <script>scripts\sleep_hack.gml</script>
         <script>scripts\mvcFastForward.gml</script>
       </scripts>
     </scripts>
@@ -590,6 +594,7 @@
       <object>objects\obj_dialogue</object>
     </objects>
     <objects name="ASTHETIC">
+      <object>objects\screenFX</object>
       <object>objects\ballExtra</object>
     </objects>
     <objects name="MANAGERS">

@@ -34,6 +34,8 @@
 }
 
 trail_init();
+
+parentBall = 0;
 </string>
           </argument>
         </arguments>

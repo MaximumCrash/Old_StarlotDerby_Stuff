@@ -106,15 +106,14 @@ xpRequired = 0;
 currentLevel = getLevel();
 
 //XP TO NEXT LEVEL = xpRequired - player[0];
-
 //Object Variables
 
 //*******BATS
 batShapeShift = false; //Curse
-batOverHeat = true; //Curse
+batOverHeat = false; //Curse
 batRiskyBusiness = false; //Curse
 batSlugBat = false; //Curse
-batLefty = true; //Curse
+batLefty = false; //Curse
 currentBat = equip[0]; 
 //MVC
 canSwing = true;
@@ -132,7 +131,7 @@ birdDeadPath = birdDead;
 
 //********PITCHER 
 pitcherSeeingDouble = false; //Curse
-pitcherUltraMan = false; //Curse
+pitcherUltraMan = true; //Curse
 
 //*******BALL
 ballMaxSpeed = false; //Curse
@@ -157,12 +156,16 @@ futureChance = 0; //Curse
 snipeChance = 0; //Curse
 foggyWindows = false; //Curse
 earthquake = false; //Curse
+shake0 = 0;
+shake1 = 0; 
+earthquakeRunning = false; 
 wavy = false; //Curse
 wizKid = false; //Curse
 multiplier = 1; //Curse
 
 //Game Info
 gameState = 0; //0 = Loading, 1 = Menus, 2 = In Game, 3 = Game Over, 4 = Paused
+inGameState = 0; //0 = Batting, 1 = Pitching, 2 = Fever Mode, 3 = Ballistic
 strikes = 0;
 score = 0;
 lastPitch = "";
@@ -211,6 +214,28 @@ alarm[0] = 1;
         </arguments>
       </action>
     </event>
+    <event eventtype="2" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string></string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="3" enumb="0">
       <action>
         <libid>1</libid>
@@ -232,6 +257,7 @@ alarm[0] = 1;
     switch (keyboard_key) {
         case vk_down:
             {
+                shake0--; 
                 offset = max(offset - 1, 0);
                 doffset = max(doffset - 1, 0);
                 if (tempGem == 0) {
@@ -252,6 +278,7 @@ alarm[0] = 1;
             }
         case vk_up:
             {
+                shake0 ++; 
                 offset = min(offset + 1, (ds_list_size(list) - min(ds_list_size(list), length)));
                 doffset = min(doffset + 1, (ds_list_size(savelist) - min(ds_list_size(savelist), length)));
                 if (tempGem == array_height_2d(gemList) - 1) {
@@ -336,7 +363,7 @@ alarm[0] = 1;
             }
         case ord("5"):
             {
-                debugType = 4;
+                runQuake(); 
                 break;
             }
         case ord("R"):

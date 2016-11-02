@@ -45,7 +45,11 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//Initialize display scaling
+            <string>if (singleton()) {
+    exit;
+}
+
+//Initialize display scaling
 edgeds_init_scale(0);
 </string>
           </argument>

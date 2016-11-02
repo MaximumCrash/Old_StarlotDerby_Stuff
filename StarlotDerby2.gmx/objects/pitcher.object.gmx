@@ -25,10 +25,46 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//Initalize Pitcher
+            <string>if (singleton()) {
+    exit;
+}
+
+//Initalize Pitcher
 pitch = queuePitch();
 nextPitch = queuePitch();
-alarm[0] = 60;
+pitchAnimationFrame = 0; 
+image_index = pitchAnimationFrame; 
+image_speed = 0; 
+currentState = 0; //0 - Ready, 1 - Wind Up, 2 - Wait, 3 - Pitch, 4 - StandBy
+windWaitTime =5;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="2">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>//Ultra Pitcher Curse Handling
+
+if (manager.pitcherUltraMan) 
+{
+    
+}
 </string>
           </argument>
         </arguments>
@@ -77,14 +113,119 @@ manager.birdCount++;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>loadPitch();
-instance_create(x,y,ball);
+            <string></string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>image_index = pitchAnimationFrame;
 
-//Load Bird
-if (random(5) &gt;= 3) {
-alarm[1] = irandom_range(30,120);
-} 
+switch (currentState) {
+    case 0: { //Ready
+        ds_list_add(manager.list, "...Pitcher READY");
+        currentState = 1; 
+        pitchAnimationFrame = 0;
+        windWaitTime = 5; 
+        break;
+    }
+    
+    case 1: { //Wind Up
+    ds_list_add(manager.list, "...Pitcher WIND UP");
+        if (pitchAnimationFrame &lt; 120) 
+        {
+            pitchAnimationFrame++;
+        }
+        else {
+            currentState = 2; 
+        }
+        break;
+    }
+    
+    case 2: { //Wait/Extra
+    ds_list_add(manager.list, "...Pitcher WAIT/EXTRA");
+        if (windWaitTime &gt; 0) {
+            windWaitTime--;
+        }
+        else {
+            currentState = 3; 
+        }
+        break;
+    }
+    
+    case 3: { //Pitch
+        ds_list_add(manager.list, "...Pitcher PITCH");
+        if (pitchAnimationFrame &lt; 60) {
+            pitchAnimationFrame += releaseSpeed;
+        }
+        else {
+            loadPitch();
 
+            instance_create(x,y,ball);
+            currentState = 4;
+            //Load Bird
+            if (random(5) &gt;= 3) 
+            {
+                alarm[1] = irandom_range(30,120);
+            } 
+        }
+            break;
+    }
+    
+    default: { //Standby
+        ds_list_add(manager.list, "...Pitcher STAND BY");
+            if (instance_number(ball) &lt;= 0) 
+            {
+                currentState = 0;
+            }
+        break;
+    }
+
+}
+
+
+
+
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>draw_self(); 
 </string>
           </argument>
         </arguments>
