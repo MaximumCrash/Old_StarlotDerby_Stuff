@@ -25,14 +25,14 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>manager.ballhHit = false;
+            <string>///Variable Initialization
 trail_init();
 currentPath = 0;
-path_start(pitcher.pitch[0, currentPath], manager.ballSpeed, path_action_continue, 1);
-
+path_start(pitcher.pitch[currentPath], manager.ballSpeed, path_action_continue, 1);
 
 timer = 0;
 hue = 0;
+tailLength = 32; 
 
 trickCount = 0;
 trick = trickPitch(3); //Takes in Max Number of Tricks (Curently 3)
@@ -42,7 +42,7 @@ hardTimer = irandom_range(10, 30); //Between 0.1 seconds and 0.5 seconds.
 
 maxY = 1000;
 extraYscale = 0;
-baseScale = 0.2;
+baseScale = 0.1;
 lastY = 0;
 currentY = 0;
 image_xscale = 0;
@@ -58,10 +58,13 @@ exitPositionX = 0;
 exitPositionY = 0;
 currentDistance = 0;
 exitDistance = 1;
-
+exitSpeed = 0; 
 initialBatAngle = 105;
-
-
+closedTail = true; 
+tailColor = manager.cYellow;
+drawTail = true; 
+tailShiftHue = false; 
+hueUp = true; 
 //Runs Earthquake 16% Chance
 if (manager.earthquake) 
 {
@@ -73,6 +76,12 @@ if (manager.earthquake)
         }
     } 
 }
+
+if (manager.ballGhost) 
+{
+    tailLength = 15; 
+}
+
 
 </string>
           </argument>
@@ -99,9 +108,10 @@ if (manager.earthquake)
             <string>if (!ballHit) {
     addStrike();
 }
-with(ballExtra) {
+
+/*with(ballExtra) {
     instance_destroy();
-}
+}*/
 
 pitcher.alarm[0] = 5; //Tell the Pitcher to make a new Ball. 
 trail_destroy();
@@ -128,21 +138,31 @@ manager.ballHit = false;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//After Collision this Script is Run. 
+            <string>///Exit Ball Scripts Direction
+//After Collision this Script is Run. 
 //Depending on the Angle of the Bat the ball will fly to 
 //predetermined points outside of the screen. 
 
-if (batAngle &gt; 0 &amp;&amp; batAngle &lt; (initialBatAngle + (30 * 1))) { //RIGHT FOUL
+if (batAngle &gt; 0 &amp;&amp; batAngle &lt; (initialBatAngle + (30 * 1))) 
+{ //RIGHT FOUL
+    drawTail = false; 
     exitBall(528, 272, true, 0);
-} else if (batAngle &gt;= (initialBatAngle + (30 * 1)) &amp;&amp; batAngle &lt; (initialBatAngle + (30 * 2))) { //RIGHT FIELD
+} else if (batAngle &gt;= (initialBatAngle + (30 * 1)) &amp;&amp; batAngle &lt; (initialBatAngle + (30 * 2))) 
+{ //RIGHT FIELD
     exitBall(room_width, -112, false, 1);
-} else if (batAngle &gt;= (initialBatAngle + (30 * 2)) &amp;&amp; batAngle &lt; (initialBatAngle + (30 * 3))) { //CENTER FIELD
+} else if (batAngle &gt;= (initialBatAngle + (30 * 2)) &amp;&amp; batAngle &lt; (initialBatAngle + (30 * 3))) 
+{ //CENTER FIELD
     exitBall(room_width / 2, -112, false, 2);
-} else if (batAngle &gt;= (initialBatAngle + (30 * 3)) &amp;&amp; batAngle &lt; (initialBatAngle + (30 * 4))) { //LEFT FIELD
+} else if (batAngle &gt;= (initialBatAngle + (30 * 3)) &amp;&amp; batAngle &lt; (initialBatAngle + (30 * 4))) 
+{ //LEFT FIELD
     exitBall(0, -112, false, 3);
-} else if (batAngle &gt;= (initialBatAngle + (30 * 4)) &amp;&amp; batAngle &lt; (initialBatAngle + (30 * 5))) { //LEFT FOUL
+} else if (batAngle &gt;= (initialBatAngle + (30 * 4)) &amp;&amp; batAngle &lt; (initialBatAngle + (30 * 5))) 
+{ //LEFT FOUL
+    drawTail = false;
     exitBall(-153, 272, true, 4);
-} else if (batAngle &gt;= (initialBatAngle + (30 * 5)) &amp;&amp; batAngle &lt;= 360) { //LEFT FOUL
+} else if (batAngle &gt;= (initialBatAngle + (30 * 5)) &amp;&amp; batAngle &lt;= 360) 
+{ //LEFT FOUL
+    drawTail = false;
     exitBall(-153, 272, true, 4);
 }
 </string>
@@ -170,6 +190,8 @@ if (batAngle &gt; 0 &amp;&amp; batAngle &lt; (initialBatAngle + (30 * 1))) { //R
             <string>//Create Fancy Spinning EXTRAs
 ballEX0 = instance_create(x, y, ballExtra); 
 ballEX1 = instance_create(x, y, ballExtra); 
+ballEX2 = instance_create(x, y, ballExtra); 
+ballEX3 = instance_create(x, y, ballExtra); 
 
 
 
@@ -279,11 +301,28 @@ switch (trick) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>trail_calculate(32);
-
+            <string>if (drawTail) 
+{
+    trail_calculate(tailLength);
+}
+image_angle+= manager.ballSpeed*3;
 //This is for FEVER Balls Only
-if (hue &lt; 255) {
-    hue += 2;
+if (hueUp) {
+    hue += 5; 
+    if (hue &gt;= 255) {
+        hueUp = false;
+    }
+}
+else {
+hue-=5; 
+if (hue &lt;= 0) {
+        hueUp = true;
+    }
+}
+
+if (tailShiftHue) 
+{
+    tailColor = make_colour_hsv(hue, 255, 255);
 }
 
 //Runs a Trick depending on a couple of Parameters. 
@@ -324,17 +363,43 @@ if (path_position &gt; trickPosition &amp;&amp; !trickRun) {
 
 //Handles the Size of the Ball depending on it's distance.
 //Creates a fake (Ball coming towards the screen effect. 
-if (currentY &lt; y &amp;&amp; currentY &lt; maxY &amp;&amp; !manager.ballHit) {
+if (currentY &lt; y &amp;&amp; currentY &lt; maxY &amp;&amp; !ballHit) {
     currentY = y;
     image_yscale = (currentY / maxY) + baseScale + extraYscale;
-} else if (manager.ballHit) {
+    
+    if (manager.ballGhost) 
+    {
+        image_alpha =0.55 - (currentY / maxY);
+    }
+    
+} else if (ballHit) {
+    image_alpha = 1; 
+    image_angle+= manager.ballSpeed *5; 
     currentDistance = point_distance(x, y, exitPositionX, exitPositionY);
     image_yscale = (currentDistance / exitDistance) + baseScale + extraYscale;
+    
+    if (instance_number(ballExtra) &gt; 0) {
+    if (currentDistance/exitDistance &lt;= .55 &amp;&amp; !ballExtra.moveToBat &amp;&amp; ballHit) {
+       ballExtra.moveToBat = true; 
+    }
+}
 }
 if (image_yscale &gt; 1) {
     image_yscale = 1;
 }
-image_xscale = image_yscale + extraYscale;
+image_xscale = image_yscale;
+
+if (extraYscale &gt; 0) {
+extraYscale-= 0.05; 
+}
+
+
+//Directional Steering
+if (ballHit) {
+//direction += median(-0.75, 0.75, (1-0.1) * angle_difference(point_direction(x,y,exitPositionX, exitPositionY),direction)); 
+//motion_add(direction, 0);  
+}
+
 </string>
           </argument>
         </arguments>
@@ -357,7 +422,8 @@ image_xscale = image_yscale + extraYscale;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//We have collided with the Bat. 
+            <string>///Collision Response
+//We have collided with the Bat. 
 //Stop everything and EXIT the Ball. 
 if (!ballHit) {
 ballHit = true;
@@ -366,8 +432,12 @@ path_speed = 0;
 hitPositionX = x; 
 hitPositionY = y; 
 batAngle = manager.swingArc;
-
+exitSpeed = (manager.ballSpeed*.35) + (manager.equip[1] * (manager.swingCharge / manager.swingChargeMax + 0.25)) + (manager.ballSpeed * 1.25);
+//exitDistance = point_distance(hitPositionX, hitPositionY, exitPositionX, exitPositionY);
+//extraYscale = 0.1; 
 alarm[3] = 1;
+bat.xScaleExtra += 0.1;
+extraYscale += 0.05; 
 
 if (manager.batShapeShift) {
 if (percent_chance(irandom_range(25,80))) {
@@ -491,9 +561,22 @@ alarm[0] = 40;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_trail_ext((sprite_width+6),manager.cYellow,-1,true,1);
-draw_circle_colour(x,y,sprite_width*.59,manager.cYellow,manager.cYellow,false);
+            <string>draw_set_color(c_black);
+draw_set_alpha(0.75);
+draw_circle(x, y +25,sprite_width/2,false);
+draw_set_color(c_white);
+draw_set_alpha(1);
+
+if (drawTail) 
+{
+   draw_trail_ext((sprite_width+6),tailColor,-1,closedTail,image_alpha);
+}
+if (!manager.ballGhost) 
+{
+    draw_circle_colour(x,y,sprite_width*.59,manager.cYellow,manager.cYellow,false);
+}
 draw_self();
+
 
 </string>
           </argument>

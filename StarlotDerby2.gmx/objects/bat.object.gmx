@@ -29,13 +29,14 @@
     exit;
 }
 
-
 tween_to(bat, 1, array("y",y-6,"patrol",ease_sineinout));
 
 if (manager.batLefty) {
 x = room_width-x; 
 image_xscale = -image_xscale; 
 }
+
+xScaleExtra = 0; 
 </string>
           </argument>
         </arguments>
@@ -64,6 +65,21 @@ image_angle = -manager.swingArc;
 else {
 image_angle = manager.swingArc;
 }
+
+if (xScaleExtra &gt; 0) 
+{
+    if (manager.batLefty) 
+    {
+        image_xscale = -(1+xScaleExtra);
+    }
+    else 
+    {
+        image_xscale = 1+xScaleExtra;
+    }  
+     
+    image_yscale = image_xscale;
+    xScaleExtra-= 0.02; 
+}
  
 
 </string>
@@ -88,7 +104,17 @@ image_angle = manager.swingArc;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_self();
+            <string>if (manager.heatCount &gt; 0) 
+{
+    draw_sprite_ext(sprite_index, image_index, x, y,image_xscale,image_yscale+(manager.heatCount/manager.swingChargeMax)*.75, image_angle, c_red, 1);
+}
+else if (manager.swingCharge &gt; 0) 
+{
+    draw_sprite_ext(sprite_index, image_index, x, y,image_xscale,image_yscale+(manager.swingCharge/manager.swingChargeMax)*.75, image_angle, c_red, 1);
+}
+
+draw_sprite_ext(sprite_index, image_index, x, y+25,image_xscale, image_yscale-.6 , image_angle, c_black, 0.75);
+draw_self();
 
 </string>
           </argument>

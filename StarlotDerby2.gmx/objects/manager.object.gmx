@@ -33,7 +33,7 @@
 display_reset(4, false);
 
 //Compile Info
-debug = true;
+debug = false;
 debugType = 0;
 offset = 0;
 doffset = 0;
@@ -131,7 +131,7 @@ birdDeadPath = birdDead;
 
 //********PITCHER 
 pitcherSeeingDouble = false; //Curse
-pitcherUltraMan = true; //Curse
+pitcherUltraMan = false; //Curse
 
 //*******BALL
 ballMaxSpeed = false; //Curse
@@ -178,6 +178,12 @@ fever = 0;
 maxFever = 3;
 maxBirdCount = 6;
 birdCount = 0; 
+
+//Fever
+feverDifficulty = 0; 
+feverDifMax = 4; 
+
+tailSurf = surface_create(room_width, room_height); 
 
 //Temporary Variables
 lastBuiltCurse = 999;
@@ -307,12 +313,13 @@ alarm[0] = 1;
             }
         case vk_right:
             {
-                if (equip[0] == array_height_2d(itemList) - 5) {
+                /*if (equip[0] == array_height_2d(itemList) - 5) {
                     equip[0] = 0;
                 } else {
                     equip[0]++;
                     verifyEquip(); 
-                }
+                }*/
+                bat.xScaleExtra += 0.3;
                 break;
             }
         case vk_space:
@@ -504,6 +511,10 @@ if device_mouse_check_button_released(0, mb_left) &amp;&amp; point_in_rectangle(
 
     }
 }
+
+if (wizKid) {
+feverDifficulty = feverDifMax;  
+}
 </string>
           </argument>
         </arguments>
@@ -594,6 +605,11 @@ if device_mouse_check_button_released(0, mb_left) &amp;&amp; point_in_rectangle(
 }
 draw_text(view_wview[0] / 2, view_hview[0] / 2, score);
 draw_set_color(c_black);
+
+for (a = 0; a &lt; array_length_1d(pitcher.pitch); a++) 
+{
+    draw_path(pitcher.nextPitch[a],pitcher.x,pitcher.y, true); 
+}
 </string>
           </argument>
         </arguments>

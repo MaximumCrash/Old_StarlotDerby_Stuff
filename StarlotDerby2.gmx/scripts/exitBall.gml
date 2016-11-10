@@ -53,10 +53,34 @@ if (foul) {
         manager.dirMulti = 1;
     }
     
-    
     addFever();
-    givePoint(floor((manager.swingCharge / (manager.swingChargeMax / 3) + 1) * manager.dirMulti));
-}
+    givePoint(floor((manager.swingCharge / (manager.swingChargeMax / 3) + 1) * (manager.dirMulti + manager.multiplier)));
+    
+    if (floor((manager.swingCharge / (manager.swingChargeMax / 3) + 1) < 2)) {
+        drawTail = false; 
+    }
+    else if (floor((manager.swingCharge / (manager.swingChargeMax / 3) + 1) > 2)) {
+        tailShiftHue = true; 
+        sleep_hack(500);
+    }
 
+}
+exitPositionX = exitA;
+exitPositionY = exitB; 
 exitDistance = point_distance(hitPositionX, hitPositionY, exitA, exitB);
+
+//Steering 
+//direction = 90;
+//motion_set(direction, exitSpeed); 
+
+
+if (manager.snipeChance > 0) {
+if (random(manager.snipeChance) >= manager.snipeChance - 1) {
+    nearestBirdX = instance_nearest(exitA,exitB,bird).x;
+    nearestBirdY = instance_nearest(exitA,exitB,bird).y;
+    move_towards_point(nearestBirdX,nearestBirdY,(manager.equip[1] * (manager.swingCharge / manager.swingChargeMax + 0.25)) + (manager.ballSpeed * 1.25)); 
+}
+}
+else {
 move_towards_point(exitA, exitB, (manager.equip[1] * (manager.swingCharge / manager.swingChargeMax + 0.25)) + (manager.ballSpeed * 1.25));
+}

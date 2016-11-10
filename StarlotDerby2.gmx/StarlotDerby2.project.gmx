@@ -133,6 +133,7 @@
     <extension index="5">extensions\tweenline</extension>
     <extension index="6">extensions\Advanced Dialogue Box</extension>
     <extension index="7">extensions\Draw Trail</extension>
+    <extension index="8">extensions\Draw Sprite Shadow</extension>
   </NewExtensions>
   <sounds name="sound"/>
   <sprites name="sprites">
@@ -575,6 +576,10 @@
         <script>scripts\mvcFastForward.gml</script>
       </scripts>
     </scripts>
+    <script>scripts\draw_sprite_ext_shadow.gml</script>
+    <script>scripts\draw_sprite_shadow.gml</script>
+    <script>scripts\draw_shadow.gml</script>
+    <script>scripts\draw_shadow_ext.gml</script>
   </scripts>
   <shaders name="shaders">
     <shader type="GLSLES">shaders\shader0.shader</shader>
@@ -594,6 +599,7 @@
       <object>objects\obj_dialogue</object>
     </objects>
     <objects name="ASTHETIC">
+      <object>objects\futureProbe</object>
       <object>objects\screenFX</object>
       <object>objects\ballExtra</object>
     </objects>
@@ -614,8 +620,8 @@
       <room>rooms\menuTest</room>
       <room>rooms\backendTest</room>
       <room>rooms\feverTest</room>
-      <room>rooms\r_test</room>
       <room>rooms\dialogtesting</room>
+      <room>rooms\r_test</room>
     </rooms>
   </rooms>
   <help>

@@ -4,7 +4,7 @@
   <solid>0</solid>
   <visible>-1</visible>
   <depth>3</depth>
-  <persistent>0</persistent>
+  <persistent>-1</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
@@ -25,17 +25,50 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (instance_number(ballExtra) &lt; 2) {
+            <string>///Variable Initialization
+/*if (instance_number(ballExtra) &lt; 2) {
+    
+} else {
+    
+}*/
+
+switch ( instance_number(ballExtra)) {
+    case 1: {
     orbit_angle = 30;
     orbit_radius = 32;
-} else {
+    break;
+    }
+    
+    case 2: {
     orbit_angle = 210;
     orbit_radius = 32;
+    break;
+    }
+    
+    case 3: {
+    orbit_angle = 150;
+    orbit_radius = 32;
+    break;
+    }
+    
+    case 4: {
+    orbit_angle = 330;
+    orbit_radius = 32;
+    break;
+    }
+
 }
 
 trail_init();
 
 parentBall = 0;
+destroy = false; 
+moveToBat = false;
+
+direction = 90;
+motion_set(direction, 10); 
+
+size = 1; 
 </string>
           </argument>
         </arguments>
@@ -58,7 +91,35 @@ parentBall = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>trail_destroy(); 
+            <string>///Trail Cleanup
+trail_destroy(); 
+
+if (destroy) {
+bat.xScaleExtra += 0.2;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>instance_destroy(); 
 </string>
           </argument>
         </arguments>
@@ -81,7 +142,11 @@ parentBall = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>trail_calculate(12);
+            <string>///Trail PreCalculation
+if (!destroy) 
+{
+    trail_calculate(12*size);
+}
 </string>
           </argument>
         </arguments>
@@ -104,16 +169,91 @@ parentBall = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>orbit_speed = 600 / room_speed;
-orbit_angle += orbit_speed;
-x = ball.x + orbit_radius * cos(orbit_angle * pi / 180);
-y = (ball.y - 10) - orbit_radius * sin(orbit_angle * pi / 180);
-
-if (y &lt; ball.y - 20) {
-    depth = ball.depth-1;
-} else {
-    depth = ball.depth+1;
+            <string>///Orbit Code
+if (moveToBat) 
+{
+    //move_towards_point(bat.x,bat.y,10);
+    direction += median(-5, 5, (1-0.5) * angle_difference(point_direction(x,y,bat.x-25, bat.y),direction)); 
+    motion_add(direction, 0);  
+    
+    if (x &lt;= bat.x - 10 || x &gt;= bat.x + 10) 
+    {
+        if (y &lt;= bat.x - 10 || y &gt;= bat.y + 10) 
+        {
+            destroy = true; 
+            if (image_yscale &gt; 0) 
+            {
+                image_yscale -= 0.05; 
+            }
+            else 
+            {
+                instance_destroy();
+            }
+        }
+    }
 }
+else 
+{
+    orbit_speed = 600 / room_speed;
+    orbit_angle += orbit_speed;
+    
+    if (instance_number(ball) &gt; 0) 
+    {
+        if (ball.drawTail) {
+        x = ball.x + orbit_radius * cos(orbit_angle * pi / 180);
+        y = (ball.y - 10) - orbit_radius * sin(orbit_angle * pi / 180);
+
+        if (y &lt; ball.y - 20) 
+        {
+            depth = ball.depth-1;
+        } 
+        else 
+        {
+             depth = ball.depth+1;
+        }
+        
+        direction = point_direction(x,y,xprevious, yprevious); 
+        }
+    }
+    else 
+    {
+        if (destroy) 
+        {
+            motion_set(direction, manager.ballSpeed);    
+        }
+        else {
+            if (size &gt; 0) 
+            {
+                size-= 0.1; 
+            }
+        }
+    }
+    
+}
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>alarm[0] = 40; 
 </string>
           </argument>
         </arguments>
@@ -136,10 +276,17 @@ if (y &lt; ball.y - 20) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>image_yscale = ball.image_yscale;
+            <string>///Draw Trail and Particle
+if (!destroy) {
+if (instance_number(ball) &gt; 0) 
+{
+image_yscale = ball.image_yscale;
+}
 draw_trail_ext(9*image_yscale,manager.cBlue,-1,true,1);
-draw_set_color(manager.csRed); 
-draw_circle(x, y, 4*image_yscale, false); 
+}
+
+draw_set_color(manager.cBlue); 
+draw_circle(x, y, (4*image_yscale)*size, false); 
 
 
 

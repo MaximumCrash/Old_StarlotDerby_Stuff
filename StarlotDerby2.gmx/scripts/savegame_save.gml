@@ -30,7 +30,7 @@ list[| 19] = manager.gifts;
 var postUnlockCount = 20;
 
 for (var b=0; b<array_height_2d(manager.unlocked); b++) {
-    list[| 20+b] = manger.unlocked[b];
+    list[| 20+b] = manager.unlocked[b];
     postUnlockCount++;
 }
 

@@ -33,10 +33,13 @@
 pitch = queuePitch();
 nextPitch = queuePitch();
 pitchAnimationFrame = 0; 
+pitchAnimationMax = 120; 
+releaseSpeed = 1; 
 image_index = pitchAnimationFrame; 
 image_speed = 0; 
 currentState = 0; //0 - Ready, 1 - Wind Up, 2 - Wait, 3 - Pitch, 4 - StandBy
 windWaitTime =5;
+
 </string>
           </argument>
         </arguments>
@@ -113,7 +116,22 @@ manager.birdCount++;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string></string>
+            <string>//Initialize State if Pitcher is Ready
+if (manager.pitcherUltraMan) {
+currentState = 1; 
+pitchAnimationFrame = 0;
+pitchAnimationMax = irandom_range(60,10); 
+releaseSpeed = choose(1,0.5,0.25); 
+windWaitTime = 1; 
+}
+else {
+currentState = 1; 
+pitchAnimationFrame = 0;
+pitchAnimationMax = 120;
+windWaitTime = 5; 
+}
+
+</string>
           </argument>
         </arguments>
       </action>
@@ -140,15 +158,13 @@ manager.birdCount++;
 switch (currentState) {
     case 0: { //Ready
         ds_list_add(manager.list, "...Pitcher READY");
-        currentState = 1; 
-        pitchAnimationFrame = 0;
-        windWaitTime = 5; 
+        alarm[0] = 1;
         break;
     }
     
     case 1: { //Wind Up
     ds_list_add(manager.list, "...Pitcher WIND UP");
-        if (pitchAnimationFrame &lt; 120) 
+        if (pitchAnimationFrame &lt; pitchAnimationMax) 
         {
             pitchAnimationFrame++;
         }
@@ -190,7 +206,7 @@ switch (currentState) {
     
     default: { //Standby
         ds_list_add(manager.list, "...Pitcher STAND BY");
-            if (instance_number(ball) &lt;= 0) 
+            if (instance_number(ball) &lt;= 0 ) 
             {
                 currentState = 0;
             }
