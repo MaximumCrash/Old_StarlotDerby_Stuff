@@ -34,7 +34,7 @@ moveSpeed = 4; //Speed to hop ahead.
 stopTime = random_range(100,180);
 hopMaximum = irandom_range(5, 3); 
 hopCount = 0; 
-//currentPath = choose(birdPath,birdPathR); 
+currentPath = choose(birdPath,birdPathR); 
 if (x &gt; room_width) {
 currentPath = birdPathR;
 }
@@ -71,7 +71,8 @@ path_start(currentPath,0,path_action_reverse,false);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (!dead) {
+            <string>///Death Alarm
+if (!dead) {
 dead = true;
 finalScale = image_yscale;
 
@@ -125,8 +126,8 @@ switch (type) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//Hop Up
-path_speed = moveSpeed; 
+            <string>///Hop Up
+moveSpeed = 4; 
 hopCount = 0; 
 image_speed = 0.25; 
 turnDir = 0; 
@@ -172,14 +173,14 @@ if (state != 2 &amp;&amp; state != 1)
     {
         if (image_xscale &gt; -1) 
         {
-            image_xscale = smooth_approach(image_xscale, -image_xscale, 0.25); 
+            image_xscale -= 0.25 * mvc.timeMulti; 
         }
     }
     else if (turnDir == 2) 
     {
         if (image_xscale &lt; 1) 
         {
-            image_xscale = smooth_approach(image_xscale, -image_xscale, 0.25); 
+            image_xscale += 0.25 * mvc.timeMulti; 
         }
     }
 }
@@ -200,7 +201,7 @@ if (state == 2)
         image_angle -= 16; 
     }
     
-    path_speed = smooth_approach(path_speed, moveSpeed + 5, 0.5); 
+    path_speed += 0.5 * mvc.timeMulti; 
 }
 //Handles the Size of the Bird depending on it's distance.
 //Creates a fake (Ball coming towards the screen effect. 
@@ -208,7 +209,7 @@ if (state == 2)
 {
     image_yscale = 1;
     moveSpeed += 0.5;
-    path_speed = moveSpeed; 
+    path_speed = moveSpeed * mvc.timeMulti;; 
     image_xscale = 1;
 }
 else 
@@ -230,6 +231,7 @@ else
     image_xscale = smooth_approach(image_xscale,-(image_yscale + extraYscale),0.25);
 }
 
+path_speed =  moveSpeed * mvc.timeMulti;
 </string>
           </argument>
         </arguments>
@@ -259,6 +261,10 @@ else {
 moveSpeed = -moveSpeed;
 } 
 
+
+if (state == 2) {
+instance_destroy(); 
+}
  
 </string>
           </argument>
@@ -288,7 +294,7 @@ if (hopCount = hopMaximum &amp;&amp; state != 2)
 {
     image_speed = 0; 
     image_index = 0; 
-    path_speed = 0;
+    moveSpeed = 0;
     state = 1; 
     alarm[0] = stopTime;
     alarm[1] = 5; 

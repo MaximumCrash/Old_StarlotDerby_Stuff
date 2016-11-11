@@ -303,12 +303,13 @@ alarm[0] = 1;
             }
         case vk_left:
             {
-                if (equip[0] == 0) {
+                /*if (equip[0] == 0) {
                     equip[0] = array_height_2d(itemList) - 5;
                 } else {
                     equip[0]--;
                     verifyEquip(); 
-                }
+                }*/
+                screenFX.zoomFactor -= 0.1; 
                 break;
             }
         case vk_right:
@@ -319,7 +320,8 @@ alarm[0] = 1;
                     equip[0]++;
                     verifyEquip(); 
                 }*/
-                bat.xScaleExtra += 0.3;
+                //bat.xScaleExtra += 0.3;
+                screenFX.zoomFactor += 0.1;
                 break;
             }
         case vk_space:
@@ -422,26 +424,26 @@ alarm[0] = 1;
 if (!canSwing) {
     if (swingArc &lt; 360) {
         if (manager.ballHit) {
-            swingArc += equip[2] * .85;
+            swingArc += (equip[2] * .85)*mvc.timeMulti;
         } else {
             if (swingCharge &gt; manager.swingChargeMax/3) {
                 if (manager.batSlugBat) 
                 {
-                    swingArc += equip[2];
+                    swingArc += equip[2]*mvc.timeMulti;
                 }
                 else 
                 {
-                    swingArc += equip[2] * 1.25;
+                    swingArc += (equip[2] * 1.25)*mvc.timeMulti;
                 }
             }
             else {
                 if (manager.batSlugBat) 
                 {
-                    swingArc += equip[2] *.75;
+                    swingArc += (equip[2] *.75)*mvc.timeMulti;
                 }
                 else 
                 {
-                    swingArc += equip[2];
+                    swingArc += equip[2]*mvc.timeMulti;
                 }
                 
             }
@@ -467,7 +469,7 @@ if os_is_paused() {
 //Over heat subtractor.
 if (heatCount &gt; 0) {
     swingCharge = 0;
-    heatCount -= 1;
+    heatCount -= 1*mvc.timeMulti;
 }
 
 if (difficulty &lt; 3) {
@@ -493,7 +495,7 @@ if device_mouse_check_button(0, mb_left) &amp;&amp; point_in_rectangle(mouse_x, 
     if (swingCharge &lt; swingChargeMax) {
         if (heatCount == 0) {
             if (swingArc == 0) {
-                swingCharge+= chargeCount;
+                swingCharge+= (chargeCount*mvc.timeMulti);
             }
         }
     } else {
@@ -515,6 +517,11 @@ if device_mouse_check_button_released(0, mb_left) &amp;&amp; point_in_rectangle(
 if (wizKid) {
 feverDifficulty = feverDifMax;  
 }
+
+if (shake1 &gt;0) {
+shake1 -= 0.3*mvc.timeMulti ;
+}
+
 </string>
           </argument>
         </arguments>
@@ -588,7 +595,7 @@ feverDifficulty = feverDifMax;
                 break;
             }
         case 4:
-            {
+            { 
                 draw_text(view_xview[0] + padding, (view_yview[0] + view_hview[0] - (view_hview[0] * 0.25)) + padding, "Stat 0: " + string(stats[0]) + " Stat 1: " + string(stats[1]));
                 draw_text(view_xview[0] + padding, (view_yview[0] + view_hview[0] - (view_hview[0] * 0.25)) + padding + lineHeight, "Stat 2: " + string(stats[2]) + " Stat 3: " + string(stats[3]));
                 draw_text(view_xview[0] + padding, (view_yview[0] + view_hview[0] - (view_hview[0] * 0.25)) + padding + (lineHeight * 2), "Stat 4: " + string(stats[4]) + " Stat 5: " + string(stats[5]));
@@ -608,7 +615,7 @@ draw_set_color(c_black);
 
 for (a = 0; a &lt; array_length_1d(pitcher.pitch); a++) 
 {
-    draw_path(pitcher.nextPitch[a],pitcher.x,pitcher.y, true); 
+ //   draw_path(pitcher.nextPitch[a],pitcher.x,pitcher.y, true); 
 }
 </string>
           </argument>

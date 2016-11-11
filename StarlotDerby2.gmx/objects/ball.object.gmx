@@ -32,7 +32,7 @@ path_start(pitcher.pitch[currentPath], manager.ballSpeed, path_action_continue, 
 
 timer = 0;
 hue = 0;
-tailLength = 32; 
+tailLength = 25; 
 
 trickCount = 0;
 trick = trickPitch(3); //Takes in Max Number of Tricks (Curently 3)
@@ -305,16 +305,16 @@ switch (trick) {
 {
     trail_calculate(tailLength);
 }
-image_angle+= manager.ballSpeed*3;
+image_angle+= (manager.ballSpeed*3) *mvc.timeMulti;
 //This is for FEVER Balls Only
 if (hueUp) {
-    hue += 5; 
+    hue += (5*mvc.timeMulti); 
     if (hue &gt;= 255) {
         hueUp = false;
     }
 }
 else {
-hue-=5; 
+hue-= (5*mvc.timeMulti); 
 if (hue &lt;= 0) {
         hueUp = true;
     }
@@ -342,7 +342,7 @@ if (path_position &gt; trickPosition &amp;&amp; !trickRun) {
                 case 2:
                     {
                         if (manager.ballSpeed &lt; 13) {
-                            path_speed = manager.ballSpeed * random_range(1.5, 2.25);
+                            path_speed = (manager.ballSpeed * random_range(1.5, 2.25))*mvc.timeMulti;
                             alarm[1] = hardTimer;
                         }
                         break;
@@ -351,7 +351,7 @@ if (path_position &gt; trickPosition &amp;&amp; !trickRun) {
                 case 3:
                     {
                         if (manager.ballSpeed &gt; 10) {
-                            path_speed = manager.ballSpeed * random_range(.1, .25);
+                            path_speed = (manager.ballSpeed * random_range(.1, .25))*mvc.timeMulti;
                             alarm[1] = hardTimer;
                         }
                         break;
@@ -374,7 +374,7 @@ if (currentY &lt; y &amp;&amp; currentY &lt; maxY &amp;&amp; !ballHit) {
     
 } else if (ballHit) {
     image_alpha = 1; 
-    image_angle+= manager.ballSpeed *5; 
+    image_angle+= (manager.ballSpeed *5) *mvc.timeMulti; 
     currentDistance = point_distance(x, y, exitPositionX, exitPositionY);
     image_yscale = (currentDistance / exitDistance) + baseScale + extraYscale;
     
@@ -390,7 +390,7 @@ if (image_yscale &gt; 1) {
 image_xscale = image_yscale;
 
 if (extraYscale &gt; 0) {
-extraYscale-= 0.05; 
+extraYscale-= (0.05 *mvc.timeMulti); 
 }
 
 
@@ -400,6 +400,22 @@ if (ballHit) {
 //motion_add(direction, 0);  
 }
 
+path_speed = manager.ballSpeed * mvc.timeMulti;
+speed = mvc.timeMulti * ((manager.equip[1] * (manager.swingCharge / manager.swingChargeMax + 0.25)) + (manager.ballSpeed * 1.25))
+
+if (ballHit) {
+if (instance_number(bird) &gt; 0) {
+inst = instance_nearest(x,y,bird); 
+
+if (sqrt(power(inst.x-x,2)+power(inst.y-y,2)) &lt;= 80) {
+mvc.currentState = speedState.slowmo;
+}    
+else 
+{
+mvc.currentState = speedState.normal;
+}
+}
+}
 </string>
           </argument>
         </arguments>

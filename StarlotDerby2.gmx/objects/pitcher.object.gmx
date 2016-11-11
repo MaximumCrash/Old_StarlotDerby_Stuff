@@ -45,34 +45,6 @@ windWaitTime =5;
         </arguments>
       </action>
     </event>
-    <event eventtype="2" enumb="2">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>//Ultra Pitcher Curse Handling
-
-if (manager.pitcherUltraMan) 
-{
-    
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
     <event eventtype="2" enumb="1">
       <action>
         <libid>1</libid>
@@ -91,7 +63,7 @@ if (manager.pitcherUltraMan)
           <argument>
             <kind>1</kind>
             <string>if (manager.birdCount &lt; manager.maxBirdCount) {
-instance_create(choose(-32,room_width+32), irandom_range(32,170),bird); 
+instance_create(choose(-32,room_width+32), irandom_range(32,120),bird); 
 manager.birdCount++; 
 }
 </string>
@@ -166,7 +138,7 @@ switch (currentState) {
     ds_list_add(manager.list, "...Pitcher WIND UP");
         if (pitchAnimationFrame &lt; pitchAnimationMax) 
         {
-            pitchAnimationFrame++;
+            pitchAnimationFrame+= 1 * mvc.timeMulti;
         }
         else {
             currentState = 2; 
@@ -177,7 +149,7 @@ switch (currentState) {
     case 2: { //Wait/Extra
     ds_list_add(manager.list, "...Pitcher WAIT/EXTRA");
         if (windWaitTime &gt; 0) {
-            windWaitTime--;
+            windWaitTime-= 1*mvc.timeMulti;
         }
         else {
             currentState = 3; 
@@ -188,7 +160,7 @@ switch (currentState) {
     case 3: { //Pitch
         ds_list_add(manager.list, "...Pitcher PITCH");
         if (pitchAnimationFrame &lt; 60) {
-            pitchAnimationFrame += releaseSpeed;
+            pitchAnimationFrame += releaseSpeed*mvc.timeMulti;
         }
         else {
             loadPitch();

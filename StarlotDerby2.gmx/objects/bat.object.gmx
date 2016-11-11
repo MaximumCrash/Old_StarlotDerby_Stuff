@@ -29,7 +29,7 @@
     exit;
 }
 
-tween_to(bat, 1, array("y",y-6,"patrol",ease_sineinout));
+tween_to(bat, 2, array("y",y-6,"patrol",ease_sineinout));
 
 if (manager.batLefty) {
 x = room_width-x; 
@@ -78,7 +78,7 @@ if (xScaleExtra &gt; 0)
     }  
      
     image_yscale = image_xscale;
-    xScaleExtra-= 0.02; 
+    xScaleExtra-= 0.02*mvc.timeMulti; 
 }
  
 

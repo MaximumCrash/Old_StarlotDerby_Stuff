@@ -56,6 +56,11 @@ switch ( instance_number(ballExtra)) {
     orbit_radius = 32;
     break;
     }
+    
+    case 5: {
+    orbit_angle = 90;
+    orbit_radius = 32;
+    }
 
 }
 
@@ -68,7 +73,7 @@ moveToBat = false;
 direction = 90;
 motion_set(direction, 10); 
 
-size = 1; 
+size = 1.75; 
 </string>
           </argument>
         </arguments>
@@ -173,7 +178,7 @@ if (!destroy)
 if (moveToBat) 
 {
     //move_towards_point(bat.x,bat.y,10);
-    direction += median(-5, 5, (1-0.5) * angle_difference(point_direction(x,y,bat.x-25, bat.y),direction)); 
+    direction += (median(-5, 5, (1-0.5) * angle_difference(point_direction(x,y,bat.x-25, bat.y),direction)))* mvc.timeMulti; 
     motion_add(direction, 0);  
     
     if (x &lt;= bat.x - 10 || x &gt;= bat.x + 10) 
@@ -183,7 +188,7 @@ if (moveToBat)
             destroy = true; 
             if (image_yscale &gt; 0) 
             {
-                image_yscale -= 0.05; 
+                image_yscale -= 0.05* mvc.timeMulti; 
             }
             else 
             {
@@ -195,7 +200,7 @@ if (moveToBat)
 else 
 {
     orbit_speed = 600 / room_speed;
-    orbit_angle += orbit_speed;
+    orbit_angle += orbit_speed * mvc.timeMulti;
     
     if (instance_number(ball) &gt; 0) 
     {
@@ -224,7 +229,7 @@ else
         else {
             if (size &gt; 0) 
             {
-                size-= 0.1; 
+                size-= 0.1 * mvc.timeMulti; 
             }
         }
     }

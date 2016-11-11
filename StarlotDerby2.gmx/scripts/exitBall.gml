@@ -37,7 +37,7 @@ if (foul) {
         subtractFever(true);
     }
     
-    screenShake(2,-2); 
+     
     //Lower Difficulty by 11.5%
     manager.difficulty -= manager.difficultySubtract * .25;
     adjustDifficulty(); 
@@ -52,7 +52,7 @@ if (foul) {
         manager.lastDirection = dir;
         manager.dirMulti = 1;
     }
-    
+    manager.shake1 += 14; 
     addFever();
     givePoint(floor((manager.swingCharge / (manager.swingChargeMax / 3) + 1) * (manager.dirMulti + manager.multiplier)));
     
@@ -61,7 +61,8 @@ if (foul) {
     }
     else if (floor((manager.swingCharge / (manager.swingChargeMax / 3) + 1) > 2)) {
         tailShiftHue = true; 
-        sleep_hack(500);
+        screenFX.flash = true; 
+       
     }
 
 }
