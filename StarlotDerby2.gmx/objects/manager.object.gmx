@@ -615,7 +615,7 @@ draw_set_color(c_black);
 
 for (a = 0; a &lt; array_length_1d(pitcher.pitch); a++) 
 {
- //   draw_path(pitcher.nextPitch[a],pitcher.x,pitcher.y, true); 
+    draw_path(pitcher.nextPitch[a],pitcher.x,pitcher.y, true); 
 }
 </string>
           </argument>

@@ -73,6 +73,7 @@ path_start(currentPath,0,path_action_reverse,false);
             <kind>1</kind>
             <string>///Death Alarm
 if (!dead) {
+
 dead = true;
 finalScale = image_yscale;
 

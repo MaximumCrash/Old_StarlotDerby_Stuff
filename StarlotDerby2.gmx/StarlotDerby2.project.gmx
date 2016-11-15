@@ -141,11 +141,13 @@
       <sprite>sprites\spr_scaler</sprite>
     </sprites>
     <sprite>sprites\sprBall</sprite>
+    <sprite>sprites\fakeProbe</sprite>
     <sprite>sprites\sprBat</sprite>
     <sprite>sprites\spr_ex</sprite>
     <sprite>sprites\spr_portrait</sprite>
     <sprite>sprites\spr_zigzag</sprite>
     <sprite>sprites\birdTest</sprite>
+    <sprite>sprites\sOverlay</sprite>
     <sprite>sprites\sprite6</sprite>
   </sprites>
   <backgrounds name="background">

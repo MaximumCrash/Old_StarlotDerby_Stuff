@@ -36,7 +36,7 @@ quakeCycleMax = 4;
 quakeTimeMax = 60; 
 
 flash = false;
-flashTimer = 5;
+flashTimer = 3;
 
 zoomFactor = 1;  
 </string>
@@ -144,7 +144,12 @@ if (!manager.earthquakeRunning) {
 }
 
 if (flashTimer &lt;= 0 &amp;&amp; !flash) {
-    flashTimer = 5; 
+    flashTimer = 3; 
+}
+
+if (flashTimer &lt;= 0) {
+    flash = false;
+    flashTimer = 0; 
 }
 
 if (zoomFactor &gt; 1) {

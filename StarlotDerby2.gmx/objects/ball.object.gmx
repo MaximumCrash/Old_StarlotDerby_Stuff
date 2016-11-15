@@ -407,7 +407,7 @@ if (ballHit) {
 if (instance_number(bird) &gt; 0) {
 inst = instance_nearest(x,y,bird); 
 
-if (sqrt(power(inst.x-x,2)+power(inst.y-y,2)) &lt;= 80) {
+if (sqrt(power(inst.x-x,2)+power(inst.y-y,2)) &lt;= 70) {
 mvc.currentState = speedState.slowmo;
 }    
 else 
@@ -485,9 +485,9 @@ if (percent_chance(irandom_range(25,80))) {
             <kind>1</kind>
             <string>if (ballHit &amp;&amp; other.state!=2) {
 //*****Make other(aka Bird) sprite into Dead hit sprite and then switch state. 
-sleep_hack(300);
+    sleep_hack(300);
     other.state = 2; //Sets Bird State to Dead. 
-    
+   
 }
 </string>
           </argument>
@@ -519,7 +519,7 @@ instance_destroy();
 //Start our New Path! 
 if (currentPath &lt; 2 &amp;&amp; !manager.ballHit) {
 currentPath++;
-path_start(pitcher.pitch[0,currentPath], manager.ballSpeed, path_action_continue,true);
+path_start(pitcher.pitch[currentPath], manager.ballSpeed, path_action_continue,true);
 trickRun = false; 
 if (currentPath == 2) {
 trickPosition = random_range(0.1,0.5); 
