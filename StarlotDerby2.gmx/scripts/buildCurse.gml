@@ -30,18 +30,23 @@ manager.multiplier = 1;
 manager.lastBuiltCurse = 999;
 
 
-for (var g = 3; g < array_length_1d(manager.equip); g++) {
-    if (equip[g] < 999) {
+for (var g = 3; g < array_length_1d(manager.equip); g++) 
+{
+    if (equip[g] < 999) 
+    {
 
         tempCurseArray = string_split(gemList[equip[g], 5], "/");
 
-        for (var c = 0; c < array_length_1d(tempCurseArray); c++) {
+        for (var c = 0; c < array_length_1d(tempCurseArray); c++) 
+        {
             tempCheckArray = string_split(tempCurseArray[c], "~");
 
-            if (array_length_1d(tempCheckArray) > 1) {
+            if (array_length_1d(tempCheckArray) > 1) 
+            {
 
                 //ITS A POWER 
-                switch (tempCheckArray[0]) {
+                switch (tempCheckArray[0]) 
+                {
                     case "16":
                         {
                             manager.powerCurseExtra += real(tempCheckArray[1]);
@@ -68,20 +73,28 @@ for (var g = 3; g < array_length_1d(manager.equip); g++) {
                             break;
                         }
                 }
-            } else {
-                if (real(tempCheckArray[0]) == curseCount - 2) {
+            } 
+            else 
+            {
+                if (real(tempCheckArray[0]) == curseCount - 2) 
+                {
                     tempCheckArray[0] = irandom_range(0, curseCount - 3);
-                    if (manager.lastBuiltCurse != 999) {
-                        if (tempCheckArray[0] == manager.lastBuiltCurse) {
+                    if (manager.lastBuiltCurse != 999) 
+                    {
+                        if (tempCheckArray[0] == manager.lastBuiltCurse) 
+                        {
                             tempCheckArray[0] = irandom_range(0, curseCount - 3);
                         }
-                    } else {
+                    } 
+                    else 
+                    {
                         lastBuiltCurse = tempCheckArray[0];
                     }
                     ds_list_add(manager.list, string(tempCheckArray[0]));
                 }
                 //ITS A CURSE  
-                switch (string(tempCheckArray[0])) {
+                switch (string(tempCheckArray[0])) 
+                {
                     case "0":
                         {
                             batShapeShift = true;
@@ -175,6 +188,5 @@ for (var g = 3; g < array_length_1d(manager.equip); g++) {
                 }
             }
         }
-
     }
 }

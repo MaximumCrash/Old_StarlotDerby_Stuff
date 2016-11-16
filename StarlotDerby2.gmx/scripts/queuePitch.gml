@@ -34,40 +34,53 @@ var pitchArray, pitchType;
 //Depending on Difficulty Parameters setup the next pitch.
 dirString = "";
 finalDir = "";
-if (percent_chance(50)) {
+if (percent_chance(50)) 
+{
     //Left Or RIght
     dirString = "R";
     finalDir = "R";
 }
 
-if (manager.pitchRange < 0) {
+if (manager.pitchRange < 0) 
+{
     manager.pitchRange = 0;
-} else if (manager.pitchRange > array_height_2d(manager.pitchList) - 1) {
+} 
+else if (manager.pitchRange > array_height_2d(manager.pitchList) - 1) 
+{
     manager.pitchRange = array_height_2d(manager.pitchList) - 1;
 }
 
-if (manager.difficulty < 3) {
-
+if (manager.difficulty < 3) 
+{
     pitchType = irandom_range(0, manager.pitchRange); // <- Difficulty Pitch Mod Goes Here 
-    if (manager.lastPitch = "") {
+    if (manager.lastPitch = "") 
+    {
         pitchType = irandom_range(0, manager.pitchRange); // <- Difficulty Pitch Mod Goes Here 
-    } else if (manager.lastPitch = pitchType) {
+    } 
+    else if (manager.lastPitch = pitchType) 
+    {
         pitchType = irandom_range(0, manager.pitchRange); // <- Difficulty Pitch Mod Goes Here 
     }
 }
 
 
-for (i = 0; i < 3; i++) {
-    if (manager.difficulty >= 3 && manager.difficulty < 3.5) {
-        if (i < 2) {
+for (i = 0; i < 3; i++) 
+{
+    if (manager.difficulty >= 3 && manager.difficulty < 3.5) 
+    {
+        if (i < 2) 
+        {
             pitchType = irandom_range(0, manager.pitchRange); // <- Difficulty Pitch Mod Goes Here 
         }
-    } else if (manager.difficulty >= 3.5) {
+    } 
+    else if (manager.difficulty >= 3.5) 
+    {
         pitchType = irandom_range(0, manager.pitchRange); // <- Difficulty Pitch Mod Goes Here 
     }
 
     dirString = finalDir;
-    if (pitchType == 0) { //Path is Straight no need for "R"
+    if (pitchType == 0) 
+    { //Path is Straight no need for "R"
         dirString = "";
     }
 
@@ -78,11 +91,14 @@ pitchArray[0] = asset_get_index("start" + pitchString[0]); //START
 pitchArray[1] = asset_get_index("mid" + pitchString[1]); //MID
 pitchArray[2] = asset_get_index("end" + pitchString[2]); //END
 
-if (pitchString[0] == "Warp") {
+if (pitchString[0] == "Warp") 
+{
     pitchArray[1] = asset_get_index("endWarp");
     pitchArray[2] = asset_get_index("endWarp");
 
-} else if (pitchString[0] == "WarpR") {
+} 
+else if (pitchString[0] == "WarpR") 
+{
     pitchArray[1] = asset_get_index("endWarpR");
     pitchArray[2] = asset_get_index("endWarpR");
 }

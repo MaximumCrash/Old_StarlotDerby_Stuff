@@ -25,7 +25,8 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>turnDir = 0; //False = Right, True = Left
+            <string>///Variable Initialization
+turnDir = 0; //False = Right, True = Left
 lastX = x; //We use this to check if we're turning left or right. 
 currentY = y; 
 maxY = currentY + 198; 
@@ -41,7 +42,7 @@ currentPath = birdPathR;
 else {
 currentPath = birdPath; 
 }
-path_start(currentPath,0,path_action_reverse,false);
+//path_start(currentPath,0,path_action_reverse,false);
  image_speed = 0.15;
  state = 0; //0 = Walking, 1 = Waiting, 2 = Dead
  dead = false;
@@ -80,7 +81,7 @@ finalScale = image_yscale;
 if (finalScale != 1 || finalScale != -1) {
     finalScale = 1; 
 } 
-
+image_xscale = finalScale; 
 if (manager.birdDeadPath == birdDead) {
 manager.birdDeadPath = birdDeadR; 
 }
@@ -128,11 +129,14 @@ switch (type) {
           <argument>
             <kind>1</kind>
             <string>///Hop Up
-moveSpeed = 4; 
-hopCount = 0; 
-image_speed = 0.25; 
-turnDir = 0; 
-state = 0; 
+if (state != 2) 
+{
+ moveSpeed = 4; 
+ hopCount = 0; 
+ image_speed = 0.25; 
+ turnDir = 0; 
+ state = 0; 
+}
 </string>
           </argument>
         </arguments>
@@ -155,7 +159,7 @@ state = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>
+            <string>///State &amp; Flip Handler 
 //Handles Flipping
 if (state != 2 &amp;&amp; state != 1)
 {
@@ -192,25 +196,18 @@ if (state == 2)
     alarm[2] = 1; 
     image_yscale = 1; 
     image_xscale = 1;
+    image_angle += 19;
     
-    if (manager.birdDeadPath == birdDeadR) 
-    {
-        image_angle += 16;  
-    }   
-    else if (manager.birdDeadPath == birdDead) 
-    {
-        image_angle -= 16; 
-    }
-    
-    path_speed += 0.5 * mvc.timeMulti; 
+    path_speed += moveSpeed * mvc.timeMulti; 
 }
 //Handles the Size of the Bird depending on it's distance.
 //Creates a fake (Ball coming towards the screen effect. 
 if (state == 2) 
 {
     image_yscale = 1;
-    moveSpeed += 0.5;
+    moveSpeed += .75;
     path_speed = moveSpeed * mvc.timeMulti;; 
+    image_angle += 5;
     image_xscale = 1;
 }
 else 
@@ -255,7 +252,8 @@ path_speed =  moveSpeed * mvc.timeMulti;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (currentPath == birdDead || currentPath == birdDeadR) {
+            <string>///Destroy @ end of Path
+if (currentPath == birdDead || currentPath == birdDeadR) {
 instance_destroy(); 
 }
 else {
@@ -289,7 +287,8 @@ instance_destroy();
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>hopCount++; 
+            <string>//Hop Animation Controller
+hopCount++; 
 
 if (hopCount = hopMaximum &amp;&amp; state != 2)
 {
@@ -307,6 +306,12 @@ if (hopCount = hopMaximum &amp;&amp; state != 2)
         flip = true; 
     }
     
+}
+
+if (state == 2) {
+   image_speed = 0; 
+   image_index = 0;
+   moveSpeed += 0.5 * mvc.timeMulti;
 }
 </string>
           </argument>

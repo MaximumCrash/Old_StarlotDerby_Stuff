@@ -25,7 +25,8 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (singleton()) {
+            <string>///Device and Compile Init
+if (singleton()) {
     exit;
 }
 
@@ -33,7 +34,7 @@
 display_reset(4, false);
 
 //Compile Info
-debug = false;
+debug = true;
 debugType = 0;
 offset = 0;
 doffset = 0;
@@ -43,7 +44,32 @@ savelist = ds_list_create();
 precision = 0;
 if (debug)
     ds_list_add(manager.list, "Initializing...");
+    padding = 20; 
+lineHeight =15;
 
+
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Library, Database, Save Data Initialization
 //*****************COLOR LIBRARY
 
 //Primary
@@ -57,8 +83,6 @@ csRed = make_colour_rgb(254, 76, 112);
 csBlue = make_colour_rgb(92, 132, 242);
 csYellow = make_colour_rgb(254, 190, 5);
 csBlack = make_colour_rgb(55, 60, 77);
-
-padding = 20; 
 
 //*********************DATABASE
 var itemList, gemList, fieldList, curseList, pitchList, dictionary, unlocked;
@@ -106,6 +130,27 @@ xpRequired = 0;
 currentLevel = getLevel();
 
 //XP TO NEXT LEVEL = xpRequired - player[0];
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Curse and Object MVC Initialization
 //Object Variables
 
 //*******BATS
@@ -162,6 +207,27 @@ earthquakeRunning = false;
 wavy = false; //Curse
 wizKid = false; //Curse
 multiplier = 1; //Curse
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Game Init
 
 //Game Info
 gameState = 0; //0 = Loading, 1 = Menus, 2 = In Game, 3 = Game Over, 4 = Paused
@@ -181,17 +247,16 @@ birdCount = 0;
 
 //Fever
 feverDifficulty = 0; 
-feverDifMax = 4; 
-
-tailSurf = surface_create(room_width, room_height); 
+feverDifMax = 4;
 
 //Temporary Variables
 lastBuiltCurse = 999;
 
+
+
 gameStart();
 
 alarm[0] = 1;
-
 </string>
           </argument>
         </arguments>
@@ -214,7 +279,8 @@ alarm[0] = 1;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>ds_list_destroy(list);
+            <string>///Garbage Handler
+ds_list_destroy(list);
 </string>
           </argument>
         </arguments>
@@ -259,7 +325,8 @@ alarm[0] = 1;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (keyboard_check_pressed(vk_anykey) == true) {
+            <string>///Debug Controls
+if (keyboard_check_pressed(vk_anykey) == true) {
     switch (keyboard_key) {
         case vk_down:
             {
@@ -421,6 +488,29 @@ alarm[0] = 1;
     }
 }
 
+
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Bat Swing Control
 if (!canSwing) {
     if (swingArc &lt; 360) {
         if (manager.ballHit) {
@@ -457,35 +547,56 @@ if (!canSwing) {
     swingArc = 0;
     canSwing = true;
 }
-
-//Difficulty Manager
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Difficulty Manager
 if (difficulty &lt; 0)
     difficulty = 0;
 
-if os_is_paused() {
-
-}
-
-//Over heat subtractor.
-if (heatCount &gt; 0) {
-    swingCharge = 0;
-    heatCount -= 1*mvc.timeMulti;
-}
-
-if (difficulty &lt; 3) {
+if (difficulty &lt; 3) 
+{
     //Lower Difficulty by 23% of Current Difficulty. 
     difficultySubtract = difficulty * .23;
 }
-
-if (ballSpeed &gt; maxBallSpeed) {
-    ballSpeed = maxBallSpeed;
-}
-
-//Bird Spawner
-
-
-
-//Touch Controls
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Touch Controls
 
 //IF IN GAME 
 
@@ -513,6 +624,44 @@ if device_mouse_check_button_released(0, mb_left) &amp;&amp; point_in_rectangle(
 
     }
 }
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Miscellaneous 
+//Over heat subtractor.
+if (heatCount &gt; 0) {
+    swingCharge = 0;
+    heatCount -= 1*mvc.timeMulti;
+}
+
+
+
+if (ballSpeed &gt; maxBallSpeed) {
+    ballSpeed = maxBallSpeed;
+}
+
+//Bird Spawner
+
+
+
+
 
 if (wizKid) {
 feverDifficulty = feverDifMax;  
@@ -521,7 +670,6 @@ feverDifficulty = feverDifMax;
 if (shake1 &gt;0) {
 shake1 -= 0.3*mvc.timeMulti ;
 }
-
 </string>
           </argument>
         </arguments>
@@ -548,7 +696,6 @@ shake1 -= 0.3*mvc.timeMulti ;
     draw_set_color(c_black);
     draw_set_alpha(0.5);
     draw_rectangle(view_xview[0], view_yview[0] + view_hview[0] - (view_hview[0] * 0.25), view_xview[0] + view_wview[0], view_yview[0] + view_hview[0], false);
-
     draw_set_alpha(1);
     draw_set_color(c_white);
     switch (debugType) {
@@ -615,7 +762,7 @@ draw_set_color(c_black);
 
 for (a = 0; a &lt; array_length_1d(pitcher.pitch); a++) 
 {
-    draw_path(pitcher.nextPitch[a],pitcher.x,pitcher.y, true); 
+  //  draw_path(pitcher.nextPitch[a],pitcher.x,pitcher.y, true); 
 }
 </string>
           </argument>

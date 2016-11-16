@@ -8,6 +8,7 @@
   -Subtracts our fever. 
  ***************************************************/
 manager.strikes++;
+manager.dirMulti = 1; 
 if (manager.strikes == 3) {
     gameOver();
     exit;

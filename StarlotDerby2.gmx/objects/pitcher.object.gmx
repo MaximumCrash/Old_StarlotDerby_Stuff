@@ -62,7 +62,8 @@ windWaitTime =5;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (manager.birdCount &lt; manager.maxBirdCount) {
+            <string>///Bird Spawner
+if (manager.birdCount &lt; manager.maxBirdCount) {
 instance_create(choose(-32,room_width+32), irandom_range(32,120),bird); 
 manager.birdCount++; 
 }
@@ -88,7 +89,7 @@ manager.birdCount++;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//Initialize State if Pitcher is Ready
+            <string>///Initialize State if Pitcher is Ready
 if (manager.pitcherUltraMan) {
 currentState = 1; 
 pitchAnimationFrame = 0;
@@ -103,6 +104,14 @@ pitchAnimationMax = 120;
 windWaitTime = 5; 
 }
 
+if (random(manager.futureChance) &gt;= manager.futureChance-1) 
+{
+//If we pass the futureChance test we will show the next path.
+
+
+}
+
+futureProbe.alarm[1] = 1; 
 </string>
           </argument>
         </arguments>
@@ -127,10 +136,13 @@ windWaitTime = 5;
             <kind>1</kind>
             <string>image_index = pitchAnimationFrame;
 
-switch (currentState) {
+switch (currentState) 
+{
     case 0: { //Ready
         ds_list_add(manager.list, "...Pitcher READY");
         alarm[0] = 1;
+        loadPitch();
+        futureProbe.alarm[1] = 1;
         break;
     }
     
@@ -140,7 +152,8 @@ switch (currentState) {
         {
             pitchAnimationFrame+= 1 * mvc.timeMulti;
         }
-        else {
+        else 
+        {
             currentState = 2; 
         }
         break;
@@ -148,10 +161,12 @@ switch (currentState) {
     
     case 2: { //Wait/Extra
     ds_list_add(manager.list, "...Pitcher WAIT/EXTRA");
-        if (windWaitTime &gt; 0) {
+        if (windWaitTime &gt; 0) 
+        {
             windWaitTime-= 1*mvc.timeMulti;
         }
-        else {
+        else 
+        {
             currentState = 3; 
         }
         break;
@@ -159,11 +174,12 @@ switch (currentState) {
     
     case 3: { //Pitch
         ds_list_add(manager.list, "...Pitcher PITCH");
-        if (pitchAnimationFrame &lt; 60) {
+        if (pitchAnimationFrame &lt; 60) 
+        {
             pitchAnimationFrame += releaseSpeed*mvc.timeMulti;
         }
         else {
-            loadPitch();
+            
 
             instance_create(x,y,ball);
             currentState = 4;
@@ -184,7 +200,6 @@ switch (currentState) {
             }
         break;
     }
-
 }
 
 
