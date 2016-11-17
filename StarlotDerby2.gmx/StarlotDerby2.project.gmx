@@ -154,6 +154,9 @@
     <background>background\background0</background>
   </backgrounds>
   <paths name="paths">
+    <paths name="Rebound Pitches">
+      <path>paths\reboundLeft</path>
+    </paths>
     <paths name="Right Handed Pitches">
       <paths name="start">
         <path>paths\startCurveR</path>

@@ -42,7 +42,7 @@ currentPath = birdPathR;
 else {
 currentPath = birdPath; 
 }
-//path_start(currentPath,0,path_action_reverse,false);
+path_start(currentPath,0,path_action_reverse,false);
  image_speed = 0.15;
  state = 0; //0 = Walking, 1 = Waiting, 2 = Dead
  dead = false;

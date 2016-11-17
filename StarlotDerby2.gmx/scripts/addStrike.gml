@@ -15,6 +15,6 @@ if (manager.strikes == 3) {
 }
 
 //Lower Difficulty by 23%
-manager.difficulty -= manager.difficultySubtract;
+manager.difficulty -= manager.difficulty * .23;
 adjustDifficulty();
 subtractFever(false);

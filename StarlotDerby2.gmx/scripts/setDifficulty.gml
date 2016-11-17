@@ -17,3 +17,4 @@ if (sudoLevel > 50) { //This makes sure our difficulty doesn't get STOOPID high.
 }
 
 manager.difficulty = logn(100 - sudoLevel, power(manager.score, 3));
+manager.difficultySubtract = manager.difficulty * .23; 

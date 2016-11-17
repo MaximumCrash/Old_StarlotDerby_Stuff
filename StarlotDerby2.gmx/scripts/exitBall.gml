@@ -53,12 +53,17 @@ if (foul) {
         manager.dirMulti = 1;
     }
     
+    
     addFever();
     givePoint(floor((manager.swingCharge / (manager.swingChargeMax / 3) + 1) * (manager.dirMulti + manager.multiplier)));
     manager.shake1 += 5; 
     if (floor((manager.swingCharge / (manager.swingChargeMax / 3) + 1) < 2)) {
         drawTail = false; 
         manager.shake1 += 7; 
+    }
+    else if (floor((manager.swingCharge / (manager.swingChargeMax / 3) + 1) == 2)) {
+         drawTail = true; 
+         manager.shake1 += 10.5; 
     }
     else if (floor((manager.swingCharge / (manager.swingChargeMax / 3) + 1) > 2)) {
         tailShiftHue = true; 

@@ -444,7 +444,8 @@ if (keyboard_check_pressed(vk_anykey) == true) {
             }
         case ord("R"):
             {
-                addRandomGems();
+                //addRandomGems();
+                room_restart(); 
                 break;
             }
         case ord("P"):
