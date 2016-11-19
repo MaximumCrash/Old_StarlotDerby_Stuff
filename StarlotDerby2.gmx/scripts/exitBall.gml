@@ -37,6 +37,12 @@ if (foul) {
         subtractFever(true);
     }
     
+    if (instance_number(ballExtra) > 0) {
+       with (ballExtra) 
+       {
+            instance_destroy(); 
+       }
+    }
      
     //Lower Difficulty by 11.5%
     manager.difficulty -= manager.difficultySubtract * .25;
@@ -44,33 +50,40 @@ if (foul) {
     manager.dirMulti = 1;
 } else {
      
-    if (manager.lastDirection == dir) {
+    
+    
+    
+    addFever();
+    givePoint(floor((manager.swingCharge / (manager.swingChargeMax / 3) + 1) * (manager.dirMulti + manager.multiplier)));
+    manager.shake1 += 5;
+    
+    switch (floor((manager.swingCharge / (manager.swingChargeMax / 3) + 1))) {
+           case 1: {
+           drawTail = false; 
+           manager.shake1 += 7; 
+           break;
+           }
+           case 2: {
+           drawTail = true; 
+            manager.shake1 += 10.5;
+           break;
+           }
+           case 3: {
+            tailShiftHue = true; 
+        screenFX.flash = true; 
+        manager.shake1 += 14; 
+        sleep_hack(200); 
+           break;
+           }
+    }
+     if (manager.lastDirection == dir) {
         if (manager.dirMulti < manager.dirMultiMax) {
-            manager.dirMulti++;
+            manager.dirMulti += 1;
         }
     } else {
         manager.lastDirection = dir;
         manager.dirMulti = 1;
     }
-    
-    
-    addFever();
-    givePoint(floor((manager.swingCharge / (manager.swingChargeMax / 3) + 1) * (manager.dirMulti + manager.multiplier)));
-    manager.shake1 += 5; 
-    if (floor((manager.swingCharge / (manager.swingChargeMax / 3) + 1) < 2)) {
-        drawTail = false; 
-        manager.shake1 += 7; 
-    }
-    else if (floor((manager.swingCharge / (manager.swingChargeMax / 3) + 1) == 2)) {
-         drawTail = true; 
-         manager.shake1 += 10.5; 
-    }
-    else if (floor((manager.swingCharge / (manager.swingChargeMax / 3) + 1) > 2)) {
-        tailShiftHue = true; 
-        screenFX.flash = true; 
-        manager.shake1 += 14; 
-    }
-
 }
 exitPositionX = exitA;
 exitPositionY = exitB; 

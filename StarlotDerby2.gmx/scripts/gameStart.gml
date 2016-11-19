@@ -22,6 +22,7 @@ manager.ballExitSpeed = 0;
 manager.ballState = 0;
 manager.score = 0;
 manager.difficulty = 0; 
+manager.multiplier = 0;
 manager.dirMulti = 1;
 manager.birdMulti = 1;
 manager.fever = 0;

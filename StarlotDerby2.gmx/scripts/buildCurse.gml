@@ -26,7 +26,7 @@ manager.foggyWindows = false;
 manager.earthquake = false;
 manager.wavy = false;
 manager.wizKid = false;
-manager.multiplier = 1;
+manager.multiplier = 0;
 manager.lastBuiltCurse = 999;
 
 

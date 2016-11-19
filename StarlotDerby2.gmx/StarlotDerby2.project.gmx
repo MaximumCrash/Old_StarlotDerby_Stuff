@@ -156,6 +156,8 @@
   <paths name="paths">
     <paths name="Rebound Pitches">
       <path>paths\reboundLeft</path>
+      <path>paths\reboundRight</path>
+      <path>paths\reboundCenter</path>
     </paths>
     <paths name="Right Handed Pitches">
       <paths name="start">

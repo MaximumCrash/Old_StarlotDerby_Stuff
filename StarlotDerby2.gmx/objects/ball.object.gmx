@@ -25,6 +25,35 @@
         <arguments>
           <argument>
             <kind>1</kind>
+            <string>///Chance Curse Handler
+//Runs Earthquake 16% Chance
+
+if (manager.ballGhost) 
+{
+    tailLength = 15; 
+}
+
+runCurse(); 
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
             <string>///Variable and Path Initialization
 trail_init();
 currentPath = 0;
@@ -75,35 +104,6 @@ currentRebound = 0;
           </argument>
         </arguments>
       </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>///Chance Curse Handler
-//Runs Earthquake 16% Chance
-
-if (manager.ballGhost) 
-{
-    tailLength = 15; 
-}
-
-runCurse(); 
-</string>
-          </argument>
-        </arguments>
-      </action>
     </event>
     <event eventtype="1" enumb="0">
       <action>
@@ -122,18 +122,15 @@ runCurse();
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Add Strike 
+            <string>///Add Strike, Destroy Trail
 if (!ballHit) {
     addStrike();
 }
 
-/*with(ballExtra) {
-    instance_destroy();
-}*/
-
 pitcher.alarm[0] = 5; //Tell the Pitcher to make a new Ball. 
 trail_destroy();
 manager.ballHit = false;
+mvc.currentState = speedState.normal;
 </string>
           </argument>
         </arguments>
@@ -168,16 +165,22 @@ if (batAngle &gt; 0 &amp;&amp; batAngle &lt; (initialBatAngle + (30 * 1)))
     exitBall(528, 272, foul, 0);
 } else if (batAngle &gt;= (initialBatAngle + (30 * 1)) &amp;&amp; batAngle &lt; (initialBatAngle + (30 * 2))) 
 { //RIGHT FIELD
-    foul = false; 
-    exitBall(room_width, -112, foul, 1);
+         foul = false; 
+         path_end();
+         exitBall(room_width, -112, foul, 1);
+    
 } else if (batAngle &gt;= (initialBatAngle + (30 * 2)) &amp;&amp; batAngle &lt; (initialBatAngle + (30 * 3))) 
 { //CENTER FIELD
-    foul = false;
-    exitBall(room_width / 2, -112, foul, 2);
+         foul = false;
+         path_end();
+         exitBall(room_width / 2, -112, foul, 2);
+    
 } else if (batAngle &gt;= (initialBatAngle + (30 * 3)) &amp;&amp; batAngle &lt; (initialBatAngle + (30 * 4))) 
 { //LEFT FIELD
-    foul = false; 
-    exitBall(0, -112, foul, 3);
+         foul = false; 
+         path_end();
+         exitBall(0, -112, foul, 3);
+    
 } else if (batAngle &gt;= (initialBatAngle + (30 * 4)) &amp;&amp; batAngle &lt; (initialBatAngle + (30 * 5))) 
 { //LEFT FOUL
     drawTail = false;
@@ -407,7 +410,7 @@ if (currentY &lt; y &amp;&amp; currentY &lt; maxY &amp;&amp; !ballHit) {
     if (currentDistance/exitDistance &lt;= .55 &amp;&amp; !ballExtra.moveToBat &amp;&amp; ballHit) {
        
        
-       if (!rebound &amp;&amp; !foul)  
+       if (!foul)  
        {
             ballExtra.moveToBat = true; 
        }
@@ -467,6 +470,20 @@ mvc.overrideChannel = 2;
 }    
 }
 }
+}
+}
+else if (manager.swingArc &gt; 0 &amp;&amp; manager.swingArc &lt; 225) {
+if (y &lt; bat.y +25) {
+inst2 = instance_nearest(x,y,bat); 
+
+if (sqrt(power(inst2.x-x,2)+power(inst2.y-y,2)) &lt;= 120) {
+if (manager.swingCharge &gt;= manager.swingChargeMax * .66) { 
+if (!ballHit) {
+mvc.currentState = speedState.slowmo;
+mvc.overrideChannel = 2;
+}
+}
+} 
 }
 }
 }
@@ -545,6 +562,7 @@ if (percent_chance(irandom_range(25,80))) {
     other.state = 2; //Sets Bird State to Dead. 
     ball.extraYscale += 0.5; 
     manager.shake1 += 5;
+
     birdHitCount++; 
 }
 </string>
