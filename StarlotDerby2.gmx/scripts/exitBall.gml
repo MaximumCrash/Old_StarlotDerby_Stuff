@@ -88,7 +88,7 @@ if (foul) {
 exitPositionX = exitA;
 exitPositionY = exitB; 
 exitDistance = point_distance(hitPositionX, hitPositionY, exitA, exitB);
-
+hitDistance = point_distance(x,y,hitPositionX, hitPositionY); 
 //Steering 
 //direction = 90;
 //motion_set(direction, exitSpeed); 
@@ -98,9 +98,9 @@ if (manager.snipeChance > 0) {
 if (random(manager.snipeChance) >= manager.snipeChance - 1) {
     nearestBirdX = instance_nearest(exitA,exitB,bird).x;
     nearestBirdY = instance_nearest(exitA,exitB,bird).y;
-    move_towards_point(nearestBirdX,nearestBirdY,(manager.equip[1] * (manager.swingCharge / manager.swingChargeMax + 0.25)) + (manager.ballSpeed * 1.25)); 
+    move_towards_point(nearestBirdX,nearestBirdY,(manager.equip[1] * abs(manager.swingCharge / manager.swingChargeMax + 0.25)) + (manager.ballSpeed * 2.5)); 
 }
 }
 else {
-move_towards_point(exitA, exitB, (manager.equip[1] * (manager.swingCharge / manager.swingChargeMax + 0.25)) + (manager.ballSpeed * 1.25));
+move_towards_point(exitA, exitB, (manager.equip[1] * abs(manager.swingCharge / manager.swingChargeMax + 0.25)) + (manager.ballSpeed * 2.5));
 }

@@ -68,7 +68,7 @@ trick = trickPitch(3); //Takes in Max Number of Tricks (Curently 3)
 trickRun = false;
 trickPosition = random_range(0.25, 0.9);
 hardTimer = irandom_range(10, 30); //Between 0.1 seconds and 0.5 seconds. 
-
+foul = false;
 maxY = 1000;
 extraYscale = 0;
 baseScale = 0.1;
@@ -83,6 +83,7 @@ goodHit = false;
 batAngle = 0;
 hitPositionX = 0;
 hitPositionY = 0;
+hitDistance = 0; 
 exitPositionX = 0;
 exitPositionY = 0;
 currentDistance = 0;
@@ -394,7 +395,7 @@ if (path_position &gt; trickPosition &amp;&amp; !trickRun) {
 if (currentY &lt; y &amp;&amp; currentY &lt; maxY &amp;&amp; !ballHit) {
     currentY = y;
     image_yscale = (currentY / maxY) + baseScale + extraYscale;
-    
+
     if (manager.ballGhost) 
     {
         image_alpha =0.55 - (currentY / maxY);
@@ -405,6 +406,7 @@ if (currentY &lt; y &amp;&amp; currentY &lt; maxY &amp;&amp; !ballHit) {
     image_angle+= (manager.ballSpeed *5) *mvc.timeMulti; 
     currentDistance = point_distance(x, y, exitPositionX, exitPositionY);
     image_yscale = (currentDistance / exitDistance) + baseScale + extraYscale;
+
     
     if (instance_number(ballExtra) &gt; 0) {
     if (currentDistance/exitDistance &lt;= .55 &amp;&amp; !ballExtra.moveToBat &amp;&amp; ballHit) {
@@ -431,8 +433,6 @@ extraYscale-= (0.08);
 if (ballHit) {
 //direction += median(-0.75, 0.75, (1-0.1) * angle_difference(point_direction(x,y,exitPositionX, exitPositionY),direction)); 
 //motion_add(direction, 0);  
-
-
 }
 
 path_speed = manager.ballSpeed * mvc.timeMulti;
@@ -441,7 +441,7 @@ speed = mvc.timeMulti * ((manager.equip[1] * (manager.swingCharge / manager.swin
 if (ballHit) {
 if (instance_number(bird) &gt; 0) {
 inst = instance_nearest(x,y,bird); 
-
+if (inst.state != 2) {
 if (sqrt(power(inst.x-x,2)+power(inst.y-y,2)) &lt;= 65) {
 mvc.currentState = speedState.slowmo;
 mvc.overrideChannel = 1; 
@@ -453,6 +453,7 @@ else
 mvc.currentState = speedState.normal;
 mvc.overrideChannel = 0; 
 //}
+}
 }
 }
 }
@@ -472,21 +473,10 @@ mvc.overrideChannel = 2;
 }
 }
 }
-else if (manager.swingArc &gt; 0 &amp;&amp; manager.swingArc &lt; 225) {
-if (y &lt; bat.y +25) {
-inst2 = instance_nearest(x,y,bat); 
 
-if (sqrt(power(inst2.x-x,2)+power(inst2.y-y,2)) &lt;= 120) {
-if (manager.swingCharge &gt;= manager.swingChargeMax * .66) { 
-if (!ballHit) {
-mvc.currentState = speedState.slowmo;
-mvc.overrideChannel = 2;
 }
-}
-} 
-}
-}
-}
+
+
 </string>
           </argument>
         </arguments>
@@ -659,13 +649,18 @@ draw_circle(x, y +25,sprite_width/2,false);
 draw_set_color(c_white);
 draw_set_alpha(1);
 
-if (drawTail) 
-{
-   draw_trail_ext((sprite_width+6),tailColor,-1,closedTail,image_alpha);
-}
 if (!manager.ballGhost) 
 {
+    if (drawTail) 
+    {
+       draw_trail_ext((sprite_width+6),tailColor,-1,closedTail,0.65);
+    }
+    
     draw_circle_colour(x,y,sprite_width*.59,manager.cYellow,manager.cYellow,false);
+}
+else 
+{
+    draw_trail_ext((sprite_width+6),tailColor,-1,closedTail,image_alpha);
 }
 draw_self();
 

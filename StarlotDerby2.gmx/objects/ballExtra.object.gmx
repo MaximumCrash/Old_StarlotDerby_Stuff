@@ -287,7 +287,7 @@ if (instance_number(ball) &gt; 0)
 {
 image_yscale = ball.image_yscale;
 }
-draw_trail_ext(9*image_yscale,manager.cBlue,-1,true,1);
+draw_trail_ext(9*image_yscale,manager.cBlue,-1,true,0.55);
 }
 
 draw_set_color(manager.cBlue); 
