@@ -47,10 +47,34 @@ path_start(currentPath,0,path_action_reverse,false);
  image_speed = 0.15;
  state = 0; //0 = Walking, 1 = Waiting, 2 = Dead
  dead = false;
- baseScale = 0.25;
+ baseScale = 0.35;
  extraYscale = 0;
  finalScale = image_yscale;
  flip = true; 
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="3">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Destroyer
+instance_destroy(); 
 </string>
           </argument>
         </arguments>
@@ -77,11 +101,8 @@ path_start(currentPath,0,path_action_reverse,false);
 if (!dead) {
 
 dead = true;
-finalScale = image_yscale;
+finalScale = 1.25;
 
-if (finalScale != 1 || finalScale != -1) {
-    finalScale = 1; 
-} 
 image_xscale = finalScale; 
 if (manager.birdDeadPath == birdDead) {
 manager.birdDeadPath = birdDeadR; 
@@ -92,20 +113,7 @@ manager.birdDeadPath = birdDead;
 
 path_start(manager.birdDeadPath, moveSpeed+2, path_action_stop, false); 
 
-switch (type) {
-    case 0: { //If Normal
-        givePoint(1 * manager.multiplier); 
-        break;
-    }
-    case 1: { //If Golden
-        givePoint(2 * manager.multiplier); 
-        break;
-    }
-    case 2: { //If Gem
-        givePoint(3 * manager.multiplier); 
-        break; 
-    }
-}
+
 }
 </string>
           </argument>
@@ -138,7 +146,10 @@ if (state != 2)
  turnDir = 0; 
  state = 0; 
  image_yscale = image_yscale * 1.5; 
-    image_xscale = image_xscale * .75; 
+ image_xscale = image_xscale * .75; 
+}
+else {
+image_xscale = 1; 
 }
 </string>
           </argument>
@@ -179,65 +190,63 @@ if (state != 2 &amp;&amp; state != 1)
 
     if (turnDir == 1) 
     {
-        if (image_xscale &gt; -1) 
-        {
-            image_xscale -= 0.25 * mvc.timeMulti; 
-        }
+        image_xscale = lerp(image_xscale, -1, 0.1* mvc.timeMulti); 
     }
     else if (turnDir == 2) 
     {
-        if (image_xscale &lt; 1) 
-        {
-            image_xscale += 0.25 * mvc.timeMulti; 
-        }
+        image_xscale = lerp(image_xscale, 1, 0.1 * mvc.timeMulti); 
     }
+    
+
+
 }
 
 if (state == 2) 
 {
     //Set Sprite to Dead.  
     alarm[2] = 1; 
-    image_yscale = 1; 
-    image_xscale = 1;
-    image_angle += 19;
-    
-    path_speed += moveSpeed * mvc.timeMulti; 
+    image_angle = lerp(image_angle, 1000, 0.04*mvc.timeMulti);  
+    path_speed = lerp(path_speed, moveSpeed,0.4* mvc.timeMulti); 
 }
 //Handles the Size of the Bird depending on it's distance.
 //Creates a fake (Ball coming towards the screen effect. 
 if (state == 2) 
 {
-    image_yscale = 1;
-    moveSpeed += .75;
-    path_speed = moveSpeed * mvc.timeMulti;; 
-    image_angle += 5;
-    image_xscale = 1;
+    finalScale = lerp(finalScale, 1, 0.4 * mvc.timeMulti); 
+    
+    image_yscale = finalScale;
+    moveSpeed = lerp(moveSpeed, 70, 0.1 * mvc.timeMulti);
+    image_xscale = finalScale;
 }
 else 
 {
     currentY = y;
-    image_yscale = lerp(image_yscale,(currentY / maxY) + baseScale + extraYscale,.25);
+    image_yscale = lerp(image_yscale,(currentY / maxY) + baseScale + extraYscale,.25 * mvc.timeMulti);
+
+    if (flip) 
+    {
+     image_xscale = lerp(image_xscale,image_yscale + extraYscale,0.25 * mvc.timeMulti);
+    }
+    else 
+    {
+     image_xscale = lerp(image_xscale,-(image_yscale + extraYscale),0.1 * mvc.timeMulti);
+    }
 }
 if (image_yscale &gt; 1) 
 {
     image_yscale=1;
 }
 
-if (flip) 
-{
-    image_xscale = lerp(image_xscale,image_yscale + extraYscale,0.25);
-}
-else 
-{
-    image_xscale = lerp(image_xscale,-(image_yscale + extraYscale),0.1);
-}
+
+
 
 if (reverse) 
 {
-path_speed =  -moveSpeed * mvc.timeMulti;
+ path_speed =  -moveSpeed * mvc.timeMulti;
 }
-else {
-path_speed =  moveSpeed * mvc.timeMulti;
+else 
+{
+ path_speed =  moveSpeed * mvc.timeMulti;
 }
 
 </string>
@@ -262,25 +271,18 @@ path_speed =  moveSpeed * mvc.timeMulti;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Destroy @ end of Path
-if (currentPath == birdDead || currentPath == birdDeadR) {
-instance_destroy(); 
-}
-else {
-if (reverse) {
-reverse = false;
-}
-else {
-reverse = true;
-}
-
-} 
+            <string>///Reverse @ end of Path
+ if (reverse) 
+ {
+  reverse = false;
+ }
+ else 
+ {
+  reverse = true;
+ }
 
 
-if (state == 2) {
-instance_destroy(); 
-}
- 
+
 </string>
           </argument>
         </arguments>
@@ -328,6 +330,58 @@ if (state == 2) {
    image_speed = 0; 
    image_index = 0;
    moveSpeed += 0.5 * mvc.timeMulti;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if (state == 2) {
+alarm[3] = 10; 
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>draw_self(); 
+if (manager.debug) 
+{
+    draw_circle(x,y, 55, true); 
 }
 </string>
           </argument>

@@ -6,14 +6,14 @@
   <hsnap>8</hsnap>
   <vsnap>8</vsnap>
   <points>
-    <point>184,48,100</point>
-    <point>128,88,100</point>
-    <point>72,120,100</point>
-    <point>-8,176,100</point>
-    <point>176,104,100</point>
-    <point>368,168,100</point>
-    <point>328,160,100</point>
-    <point>248,152,100</point>
-    <point>176,176,100</point>
+    <point>184,64,100</point>
+    <point>128,104,100</point>
+    <point>72,136,100</point>
+    <point>-8,192,100</point>
+    <point>176,120,100</point>
+    <point>368,184,100</point>
+    <point>328,176,100</point>
+    <point>248,168,100</point>
+    <point>176,192,100</point>
   </points>
 </path>

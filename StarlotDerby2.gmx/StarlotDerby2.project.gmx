@@ -134,6 +134,7 @@
     <extension index="6">extensions\Advanced Dialogue Box</extension>
     <extension index="7">extensions\Draw Trail</extension>
     <extension index="8">extensions\Draw Sprite Shadow</extension>
+    <extension index="9">extensions\Draw Circle Width</extension>
   </NewExtensions>
   <sounds name="sound"/>
   <sprites name="sprites">
@@ -148,6 +149,7 @@
     <sprite>sprites\spr_zigzag</sprite>
     <sprite>sprites\birdTest</sprite>
     <sprite>sprites\sOverlay</sprite>
+    <sprite>sprites\sprHitRing</sprite>
     <sprite>sprites\sprite6</sprite>
   </sprites>
   <backgrounds name="background">
@@ -252,9 +254,9 @@
     </paths>
     <paths name="Bird Path">
       <path>paths\birdPath</path>
-      <path>paths\birdDead</path>
-      <path>paths\birdDeadR</path>
       <path>paths\birdPathR</path>
+      <path>paths\birdDeadR</path>
+      <path>paths\birdDead</path>
     </paths>
   </paths>
   <scripts name="scripts">
@@ -558,6 +560,7 @@
         </scripts>
       </scripts>
       <scripts name="IN-GAME">
+        <script>scripts\rippleReset.gml</script>
         <script>scripts\exitBall.gml</script>
         <script>scripts\loadPitch.gml</script>
         <script>scripts\queuePitch.gml</script>
@@ -587,6 +590,7 @@
     <script>scripts\draw_sprite_shadow.gml</script>
     <script>scripts\draw_shadow.gml</script>
     <script>scripts\draw_shadow_ext.gml</script>
+    <script>scripts\draw_circle_width.gml</script>
   </scripts>
   <shaders name="shaders">
     <shader type="GLSLES">shaders\shader0.shader</shader>

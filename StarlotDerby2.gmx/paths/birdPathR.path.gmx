@@ -7,35 +7,34 @@
   <vsnap>8</vsnap>
   <points>
     <point>432,104,100</point>
-    <point>344,112,100</point>
-    <point>296,104,100</point>
-    <point>320,136,100</point>
-    <point>280,120,100</point>
-    <point>288,144,100</point>
-    <point>320,168,100</point>
-    <point>280,160,100</point>
-    <point>264,176,100</point>
-    <point>280,208,100</point>
-    <point>248,232,100</point>
-    <point>232,216,100</point>
+    <point>344,120,100</point>
+    <point>288,72,100</point>
+    <point>376,160,100</point>
+    <point>240,96,100</point>
+    <point>272,144,100</point>
+    <point>352,208,100</point>
+    <point>264,160,100</point>
+    <point>280,216,100</point>
+    <point>296,256,100</point>
+    <point>248,312,100</point>
+    <point>200,232,100</point>
     <point>256,192,100</point>
-    <point>184,184,100</point>
     <point>176,184,100</point>
-    <point>184,96,100</point>
-    <point>192,144,100</point>
-    <point>192,184,100</point>
-    <point>184,184,100</point>
-    <point>152,184,100</point>
+    <point>160,184,100</point>
+    <point>184,112,100</point>
+    <point>208,184,100</point>
+    <point>176,184,100</point>
+    <point>144,184,100</point>
     <point>136,200,100</point>
-    <point>160,208,100</point>
-    <point>160,232,100</point>
-    <point>128,224,100</point>
-    <point>104,200,100</point>
-    <point>128,176,100</point>
-    <point>112,176,100</point>
-    <point>72,168,100</point>
+    <point>200,240,100</point>
+    <point>176,312,100</point>
+    <point>144,232,100</point>
+    <point>48,232,100</point>
+    <point>168,152,100</point>
+    <point>80,192,100</point>
+    <point>0,176,100</point>
     <point>96,144,100</point>
-    <point>112,128,100</point>
+    <point>112,88,100</point>
     <point>80,112,100</point>
     <point>16,128,100</point>
     <point>-32,88,100</point>

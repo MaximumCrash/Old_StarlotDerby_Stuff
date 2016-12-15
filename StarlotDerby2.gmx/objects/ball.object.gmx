@@ -61,7 +61,7 @@ path_start(pitcher.pitch[currentPath], manager.ballSpeed, path_action_continue, 
 
 timer = 0;
 hue = 0;
-tailLength = 25; 
+tailLength = 2; 
 
 trickCount = 0;
 trick = trickPitch(3); //Takes in Max Number of Tricks (Curently 3)
@@ -95,11 +95,17 @@ tailColor = manager.cYellow;
 drawTail = true; 
 tailShiftHue = false; 
 hueUp = true; 
-sleepHackFall = 150;
+sleepHackFall = 10;
 birdHitCount = 0;
 fever = false; 
 rebound = true;
-currentRebound = 0; 
+currentRebound = 0;
+
+if (instance_number(ballExtra) &gt; 0) {
+with (ballExtra) {
+instance_destroy(); 
+}
+} 
 
 </string>
           </argument>
@@ -128,7 +134,8 @@ if (!ballHit) {
     addStrike();
 }
 
-pitcher.alarm[0] = 5; //Tell the Pitcher to make a new Ball. 
+pitcher.currentState = 0;
+//pitcher.alarm[0] = 5; //Tell the Pitcher to make a new Ball. 
 trail_destroy();
 manager.ballHit = false;
 mvc.currentState = speedState.normal;
@@ -249,41 +256,20 @@ ballEX3 = instance_create(x, y, ballExtra);
 
 switch (trick) {
 case 1: { //HARD STOP
-path_speed = manager.ballSpeed; 
+path_speed = lerp(path_speed,manager.ballSpeed * mvc.timeMulti,0.4);
 break;
 }
 
 case 2: { //SPEED UP
-path_speed = smooth_approach(path_speed, manager.ballSpeed, random_range(0,1)); 
+path_speed = lerp(path_speed, manager.ballSpeed  * mvc.timeMulti, 0.4); 
 break;
 }
 
 case 3: { //SLOW DOWN
-path_speed = smooth_approach(path_speed, manager.ballSpeed, random_range(0,1)); 
+path_speed = lerp(path_speed, manager.ballSpeed * mvc.timeMulti, 0.4); 
 break;
 }
 }
-//STOP ALL TRICKS and RESET
-switch (trick) {
-    case 1:
-        { //HARD STOP
-            path_speed = manager.ballSpeed;
-            break;
-        }
-
-    case 2:
-        { //SPEED UP
-            path_speed = smooth_approach(path_speed, manager.ballSpeed, random_range(0, 1));
-            break;
-        }
-
-    case 3:
-        { //SLOW DOWN
-            path_speed = smooth_approach(path_speed, manager.ballSpeed, random_range(0, 1));
-            break;
-        }
-}
-
 </string>
           </argument>
         </arguments>
@@ -330,11 +316,13 @@ instance_destroy();
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (drawTail) 
+            <string>
+if (drawTail) 
 {
+    tailLength = lerp(tailLength, 25, 0.05); 
     trail_calculate(tailLength);
 }
-image_angle+= (manager.ballSpeed*3) *mvc.timeMulti;
+
 //This is for FEVER Balls Only
 if (hueUp) {
     hue += (5*mvc.timeMulti); 
@@ -354,6 +342,8 @@ if (tailShiftHue)
     tailColor = make_colour_hsv(hue, 255, 255);
 }
 
+speed = mvc.timeMulti * ((manager.equip[1] * (manager.swingCharge/manager.swingChargeMax + 0.25)) + (manager.ballSpeed * 1.25));
+
 //Runs a Trick depending on a couple of Parameters. 
 if (path_position &gt; trickPosition &amp;&amp; !trickRun) {
     if (manager.difficulty &gt;= 2 &amp;&amp; manager.difficulty &lt; 3.25) {
@@ -365,14 +355,16 @@ if (path_position &gt; trickPosition &amp;&amp; !trickRun) {
                     {
                         path_speed = 0;
                         alarm[1] = hardTimer;
+                        ds_list_add(manager.list, "+Trick Run: Hard Stop");
                         break;
                     }
 
                 case 2:
                     {
                         if (manager.ballSpeed &lt; 13) {
-                            path_speed = (manager.ballSpeed * random_range(1.5, 2.25))*mvc.timeMulti;
+                            path_speed = lerp(path_speed,(manager.ballSpeed * random_range(1.5, 2.25))*mvc.timeMulti,0.4);
                             alarm[1] = hardTimer;
+                            ds_list_add(manager.list, "+Trick Run: Speed Up");
                         }
                         break;
                     }
@@ -380,8 +372,9 @@ if (path_position &gt; trickPosition &amp;&amp; !trickRun) {
                 case 3:
                     {
                         if (manager.ballSpeed &gt; 10) {
-                            path_speed = (manager.ballSpeed * random_range(.1, .25))*mvc.timeMulti;
+                            path_speed = lerp(path_speed,(manager.ballSpeed * random_range(.1, .25))*mvc.timeMulti,0.4);
                             alarm[1] = hardTimer;
+                            ds_list_add(manager.list, "+Trick Run: Slow Down");
                         }
                         break;
                     }
@@ -402,16 +395,14 @@ if (currentY &lt; y &amp;&amp; currentY &lt; maxY &amp;&amp; !ballHit) {
     }
     
 } else if (ballHit) {
+    ballExitExtra = lerp(manager.ballExitExtra, 10, 0.4); 
     image_alpha = 1; 
-    image_angle+= (manager.ballSpeed *5) *mvc.timeMulti; 
+    //image_angle+= (manager.ballSpeed *5) *mvc.timeMulti; 
     currentDistance = point_distance(x, y, exitPositionX, exitPositionY);
     image_yscale = (currentDistance / exitDistance) + baseScale + extraYscale;
-
     
     if (instance_number(ballExtra) &gt; 0) {
-    if (currentDistance/exitDistance &lt;= .55 &amp;&amp; !ballExtra.moveToBat &amp;&amp; ballHit) {
-       
-       
+    if (currentDistance/exitDistance &lt;= .55 &amp;&amp; !ballExtra.moveToBat &amp;&amp; ballHit) {        
        if (!foul)  
        {
             ballExtra.moveToBat = true; 
@@ -428,53 +419,45 @@ if (extraYscale &gt; 0) {
 extraYscale-= (0.08); 
 }
 
-
 //Directional Steering
 if (ballHit) {
 //direction += median(-0.75, 0.75, (1-0.1) * angle_difference(point_direction(x,y,exitPositionX, exitPositionY),direction)); 
 //motion_add(direction, 0);  
 }
 
-path_speed = manager.ballSpeed * mvc.timeMulti;
-speed = mvc.timeMulti * ((manager.equip[1] * (manager.swingCharge / manager.swingChargeMax + 0.25)) + (manager.ballSpeed * 1.25))
-
 if (ballHit) {
+image_angle -= (manager.ballSpeed*4) *mvc.timeMulti;
+
 if (instance_number(bird) &gt; 0) {
 inst = instance_nearest(x,y,bird); 
-if (inst.state != 2) {
-if (sqrt(power(inst.x-x,2)+power(inst.y-y,2)) &lt;= 65) {
+
+if (sqrt(power(inst.x-x,2)+power(inst.y-y,2)) &lt;= 55 ) {
 mvc.currentState = speedState.slowmo;
-mvc.overrideChannel = 1; 
 }    
 else 
 {
-//if (mvc.overrideChannel &lt; 2) 
-//{
-mvc.currentState = speedState.normal;
-mvc.overrideChannel = 0; 
-//}
-}
-}
-}
+ mvc.currentState = speedState.normal;
 }
 
-if (instance_number(bat) &gt; 0) {
-if (fever) {
-if (!ballHit) {
-if (manager.swingArc &gt; 0 &amp;&amp; manager.swingArc &lt; 225) {
-if (y &lt; bat.y +25) {
+}
+}
+else {
+image_angle += (manager.ballSpeed*3) *mvc.timeMulti;
+}
+
+/*if (instance_number(bat) &gt; 0) {
+if (!fever) {
+if (!ballHit &amp;&amp; !manager.canSwing) {
+if (floor((manager.swingCharge / (manager.swingChargeMax / 3) + 1)) == 3) {
 inst2 = instance_nearest(x,y,bat); 
-
-if (sqrt(power(inst2.x-x,2)+power(inst2.y-y,2)) &lt;= 120) {
+if (sqrt(power(inst2.x-x,2)+power(inst2.y-y,2)) &lt;= 100) {
 mvc.currentState = speedState.slowmo;
-mvc.overrideChannel = 2;
 }    
 }
 }
 }
-}
+}*/
 
-}
 
 
 </string>
@@ -508,12 +491,17 @@ path_end();
 path_speed = 0; 
 hitPositionX = x; 
 hitPositionY = y; 
+screenFX.hitRipplePointX = hitPositionX;
+screenFX.hitRipplePointY = hitPositionY; 
+screenFX.hitRipple = true; 
+screenFX.hitRippleOpacity = 0.5;
+
 batAngle = manager.swingArc;
 exitSpeed = (manager.ballSpeed*.35) + (manager.equip[1] * (manager.swingCharge / manager.swingChargeMax + 0.25)) + (manager.ballSpeed * 1.25);
 //exitDistance = point_distance(hitPositionX, hitPositionY, exitPositionX, exitPositionY);
 //extraYscale = 0.1; 
 alarm[3] = 1;
-bat.xScaleExtra += 0.1;
+bat.xScaleExtra += 0.2;
 extraYscale += 0.05; 
 mvc.currentState = speedState.normal;
 mvc.overrideChannel = 0; 
@@ -548,12 +536,26 @@ if (percent_chance(irandom_range(25,80))) {
             <kind>1</kind>
             <string>if (ballHit &amp;&amp; other.state!=2) {
 //*****Make other(aka Bird) sprite into Dead hit sprite and then switch state. 
-    sleep_hack(sleepHackFall-power(birdHitCount*3,2));
+    screenFX.birdRipplePointX = other.x;
+    screenFX.birdRipplePointY = other.y; 
+    screenFX.birdRipple = true; 
+    screenFX.birdRippleOpacity = 0.5;
+    sleep_hack(sleepHackFall+power(birdHitCount*3,2));
     other.state = 2; //Sets Bird State to Dead. 
     ball.extraYscale += 0.5; 
-    manager.shake1 += 5;
-
+    manager.shake1 += 8;
+    switch (other.type) {
+    case 0: { //If Normal
+        givePoint(1 * (1 + manager.multiplier), false); 
+        break;
+    }
+    case 1: { //If Golden
+        givePoint(2 * (1 + manager.multiplier), false); 
+        break;
+    }
+    }
     birdHitCount++; 
+    
 }
 </string>
           </argument>
@@ -653,14 +655,14 @@ if (!manager.ballGhost)
 {
     if (drawTail) 
     {
-       draw_trail_ext((sprite_width+6),tailColor,-1,closedTail,0.65);
+       draw_trail_ext((sprite_width+3),tailColor,-1,closedTail,0.65);
     }
     
-    draw_circle_colour(x,y,sprite_width*.59,manager.cYellow,manager.cYellow,false);
+    draw_circle_colour(x,y,sprite_width*.59 + extraYscale,manager.cYellow,manager.cYellow,false);
 }
 else 
 {
-    draw_trail_ext((sprite_width+6),tailColor,-1,closedTail,image_alpha);
+    draw_trail_ext((sprite_width+3),tailColor,-1,closedTail,image_alpha);
 }
 draw_self();
 

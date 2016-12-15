@@ -39,6 +39,21 @@ flash = false;
 flashTimer = 3;
 
 zoomFactor = 1;  
+
+hitRipple = false; 
+hitRipplePointX = room_width/2;
+hitRipplePointY = room_height/2;
+hitRippleExpand = 0.5;  
+hitRippleOpacity =0; 
+
+birdRipple = false; 
+birdRipplePointX = room_width/2;
+birdRipplePointY = room_height/2;
+birdRippleExpand = 0.5;  
+birdRippleOpacity =0; 
+
+
+ 
 </string>
           </argument>
         </arguments>
@@ -61,8 +76,38 @@ zoomFactor = 1;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Turn off Flash
-flash = false; 
+            <string>screenShake(manager.shake0+manager.shake1,-manager.shake0-manager.shake1);
+
+if (!manager.earthquakeRunning) {
+    shakeReset(); 
+}
+
+if (flashTimer &lt;= 0 &amp;&amp; !flash) {
+    flashTimer = 3; 
+}
+
+if (flashTimer &lt;= 0) {
+    flash = false;
+    flashTimer = 0; 
+}
+
+if (zoomFactor &gt; 1) {
+view_wview[0] = 375 * zoomFactor; 
+view_hview[0] = 667 * zoomFactor; 
+view_object[0] = ball;
+}
+
+if (hitRippleRadius &lt;= 75 &amp;&amp; ripple) {
+hitRippleRadius = lerp(hitRippleRadius, 76, 0.4); 
+hitRippleWidth = lerp(hitRippleWidth, 10, 0.4); 
+//hitRippleOpacity = lerp(hitRippleOpacity, 0, 0.4); 
+}
+
+if (!ripple) {
+hitRippleRadius = 10; 
+hitRippleWidth = 25;  
+hitRippleOpacity = 1;
+}
 </string>
           </argument>
         </arguments>
@@ -157,6 +202,25 @@ view_wview[0] = 375 * zoomFactor;
 view_hview[0] = 667 * zoomFactor; 
 view_object[0] = ball;
 }
+
+if (hitRippleExpand &lt; 2.75 &amp;&amp; hitRipple) {
+hitRippleExpand = lerp(hitRippleExpand, 2.75, 0.2 * mvc.timeMulti);  
+hitRippleOpacity = lerp(hitRippleOpacity, 0, 0.2 * mvc.timeMulti); 
+}
+else {
+rippleReset(0); 
+}
+
+if (birdRippleExpand &lt; 1.5 &amp;&amp; birdRipple) {
+birdRippleExpand = lerp(birdRippleExpand, 1.5, 0.4 * mvc.timeMulti);  
+birdRippleOpacity = lerp(birdRippleOpacity, 0, 0.4 * mvc.timeMulti); 
+}
+else {
+rippleReset(1); 
+}
+
+
+
 </string>
           </argument>
         </arguments>
@@ -185,7 +249,18 @@ view_object[0] = ball;
     draw_rectangle(0,0,room_width, room_height, false);     
     flashTimer--; 
 }
+ draw_set_color(c_red); 
  
+ if (hitRipple) 
+ {
+  draw_sprite_ext(sprHitRing, 0, hitRipplePointX,hitRipplePointY, 0.5* hitRippleExpand,0.5* hitRippleExpand, 0, c_white, hitRippleOpacity);
+ }
+ 
+ if (birdRipple) 
+ {
+   draw_sprite_ext(sprHitRing, 0, birdRipplePointX,birdRipplePointY, 0.5* birdRippleExpand,0.5* birdRippleExpand, 0, c_white, birdRippleOpacity);
+ } 
+
 </string>
           </argument>
         </arguments>

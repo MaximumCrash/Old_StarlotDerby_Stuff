@@ -104,14 +104,14 @@ pitchAnimationMax = 120;
 windWaitTime = 5; 
 }
 
-if (random(manager.futureChance) &gt;= manager.futureChance-1) 
+if (percent_chance(manager.futureChance)) 
 {
 //If we pass the futureChance test we will show the next path.
-
+futureProbe.alarm[1] = 1; 
 
 }
 
-futureProbe.alarm[1] = 1; 
+
 </string>
           </argument>
         </arguments>
@@ -142,7 +142,6 @@ switch (currentState)
        // ds_list_add(manager.list, "...Pitcher READY");
         alarm[0] = 1;
         loadPitch();
-        futureProbe.alarm[1] = 1;
         break;
     }
     
@@ -194,10 +193,7 @@ switch (currentState)
     
     default: { //Standby
        // ds_list_add(manager.list, "...Pitcher STAND BY");
-            if (instance_number(ball) &lt;= 0 ) 
-            {
-                currentState = 0;
-            }
+
         break;
     }
 }

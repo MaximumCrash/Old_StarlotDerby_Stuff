@@ -54,7 +54,7 @@ if (foul) {
     
     
     addFever();
-    givePoint(floor((manager.swingCharge / (manager.swingChargeMax / 3) + 1) * (manager.dirMulti + manager.multiplier)));
+    givePoint(floor((manager.swingCharge / (manager.swingChargeMax / 3) + 1) * (manager.dirMulti + manager.multiplier)), true);
     manager.shake1 += 5;
     
     switch (floor((manager.swingCharge / (manager.swingChargeMax / 3) + 1))) {
@@ -72,7 +72,6 @@ if (foul) {
             tailShiftHue = true; 
         screenFX.flash = true; 
         manager.shake1 += 14; 
-        sleep_hack(200); 
            break;
            }
     }
@@ -92,15 +91,17 @@ hitDistance = point_distance(x,y,hitPositionX, hitPositionY);
 //Steering 
 //direction = 90;
 //motion_set(direction, exitSpeed); 
-
+completeSpeed = 0; 
 
 if (manager.snipeChance > 0) {
 if (random(manager.snipeChance) >= manager.snipeChance - 1) {
     nearestBirdX = instance_nearest(exitA,exitB,bird).x;
     nearestBirdY = instance_nearest(exitA,exitB,bird).y;
-    move_towards_point(nearestBirdX,nearestBirdY,(manager.equip[1] * abs(manager.swingCharge / manager.swingChargeMax + 0.25)) + (manager.ballSpeed * 2.5)); 
+    completeSpeed = lerp(completeSpeed,manager.equip[1] * abs(manager.swingCharge / manager.swingChargeMax + 0.25) + (manager.ballSpeed * 2.5),0.5);  
+    move_towards_point(nearestBirdX,nearestBirdY,completeSpeed); 
 }
 }
 else {
-move_towards_point(exitA, exitB, (manager.equip[1] * abs(manager.swingCharge / manager.swingChargeMax + 0.25)) + (manager.ballSpeed * 2.5));
+completeSpeed = lerp(completeSpeed,manager.equip[1] * abs(manager.swingCharge / manager.swingChargeMax + 0.25) + (manager.ballSpeed * 2) + manager.ballExitExtra,0.5); 
+move_towards_point(exitA, exitB, completeSpeed);
 }

@@ -78,7 +78,7 @@ if (xScaleExtra &gt; 0)
     }  
      
     image_yscale = image_xscale;
-    xScaleExtra-= 0.02*mvc.timeMulti; 
+    xScaleExtra= lerp(xScaleExtra, 0, 0.2*mvc.timeMulti);
 }
  
 
@@ -115,7 +115,10 @@ else if (manager.swingCharge &gt; 0)
 
 draw_sprite_ext(sprite_index, image_index, x, y+25,image_xscale, image_yscale-.6 , image_angle, c_black, 0.75);
 draw_self();
-
+if (manager.debug) 
+{
+    draw_circle(x,y, 100, true); 
+}
 </string>
           </argument>
         </arguments>

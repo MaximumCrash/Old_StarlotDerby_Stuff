@@ -28,7 +28,8 @@
             <string>timeMulti = 1; 
 enum speedState {
     normal,
-    slowmo, 
+    slowmo,
+    ultraslowmo, 
     fastforward, 
     stop, 
     rewind
@@ -61,11 +62,16 @@ overrideChannel = 0;
             <string>switch (currentState) 
 {
     case speedState.normal: {
-        timeMulti = 1; 
+        timeMulti = lerp(timeMulti, 1, 0.24); 
         break;
     }
     case speedState.slowmo: {
-        timeMulti = 0.35;
+        timeMulti = lerp(timeMulti, 0.27, 1); 
+        ds_list_add(manager.list, "SLOWMO!...");
+        break;
+    }
+    case speedState.ultraslowmo: {
+         timeMulti = lerp(timeMulti, 0.15, 0.67); 
         break;
     }
     case speedState.fastforward: {

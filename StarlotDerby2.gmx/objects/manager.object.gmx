@@ -76,8 +76,8 @@ lineHeight =15;
 
 //Primary
 cRed = make_colour_rgb(237, 30, 24);
-cBlue = make_colour_rgb(8, 95, 255);
-cYellow = make_colour_rgb(253, 201, 28);
+cBlue = make_colour_rgb(41, 128, 185);
+cYellow = make_colour_rgb(241, 196, 15);
 cBlack = make_colour_rgb(25, 12, 7);
 
 //Softy
@@ -186,6 +186,7 @@ ballGhost = false; //Curse
 //MVC
 ballHit = false;
 ballExitSpeed = 0;
+ballExitExtra = 0; 
 ballState = 0;
 minBallSpeed = 6;
 maxBallSpeed = 20;
@@ -424,8 +425,16 @@ if (keyboard_check_pressed(vk_anykey) == true) {
             debugType = 1;
             break;
         case ord("A"):
-            canSwing = false;
+             {
+             if (screenFX.ripple) {
+             screenFX.ripple = false;
+             }
+             else {
+             screenFX.ripple = true;
+             }
+            
             break;
+            }
         case ord("3"):
             debugType = 2;
             break;
@@ -754,8 +763,9 @@ shake1 -= 0.3*mvc.timeMulti ;
     }
 
 }
+
 draw_text(view_wview[0] / 2, view_hview[0] / 2, score);
-draw_set_color(c_black);
+draw_text(view_wview[0] / 2, view_hview[0] / 2 +40, instance_number(bird));
 
 for (a = 0; a &lt; array_length_1d(pitcher.pitch); a++) 
 {
