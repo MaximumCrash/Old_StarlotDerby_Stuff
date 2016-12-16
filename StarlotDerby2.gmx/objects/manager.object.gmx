@@ -490,7 +490,7 @@ if (keyboard_check_pressed(vk_anykey) == true) {
             }*/
         case vk_backspace: {
              if (mvc.currentState = speedState.normal) {
-                mvc.currentState = speedState.stop;
+                mvc.currentState = speedState.slowmo;
                 }
                 else {
                 mvc.currentState = speedState.normal

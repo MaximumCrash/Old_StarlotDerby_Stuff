@@ -133,10 +133,11 @@ instance_destroy();
             <kind>1</kind>
             <string>///Add Strike, Destroy Trail
 if (!ballHit) {
+   pitcher.currentState = 0;
     addStrike();
 }
 
-pitcher.currentState = 0;
+
 //pitcher.alarm[0] = 5; //Tell the Pitcher to make a new Ball. 
 trail_destroy();
 manager.ballHit = false;
@@ -426,23 +427,18 @@ image_angle -= (manager.ballSpeed*4) *mvc.timeMulti;
 
 if (instance_number(bird) &gt; 0) {
 inst = instance_nearest(x,y,bird); 
-if (inst.state != 2) {
 if (sqrt(power(inst.x-x,2)+power(inst.y-y,2)) &lt;= birdRadius) {
 if (!inBirdRadius) {
 inBirdRadius = true; 
-birdRadius -= 8;
+//birdRadius -= 8;
 }
 mvc.currentState = speedState.slowmo;
 }    
 else 
 {
 inBirdRadius = false; 
-
 mvc.currentState = speedState.normal;
-}
-}
-else {
- //mvc.currentState = speedState.normal;
+mvc.overrideSleepHack = true; 
 }
 }
 }
@@ -491,7 +487,7 @@ screenFX.hitRipplePointX = hitPositionX;
 screenFX.hitRipplePointY = hitPositionY; 
 screenFX.hitRipple = true; 
 screenFX.hitRippleOpacity = 0.5;
-
+pitcher.currentState = 0;
 batAngle = manager.swingArc;
 exitSpeed = (manager.ballSpeed*.35) + (manager.equip[1] * (manager.swingCharge / manager.swingChargeMax + 0.25)) + (manager.ballSpeed * 1.25);
 //exitDistance = point_distance(hitPositionX, hitPositionY, exitPositionX, exitPositionY);

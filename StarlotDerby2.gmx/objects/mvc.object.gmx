@@ -37,6 +37,7 @@ enum speedState {
 currentState = speedState.normal;
 
 overrideChannel = 0; 
+overrideSleepHack = false; 
 </string>
           </argument>
         </arguments>
@@ -62,15 +63,15 @@ overrideChannel = 0;
             <string>switch (currentState) 
 {
     case speedState.normal: {
-        timeMulti = lerp(timeMulti, 1, 0.24); 
+        timeMulti = lerp(timeMulti, 1, 0.16); 
         break;
     }
     case speedState.slowmo: {
-        timeMulti = lerp(timeMulti, 0.27, 1); 
+        timeMulti = lerp(timeMulti, 0.27, 0.67); 
         break;
     }
     case speedState.ultraslowmo: {
-         timeMulti = lerp(timeMulti, 0.1, 0.67); 
+         timeMulti = lerp(timeMulti, 0.17, 0.67); 
         break;
     }
     case speedState.fastforward: {

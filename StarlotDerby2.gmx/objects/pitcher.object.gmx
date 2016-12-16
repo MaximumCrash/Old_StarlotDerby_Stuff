@@ -33,7 +33,7 @@
 pitch = queuePitch();
 nextPitch = queuePitch();
 pitchAnimationFrame = 0; 
-pitchAnimationMax = 120; 
+pitchAnimationMax = 30; 
 releaseSpeed = 1; 
 image_index = pitchAnimationFrame; 
 image_speed = 0; 
@@ -173,7 +173,7 @@ switch (currentState)
     
     case 3: { //Pitch
      //   ds_list_add(manager.list, "...Pitcher PITCH");
-        if (pitchAnimationFrame &lt; 60) 
+        if (pitchAnimationFrame &lt; 30) 
         {
             pitchAnimationFrame += releaseSpeed*mvc.timeMulti;
         }
@@ -183,7 +183,7 @@ switch (currentState)
             instance_create(x,y,ball);
             currentState = 4;
             //Load Bird
-            if (random(5) &gt;= 2) 
+            if (random(5) &gt;= 3) 
             {
                 alarm[1] = irandom_range(30,80);
             } 
