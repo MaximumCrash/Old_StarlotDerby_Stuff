@@ -67,23 +67,18 @@ overrideChannel = 0;
     }
     case speedState.slowmo: {
         timeMulti = lerp(timeMulti, 0.27, 1); 
-        ds_list_add(manager.list, "SLOWMO!...");
         break;
     }
     case speedState.ultraslowmo: {
-         timeMulti = lerp(timeMulti, 0.15, 0.67); 
+         timeMulti = lerp(timeMulti, 0.1, 0.67); 
         break;
     }
     case speedState.fastforward: {
-        timeMulti = 1.5; 
+        timeMulti = lerp(timeMulti,1.75,0.67); 
         break;
     }
     case speedState.stop: {
         timeMulti = 0; 
-        break;
-    }
-    case speedState.rewind: {
-        timeMulti = -1.5; 
         break;
     }
     

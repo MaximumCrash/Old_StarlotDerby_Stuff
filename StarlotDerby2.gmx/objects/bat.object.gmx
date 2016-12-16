@@ -29,7 +29,7 @@
     exit;
 }
 
-tween_to(bat, 2, array("y",y-6,"patrol",ease_sineinout));
+
 
 if (manager.batLefty) {
 x = room_width-x; 
@@ -59,7 +59,9 @@ xScaleExtra = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (manager.batLefty) {
+            <string>
+
+if (manager.batLefty) {
 image_angle = -manager.swingArc;
 }
 else {

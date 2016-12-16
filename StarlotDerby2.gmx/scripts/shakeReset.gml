@@ -1,7 +1,7 @@
-view_xview = smooth_approach(view_xview,0,0.1);
-view_yview = smooth_approach(view_yview,0,0.1);
-manager.shake0 = smooth_approach(manager.shake0,0,0.1); 
-manager.shake1 = smooth_approach(manager.shake1,0,0.1); 
+view_xview = lerp(view_xview,0,0.05);
+view_yview = lerp(view_yview,0,0.05);
+manager.shake0 = lerp(manager.shake0,0,0.05); 
+manager.shake1 = lerp(manager.shake1,0,0.051); 
 manager.earthquakeRunning = false;
 
 screenFX.quakeCycleCurrent = 0; 

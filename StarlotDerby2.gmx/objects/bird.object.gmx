@@ -75,6 +75,7 @@ path_start(currentPath,0,path_action_reverse,false);
             <kind>1</kind>
             <string>///Destroyer
 instance_destroy(); 
+manager.birdCount--; 
 </string>
           </argument>
         </arguments>
@@ -142,7 +143,7 @@ if (state != 2)
 {
  moveSpeed = 4; 
  hopCount = 0; 
- image_speed = 0.25; 
+ image_speed = 0.25 * mvc.timeMulti; 
  turnDir = 0; 
  state = 0; 
  image_yscale = image_yscale * 1.5; 
@@ -381,7 +382,9 @@ alarm[3] = 10;
             <string>draw_self(); 
 if (manager.debug) 
 {
-    draw_circle(x,y, 55, true); 
+ if (instance_number(ball) &gt; 0) {
+    draw_circle(x,y, ball.birdRadius, true); 
+ }   
 }
 </string>
           </argument>

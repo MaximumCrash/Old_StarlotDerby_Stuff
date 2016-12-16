@@ -180,8 +180,8 @@ if (!destroy)
             <string>///Orbit Code
 if (moveToBat) 
 {
-    finalSpeed = lerp(finalSpeed, 15, 0.2); 
-    move_towards_point(bat.x-bat.sprite_width/2,bat.y,finalSpeed);
+    finalSpeed = lerp(finalSpeed, 15*mvc.timeMulti, 0.2); 
+    move_towards_point(bat.x-bat.sprite_width/2,bat.y,finalSpeed*mvc.timeMulti);
 
 }
 else 

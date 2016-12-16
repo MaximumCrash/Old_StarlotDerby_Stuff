@@ -102,6 +102,6 @@ if (random(manager.snipeChance) >= manager.snipeChance - 1) {
 }
 }
 else {
-completeSpeed = lerp(completeSpeed,manager.equip[1] * abs(manager.swingCharge / manager.swingChargeMax + 0.25) + (manager.ballSpeed * 2) + manager.ballExitExtra,0.5); 
+completeSpeed = lerp(completeSpeed,(manager.equip[1] * abs(manager.swingCharge / manager.swingChargeMax + 0.25) + (manager.ballSpeed * 2) + manager.ballExitExtra) *mvc.timeMulti,0.5); 
 move_towards_point(exitA, exitB, completeSpeed);
 }

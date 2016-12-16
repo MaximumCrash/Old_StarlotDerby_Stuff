@@ -183,9 +183,9 @@ switch (currentState)
             instance_create(x,y,ball);
             currentState = 4;
             //Load Bird
-            if (random(5) &gt;= 3) 
+            if (random(5) &gt;= 2) 
             {
-                alarm[1] = irandom_range(30,120);
+                alarm[1] = irandom_range(30,80);
             } 
         }
             break;
