@@ -105,3 +105,7 @@ else {
 completeSpeed = lerp(completeSpeed,(manager.equip[1] * abs(manager.swingCharge / manager.swingChargeMax + 0.25) + (manager.ballSpeed * 2) + manager.ballExitExtra) *mvc.timeMulti,0.5); 
 move_towards_point(exitA, exitB, completeSpeed);
 }
+
+exitSpeedSafety = completeSpeed; 
+exitSafetyA = exitA; 
+exitSafetyB = exitB; 

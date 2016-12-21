@@ -1,5 +1,5 @@
 Name,Code,Description
-Shapeshifter,C~SS,Bat will Randomly Change depending on what you own.
+Trickstar,C~SS,Pitches are more likely to be tricks. 
 Hot Stuff,C~OH,Bat will overheat quicker than usual.
 Happy Birthday,C~HB,Seagulls explode into confetti when hit.
 Seeing Double,C~DD,See two pitches. Only one is Real.
@@ -7,15 +7,12 @@ Risky Business,C~RB,Fouls count as strikes.
 Max Speed,C~MS,Max pitch speed.
 Slug Bat,C~SB,Bat speed is set to 1.
 Lefty,C~L,Bat position is on the right side of the screen instead of the left.
-Foggy Windows,C~FW,Areas of the screen become fogged up.
 Earthquake ,C~EQ,Screen shakes at Random intervals.
-Wavy,C~W,Graphics are wavy.
 Ultra Man,C~UM,Pitcher takes less time to pitch. 
 Ghost,C~G,Ball becomes less visible the closer it gets to the bottom of the screen
 Wiz Kid,C~WK,Fever modes have max difficulty.
 Multiplier,C~MX,"Not bad, actually adds multiplier to points."
 Random,C,
-Stat Up,SU,Up the Stats of a Bat
 Stat Up Power,SUP,Up the Power stat of a Bat.
 Stat Up Speed,SUS,Up the Speed stat of a Swing. 
 Fever Block,FB,"Fever is safe for a certain amount of points. eg. If I strike, I should lost all fever points, instead I'll lose 3."

@@ -29,12 +29,10 @@ manager.wizKid = false;
 manager.multiplier = 0;
 manager.lastBuiltCurse = 999;
 
-
 for (var g = 3; g < array_length_1d(manager.equip); g++) 
 {
     if (equip[g] < 999) 
     {
-
         tempCurseArray = string_split(gemList[equip[g], 5], "/");
 
         for (var c = 0; c < array_length_1d(tempCurseArray); c++) 
@@ -43,31 +41,30 @@ for (var g = 3; g < array_length_1d(manager.equip); g++)
 
             if (array_length_1d(tempCheckArray) > 1) 
             {
-
                 //ITS A POWER 
                 switch (tempCheckArray[0]) 
                 {
-                    case "16":
+                    case "15":
                         {
                             manager.powerCurseExtra += real(tempCheckArray[1]);
                             break;
                         }
-                    case "17":
+                    case "16":
                         {
                             manager.speedCurseExtra += real(tempCheckArray[1]);
                             break;
                         }
-                    case "18":
+                    case "17":
                         {
                             manager.feverSafety += real(tempCheckArray[1]);
                             break;
                         }
-                    case "19":
+                    case "18":
                         {
                             manager.futureChance += real(tempCheckArray[1]) / 100;
                             break;
                         }
-                    case "20":
+                    case "19":
                         {
                             manager.snipeChance += real(tempCheckArray[1]) / 100;
                             break;
@@ -143,43 +140,43 @@ for (var g = 3; g < array_length_1d(manager.equip); g++)
                             ds_list_add(manager.list, "CURSE ADDED: Bat Lefty");
                             break;
                         }
-                    case "8":
+                    /*case "8":
                         {
                             manager.foggyWindows = true;
                             ds_list_add(manager.list, "CURSE ADDED: Screen Foggy Windows");
                             break;
-                        }
-                    case "9":
+                        }*/
+                    case "8":
                         {
                             manager.earthquake = true;
                             ds_list_add(manager.list, "CURSE ADDED: Screen Earthquake");
                             break;
                         }
-                    case "10":
+                    /*case "10":
                         {
                             manager.wavy = true;
                             ds_list_add(manager.list, "CURSE ADDED: Screen Wavy");
                             break;
-                        }
-                    case "11":
+                        }*/
+                    case "9":
                         {
                             pitcherUltraMan = true;
                             ds_list_add(manager.list, "CURSE ADDED: Pitch UltraMan");
                             break;
                         }
-                    case "12":
+                    case "10":
                         {
                             ballGhost = true;
                             ds_list_add(manager.list, "CURSE ADDED: Ball Ghost");
                             break;
                         }
-                    case "13":
+                    case "11":
                         {
                             manager.wizKid = true;
                             ds_list_add(manager.list, "CURSE ADDED: Fever Wiz Kid");
                             break;
                         }
-                    case "14":
+                    case "12":
                         {
                             manager.multiplier++;
                             ds_list_add(manager.list, "CURSE ADDED: Score Multiplier");

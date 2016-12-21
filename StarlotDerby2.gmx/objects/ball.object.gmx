@@ -25,35 +25,6 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Chance Curse Handler
-//Runs Earthquake 16% Chance
-
-if (manager.ballGhost) 
-{
-    tailLength = 15; 
-}
-
-runCurse(); 
-</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
             <string>///Variable and Path Initialization
 trail_init();
 currentPath = 0;
@@ -102,13 +73,44 @@ rebound = true;
 currentRebound = 0;
 birdRadius = 55; 
 inBirdRadius = false; 
-
+exitSafetyA = 0; 
+exitSafetyB = 0; 
+exitSpeedSafety = 0; 
 if (instance_number(ballExtra) &gt; 0) {
 with (ballExtra) {
 instance_destroy(); 
 }
 } 
 
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Chance Curse Handler
+//Runs Earthquake 16% Chance
+
+if (manager.ballGhost) 
+{
+    tailLength = 15; 
+}
+
+runCurse(); 
 </string>
           </argument>
         </arguments>
@@ -256,13 +258,12 @@ ballEX3 = instance_create(x, y, ballExtra);
           <argument>
             <kind>1</kind>
             <string>///STOP ALL TRICKS and RESET
+mvc.currentState = speedState.normal;
 
-switch (trick) {
-case 1: { //HARD STOP
+if (trick == 1) //HARD STOP
 path_speed = lerp(path_speed,manager.ballSpeed * mvc.timeMulti,0.4);
-break;
-}
 
+/*
 case 2: { //SPEED UP
 path_speed = lerp(path_speed, manager.ballSpeed  * mvc.timeMulti, 0.4); 
 break;
@@ -272,7 +273,7 @@ case 3: { //SLOW DOWN
 path_speed = lerp(path_speed, manager.ballSpeed * mvc.timeMulti, 0.4); 
 break;
 }
-}
+}*/
 </string>
           </argument>
         </arguments>
@@ -349,37 +350,17 @@ if (tailShiftHue)
 if (path_position &gt; trickPosition &amp;&amp; !trickRun) {
     if (manager.difficulty &gt;= 2 &amp;&amp; manager.difficulty &lt; 3.25) {
         //Run a Trick if Possible
-        if (random(10) &gt;= 9 &amp;&amp; currentPath == 1 &amp;&amp; trickCount &lt; 2) {
-            trickRun = true;
-            switch (trick) {
-                case 1:
-                    {
-                        path_speed = lerp(path_speed,0,0.4) * mvc.timeMulti;
-                        alarm[1] = hardTimer;
-                        ds_list_add(manager.list, "+Trick Run: Hard Stop");
-                        break;
-                    }
-
-                case 2:
-                    {
-                        if (manager.ballSpeed &lt; 13) {
-                            path_speed = lerp(path_speed,(manager.ballSpeed * random_range(1.75, 2.35))*mvc.timeMulti,0.4);
-                            alarm[1] = hardTimer;
-                            ds_list_add(manager.list, "+Trick Run: Speed Up");
-                        }
-                        break;
-                    }
-
-                case 3:
-                    {
-                        if (manager.ballSpeed &gt; 10) {
-                            path_speed = lerp(path_speed,(manager.ballSpeed * random_range(.1, .25))*mvc.timeMulti,0.4);
-                            alarm[1] = hardTimer;
-                            ds_list_add(manager.list, "+Trick Run: Slow Down");
-                        }
-                        break;
-                    }
-            }
+        if (manager.ballTrickster) {
+           if (random(5) &gt;= 4 &amp;&amp; currentPath == 1 &amp;&amp; trickCount &lt; 2) {
+              trickRun = true; 
+              runTrick(trick); 
+           }
+        }
+        else {
+           if (random(10) &gt;= 9 &amp;&amp; currentPath == 1 &amp;&amp; trickCount &lt; 2) {
+              trickRun = true; 
+              runTrick(trick); 
+           }
         }
     }
 }
@@ -396,7 +377,6 @@ if (currentY &lt; y &amp;&amp; currentY &lt; maxY &amp;&amp; !ballHit) {
     }
     
 } else if (ballHit) {
-speed = mvc.timeMulti * ((manager.equip[1] * (manager.swingCharge/manager.swingChargeMax + 0.25)) + (manager.ballSpeed * 1.25));
 
     manager.ballExitExtra = lerp(manager.ballExitExtra, 10, 0.4); 
     image_alpha = 1; 
@@ -451,6 +431,17 @@ path_speed = manager.ballSpeed * mvc.timeMulti;
 }
 
 
+if (mvc.currentState != speedState.stop) {
+if (ballHit) {
+speed = mvc.timeMulti * ((manager.equip[1] * (manager.swingCharge/manager.swingChargeMax + 0.25)) + (manager.ballSpeed * 1.25));
+
+move_towards_point(exitSafetyA, exitSafetyB, exitSpeedSafety * mvc.timeMulti); 
+}
+}
+else {
+speed = 0; 
+}
+
 
 </string>
           </argument>
@@ -498,11 +489,7 @@ extraYscale += 0.05;
 mvc.currentState = speedState.normal;
 mvc.overrideChannel = 0; 
 currentRebound++;
-if (manager.batShapeShift) {
-if (percent_chance(irandom_range(25,80))) {
-//Change the Bat
-}
-}
+
 }
 </string>
           </argument>
@@ -530,6 +517,11 @@ if (percent_chance(irandom_range(25,80))) {
 //*****Make other(aka Bird) sprite into Dead hit sprite and then switch state. 
     screenFX.birdRipplePointX = other.x;
     screenFX.birdRipplePointY = other.y; 
+    if (manager.birdHappyBirthday)
+    { 
+       part_particles_create(global.particles, screenFX.birdRipplePointX, screenFX.birdRipplePointY, global.partTypeConfetti, 64);
+       part_particles_create(global.particles, screenFX.birdRipplePointX, screenFX.birdRipplePointY - 32, global.partTypeMoreConfetti, 64);
+    }
     screenFX.birdRipple = true; 
     screenFX.birdRippleOpacity = 0.5;
     sleep_hack(sleepHackFall+power(birdHitCount*3,2));

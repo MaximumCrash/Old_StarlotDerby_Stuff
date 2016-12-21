@@ -149,6 +149,7 @@
     <sprite>sprites\spr_zigzag</sprite>
     <sprite>sprites\birdTest</sprite>
     <sprite>sprites\sOverlay</sprite>
+    <sprite>sprites\sprite_confetti</sprite>
     <sprite>sprites\sprHitRing</sprite>
     <sprite>sprites\sprite6</sprite>
   </sprites>
@@ -571,6 +572,7 @@
         <script>scripts\addStrike.gml</script>
         <script>scripts\runCurse.gml</script>
         <script>scripts\reverseCurse.gml</script>
+        <script>scripts\runTrick.gml</script>
         <script>scripts\initFever.gml</script>
         <script>scripts\shakeReset.gml</script>
         <script>scripts\screenShake.gml</script>
@@ -612,6 +614,7 @@
     <objects name="ASTHETIC">
       <object>objects\futureProbe</object>
       <object>objects\screenFX</object>
+      <object>objects\fakeBall</object>
       <object>objects\ballExtra</object>
     </objects>
     <objects name="MANAGERS">
