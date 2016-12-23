@@ -75,9 +75,11 @@ lineHeight =15;
 //*****************COLOR LIBRARY
 
 //Primary
-cRed = make_colour_rgb(237, 30, 24);
-cBlue = make_colour_rgb(41, 128, 185);
-cYellow = make_colour_rgb(241, 196, 15);
+cRed = make_colour_rgb(247, 0, 81);
+cBlue = make_colour_rgb(0, 139, 247);
+cYellow = make_colour_rgb(248, 196, 0);
+cGreen = make_colour_rgb(0,247,63);
+cPurple = make_colour_rgb(134,0,248);
 cBlack = make_colour_rgb(25, 12, 7);
 
 //Softy
@@ -173,7 +175,7 @@ swingArc = 0;
 heatCount = 0;
 
 //********BIRDS
-birdHappyBirthday = false; //Curse
+birdHappyBirthday = true ; //Curse
 birdDeadPath = birdDead; 
 
 //********PITCHER 
@@ -231,22 +233,35 @@ multiplier = 0; //Curse
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Prepare The Confetti
+            <string>/// Prepare The Feathers
 /// Test room is set to 60FPS
 
 // Create Particle System
 global.particles        = part_system_create();
+// Create Confetti Particle Type
+global.partTypeFeather = part_type_create();
 
+part_type_sprite(global.partTypeFeather, teststar, false, false, true); 
+
+part_type_orientation(global.partTypeFeather, 0, 360, 0, 10, 0);
+part_type_gravity(global.partTypeFeather, 0.3, 270);
+part_type_direction(global.partTypeFeather, 0, 180, 1, 30);
+part_type_speed(global.partTypeFeather, 6, 10, -0.3, 0);
+
+part_type_size(global.partTypeFeather, 0, 0.4, -0.001, -0.1);
+part_type_life(global.partTypeFeather, 30, 60);
+
+
+/* OLD CONFETTI SYSTEM 
 // Create Confetti Particle Type
 global.partTypeConfetti = part_type_create();
 
 part_type_sprite(global.partTypeConfetti, sprite_confetti, false, false, true); 
 
 part_type_orientation(global.partTypeConfetti, 0, 360, 0, 45, 0);
-part_type_gravity(global.partTypeConfetti, 0.3, 270);
+part_type_gravity(global.partTypeConfetti, 0.4, 270);
 part_type_direction(global.partTypeConfetti, 0, 360, 0, 30);
 part_type_speed(global.partTypeConfetti, 5, 6, -0.3, 0);
-
 part_type_size(global.partTypeConfetti, 0.2, 0.3, 0, 0);
 part_type_life(global.partTypeConfetti, 30, 60);
 part_type_alpha2(global.partTypeConfetti,1,0.25); 
@@ -257,10 +272,63 @@ part_type_sprite(global.partTypeMoreConfetti, sprite_confetti, false, false, tru
 part_type_size(global.partTypeMoreConfetti, 0.1, 0.2, 0, 0);
 part_type_speed(global.partTypeMoreConfetti, 7, 8, -0.3, 0);
 part_type_direction(global.partTypeMoreConfetti, 0, 360, 0, 30);
-part_type_gravity(global.partTypeMoreConfetti, 0.3, 270);
+part_type_gravity(global.partTypeMoreConfetti, 0.45, 270);
 part_type_orientation(global.partTypeMoreConfetti, 0, 360, 0, 30, 0);
 part_type_life(global.partTypeMoreConfetti, 20, 40);
 part_type_alpha2(global.partTypeMoreConfetti,1,0.25);
+*/ 
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Prepare The Star Confetti
+/// Test room is set to 60FPS
+
+/// Prepare The Confetti
+/// Test room is set to 60FPS
+
+// Create Particle System
+
+// Create Confetti Particle Type
+global.partTypeStarfetti = part_type_create();
+
+part_type_sprite(global.partTypeStarfetti, teststar, true, true, true); 
+
+part_type_orientation(global.partTypeStarfetti, 0, 360, 0, 45, 0);
+part_type_gravity(global.partTypeStarfetti, 0.3, 270);
+part_type_direction(global.partTypeStarfetti, 0, 180, 1, 30);
+part_type_speed(global.partTypeStarfetti, 5, 6, -0.3, 0);
+
+part_type_size(global.partTypeStarfetti, 0.1, 0.3, -0.1, -0.1);
+part_type_life(global.partTypeStarfetti, 30, 60);
+//part_type_alpha2(global.partTypeConfetti,1,0); 
+
+global.partTypeMoreStarfetti = part_type_create();
+part_type_sprite(global.partTypeMoreStarfetti, teststar, false, false, true);
+part_type_size(global.partTypeMoreStarfetti, 0.1, 0.2, -0.001, -0.1);
+part_type_speed(global.partTypeMoreStarfetti, 6, 7, -0.3, 0);
+part_type_direction(global.partTypeMoreStarfetti, 0, 210, 1, 30);
+part_type_gravity(global.partTypeMoreStarfetti, 0.25, 270);
+part_type_orientation(global.partTypeMoreStarfetti, 0, 360, 0, 30, 0);
+part_type_life(global.partTypeMoreStarfetti, 20, 30);
+//part_type_alpha2(global.partTypeMoreConfetti,1,0);
+part_type_death(global.partTypeMoreStarfetti, 1, global.partTypeStarfetti);
 </string>
           </argument>
         </arguments>
@@ -541,7 +609,7 @@ if (keyboard_check_pressed(vk_anykey) == true) {
             }*/
         case vk_backspace: {
              if (mvc.currentState = speedState.normal) {
-                mvc.currentState = speedState.stop;
+                mvc.currentState = speedState.ultraslowmo;
                 }
                 else {
                 mvc.currentState = speedState.normal
@@ -827,7 +895,7 @@ shake1 -= 0.3*mvc.timeMulti ;
 
 draw_text(view_wview[0] / 2, view_hview[0] / 2, score);
 draw_text(view_wview[0] / 2, view_hview[0] / 2 +40, fps);
-draw_text(view_wview[0] / 2, view_hview[0] / 2 +60, fps);
+draw_text(view_wview[0] / 2, view_hview[0] / 2 +60, string(mvc.timeMulti));
 
 for (a = 0; a &lt; array_length_1d(pitcher.pitch); a++) 
 {

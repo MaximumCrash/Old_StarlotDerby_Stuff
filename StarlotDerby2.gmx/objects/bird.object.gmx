@@ -29,7 +29,7 @@
 turnDir = 0; //False = Right, True = Left
 lastX = x; //We use this to check if we're turning left or right. 
 currentY = y; 
-maxY = currentY + 198; 
+maxY = currentY + 350; 
 type = 0; //Type of Bird. 0 = Normal, 1 = Golden, 2 = Gem
 moveSpeed = 4; //Speed to hop ahead. 
 stopTime = random_range(100,180);

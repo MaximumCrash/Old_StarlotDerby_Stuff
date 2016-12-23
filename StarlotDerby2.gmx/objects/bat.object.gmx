@@ -37,6 +37,9 @@ image_xscale = -image_xscale;
 }
 
 xScaleExtra = 0; 
+pushDown = false; 
+initialX = x; 
+initialY = y; 
 </string>
           </argument>
         </arguments>
@@ -59,7 +62,20 @@ xScaleExtra = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>
+            <string>if (pushDown) {
+
+y = smooth_approach(y, initialY+16,0.4); 
+
+if (y &gt;= initialY+16) {
+pushDown = false
+} 
+
+}
+else {
+
+y = smooth_approach(y, initialY,0.2); 
+
+}
 
 if (manager.batLefty) {
 image_angle = -manager.swingArc;
@@ -117,10 +133,6 @@ else if (manager.swingCharge &gt; 0)
 
 draw_sprite_ext(sprite_index, image_index, x, y+25,image_xscale, image_yscale-.6 , image_angle, c_black, 0.75);
 draw_self();
-if (manager.debug) 
-{
-    draw_circle(x,y, 100, true); 
-}
 </string>
           </argument>
         </arguments>

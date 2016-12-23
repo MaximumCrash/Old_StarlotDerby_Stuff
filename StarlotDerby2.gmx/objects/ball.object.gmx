@@ -232,7 +232,7 @@ ballEX0 = instance_create(x, y, ballExtra);
 ballEX1 = instance_create(x, y, ballExtra); 
 ballEX2 = instance_create(x, y, ballExtra); 
 ballEX3 = instance_create(x, y, ballExtra); 
-
+ballEX4 = instance_create(x, y, ballExtra); 
 
 
 </string>
@@ -483,11 +483,12 @@ batAngle = manager.swingArc;
 exitSpeed = (manager.ballSpeed*.35) + (manager.equip[1] * (manager.swingCharge / manager.swingChargeMax + 0.25)) + (manager.ballSpeed * 1.25);
 //exitDistance = point_distance(hitPositionX, hitPositionY, exitPositionX, exitPositionY);
 //extraYscale = 0.1; 
+bat.pushDown = true; 
 alarm[3] = 1;
 bat.xScaleExtra += 0.2;
 extraYscale += 0.05; 
-mvc.currentState = speedState.normal;
-mvc.overrideChannel = 0; 
+//mvc.currentState = speedState.normal;
+//mvc.overrideChannel = 0; 
 currentRebound++;
 
 }
@@ -519,8 +520,14 @@ currentRebound++;
     screenFX.birdRipplePointY = other.y; 
     if (manager.birdHappyBirthday)
     { 
-       part_particles_create(global.particles, screenFX.birdRipplePointX, screenFX.birdRipplePointY, global.partTypeConfetti, 64);
-       part_particles_create(global.particles, screenFX.birdRipplePointX, screenFX.birdRipplePointY - 32, global.partTypeMoreConfetti, 64);
+      part_particles_create(global.particles, screenFX.birdRipplePointX, screenFX.birdRipplePointY, global.partTypeStarfetti, 32 * (birdHitCount+1));
+       part_particles_create(global.particles, screenFX.birdRipplePointX, screenFX.birdRipplePointY - 32, global.partTypeMoreStarfetti, 32 * (birdHitCount+1));
+ }
+    else 
+    {
+       part_particles_create(global.particles, screenFX.birdRipplePointX, screenFX.birdRipplePointY, global.partTypeFeather, 10 * (birdHitCount+1));
+      // part_particles_create(global.particles, screenFX.birdRipplePointX, screenFX.birdRipplePointY - 32, global.partTypeFeather, 32 * (birdHitCount+1));
+
     }
     screenFX.birdRipple = true; 
     screenFX.birdRippleOpacity = 0.5;

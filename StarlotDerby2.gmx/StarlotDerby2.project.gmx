@@ -142,6 +142,7 @@
       <sprite>sprites\spr_scaler</sprite>
     </sprites>
     <sprite>sprites\sprBall</sprite>
+    <sprite>sprites\teststar</sprite>
     <sprite>sprites\fakeProbe</sprite>
     <sprite>sprites\sprBat</sprite>
     <sprite>sprites\spr_ex</sprite>
@@ -155,6 +156,7 @@
   </sprites>
   <backgrounds name="background">
     <background>background\background0</background>
+    <background>background\background1</background>
   </backgrounds>
   <paths name="paths">
     <paths name="Rebound Pitches">
@@ -550,6 +552,7 @@
           <script>scripts\getLevel.gml</script>
           <script>scripts\addRandomGems.gml</script>
           <script>scripts\buildCurse.gml</script>
+          <script>scripts\smoothLerp.gml</script>
           <script>scripts\setEquipment.gml</script>
         </scripts>
         <scripts name="NETWORK">

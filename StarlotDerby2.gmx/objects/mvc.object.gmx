@@ -63,19 +63,19 @@ overrideSleepHack = false;
             <string>switch (currentState) 
 {
     case speedState.normal: {
-        timeMulti = lerp(timeMulti, 1, 0.16); 
+        timeMulti = smooth_approach(timeMulti, 1, 0.1); 
         break;
     }
     case speedState.slowmo: {
-        timeMulti = lerp(timeMulti, 0.27, 0.67); 
+        timeMulti = smooth_approach(timeMulti, 0.27, 0.67); 
         break;
     }
     case speedState.ultraslowmo: {
-         timeMulti = lerp(timeMulti, 0.17, 0.67); 
+         timeMulti = smooth_approach(timeMulti, 0.17, 0.67); 
         break;
     }
     case speedState.fastforward: {
-        timeMulti = lerp(timeMulti,1.75,0.67); 
+        timeMulti = smooth_approach(timeMulti,1.75,0.67); 
         break;
     }
     case speedState.stop: {

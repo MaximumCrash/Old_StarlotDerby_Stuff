@@ -88,9 +88,7 @@ exitPositionX = exitA;
 exitPositionY = exitB; 
 exitDistance = point_distance(hitPositionX, hitPositionY, exitA, exitB);
 hitDistance = point_distance(x,y,hitPositionX, hitPositionY); 
-//Steering 
-//direction = 90;
-//motion_set(direction, exitSpeed); 
+
 completeSpeed = 0; 
 
 if (manager.snipeChance > 0) {
@@ -108,4 +106,4 @@ move_towards_point(exitA, exitB, completeSpeed);
 
 exitSpeedSafety = completeSpeed; 
 exitSafetyA = exitA; 
-exitSafetyB = exitB; 
+exitSafetyB = exitB;  
