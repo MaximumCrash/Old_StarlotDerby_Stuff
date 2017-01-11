@@ -50,16 +50,13 @@ if (foul) {
     manager.dirMulti = 1;
 } else {
      
-    
-    
-    
     addFever();
     givePoint(floor((manager.swingCharge / (manager.swingChargeMax / 3) + 1) * (manager.dirMulti + manager.multiplier)), true);
     manager.shake1 += 5;
-    
+    finalPoint = floor((manager.swingCharge / (manager.swingChargeMax / 3) + 1)); 
     switch (floor((manager.swingCharge / (manager.swingChargeMax / 3) + 1))) {
            case 1: {
-           drawTail = false; 
+           closedTail = false; 
            manager.shake1 += 7; 
            break;
            }

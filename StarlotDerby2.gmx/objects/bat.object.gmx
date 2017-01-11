@@ -40,6 +40,7 @@ xScaleExtra = 0;
 pushDown = false; 
 initialX = x; 
 initialY = y; 
+shakeDown = false; 
 </string>
           </argument>
         </arguments>
@@ -99,6 +100,15 @@ if (xScaleExtra &gt; 0)
     xScaleExtra= lerp(xScaleExtra, 0, 0.2*mvc.timeMulti);
 }
  
+
+if (shakeDown) {
+x = lerp(x,random_range(initialX-4, initialX+4),0.4);
+y = lerp(y, random_range(initialY-4,initialY+4),0.4);  
+}
+else {
+x = lerp(x, initialX, 0.1); 
+y = lerp(y, initialY, 0.1); 
+}
 
 </string>
           </argument>

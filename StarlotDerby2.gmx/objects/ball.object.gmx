@@ -25,6 +25,35 @@
         <arguments>
           <argument>
             <kind>1</kind>
+            <string>///Chance Curse Handler
+//Runs Earthquake 16% Chance
+
+if (manager.ballGhost) 
+{
+    tailLength = 15; 
+}
+
+runCurse(); 
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
             <string>///Variable and Path Initialization
 trail_init();
 currentPath = 0;
@@ -32,8 +61,9 @@ path_start(pitcher.pitch[currentPath], manager.ballSpeed, path_action_continue, 
 
 timer = 0;
 hue = 0;
-tailLength = 25; 
-
+tailLength = 21; 
+tailAlpha = 0.65;
+finalPoint = 0; 
 trickCount = 0;
 trick = trickPitch(3); //Takes in Max Number of Tricks (Curently 3)
 trickRun = false;
@@ -76,41 +106,20 @@ inBirdRadius = false;
 exitSafetyA = 0; 
 exitSafetyB = 0; 
 exitSpeedSafety = 0; 
+length = 15; 
+
+for (var i =0; i &lt; length; i++) {
+xx[i] = x;
+yy[i] = y; 
+scale[i] = (currentY / maxY) + baseScale + extraYscale;
+}
+
 if (instance_number(ballExtra) &gt; 0) {
 with (ballExtra) {
 instance_destroy(); 
 }
 } 
 
-</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>///Chance Curse Handler
-//Runs Earthquake 16% Chance
-
-if (manager.ballGhost) 
-{
-    tailLength = 15; 
-}
-
-runCurse(); 
 </string>
           </argument>
         </arguments>
@@ -137,6 +146,10 @@ runCurse();
 if (!ballHit) {
    pitcher.currentState = 0;
     addStrike();
+    with(ballExtra) 
+    {
+     instance_destroy(); 
+    }
 }
 
 
@@ -144,6 +157,7 @@ if (!ballHit) {
 trail_destroy();
 manager.ballHit = false;
 mvc.currentState = speedState.normal;
+bat.shakeDown = false;
 </string>
           </argument>
         </arguments>
@@ -228,11 +242,16 @@ if (batAngle &gt; 0 &amp;&amp; batAngle &lt; (initialBatAngle + (30 * 1)))
           <argument>
             <kind>1</kind>
             <string>///Create Fancy Spinning EXTRAs
+
 ballEX0 = instance_create(x, y, ballExtra); 
 ballEX1 = instance_create(x, y, ballExtra); 
+/*
 ballEX2 = instance_create(x, y, ballExtra); 
 ballEX3 = instance_create(x, y, ballExtra); 
 ballEX4 = instance_create(x, y, ballExtra); 
+
+*/
+
 
 
 </string>
@@ -380,12 +399,22 @@ if (currentY &lt; y &amp;&amp; currentY &lt; maxY &amp;&amp; !ballHit) {
 
     manager.ballExitExtra = lerp(manager.ballExitExtra, 10, 0.4); 
     image_alpha = 1; 
+    
+   //if (finalPoint == 1) {
+       if (mvc.currentState != speedState.normal) {
+          tailAlpha = lerp(tailAlpha,0,0.1*mvc.timeMulti); 
+       }
+       else {
+            tailAlpha = lerp(tailAlpha,0,0.02*mvc.timeMulti); 
+       }
+    //}
     //image_angle+= (manager.ballSpeed *5) *mvc.timeMulti; 
     currentDistance = point_distance(x, y, exitPositionX, exitPositionY);
     image_yscale = (currentDistance / exitDistance) + baseScale + extraYscale;
     
     if (instance_number(ballExtra) &gt; 0) {
-    if (currentDistance/exitDistance &lt;= .55 &amp;&amp; !ballExtra.moveToBat &amp;&amp; ballHit) {        
+    if (currentDistance/exitDistance &lt;= .55 &amp;&amp; !ballExtra.moveToBat &amp;&amp; ballHit) {   
+       bat.shakeDown = false;      
        if (!foul)  
        {
             ballExtra.moveToBat = true; 
@@ -442,6 +471,13 @@ else {
 speed = 0; 
 }
 
+for (var i = (length - 1); i &gt; 0; i--) {
+    xx[i] = xx[i - 1];
+    yy[i] = yy[i - 1];
+}
+
+xx[0] = x;
+yy[0] = y;
 
 </string>
           </argument>
@@ -483,15 +519,18 @@ batAngle = manager.swingArc;
 exitSpeed = (manager.ballSpeed*.35) + (manager.equip[1] * (manager.swingCharge / manager.swingChargeMax + 0.25)) + (manager.ballSpeed * 1.25);
 //exitDistance = point_distance(hitPositionX, hitPositionY, exitPositionX, exitPositionY);
 //extraYscale = 0.1; 
-bat.pushDown = true; 
+//bat.pushDown = true; 
 alarm[3] = 1;
 bat.xScaleExtra += 0.2;
 extraYscale += 0.05; 
+tailAlpha += 0.05; 
 //mvc.currentState = speedState.normal;
 //mvc.overrideChannel = 0; 
 currentRebound++;
 
 }
+
+bat.shakeDown = true; 
 </string>
           </argument>
         </arguments>
@@ -533,7 +572,8 @@ currentRebound++;
     screenFX.birdRippleOpacity = 0.5;
     sleep_hack(sleepHackFall+power(birdHitCount*3,2));
     other.state = 2; //Sets Bird State to Dead. 
-    ball.extraYscale += 0.5; 
+    extraYscale += 0.5; 
+    tailAlpha += 0.05; 
     manager.shake1 += 8;
     switch (other.type) {
     case 0: { //If Normal
@@ -646,15 +686,23 @@ if (!manager.ballGhost)
 {
     if (drawTail) 
     {
-       draw_trail_ext((sprite_width+3),tailColor,-1,closedTail,0.65);
+     
+       draw_trail_ext((sprite_width+3),tailColor,-1,closedTail,tailAlpha);
+       
     }
     
     draw_circle_colour(x,y,sprite_width*.59 + extraYscale,manager.cYellow,manager.cYellow,false);
 }
 else 
 {
-    draw_trail_ext((sprite_width+3),tailColor,-1,closedTail,image_alpha);
+ //   draw_trail_ext((sprite_width+3),tailColor,-1,closedTail,image_alpha);
 }
+
+if (mvc.currentState != speedState.normal) {
+for (var i=0; i &lt;length; i+=1)
+    draw_sprite_ext(sprite_index, image_index, xx[i],yy[i],image_xscale,image_yscale,image_angle,c_white,1-(i/length));
+}
+
 draw_self();
 
 

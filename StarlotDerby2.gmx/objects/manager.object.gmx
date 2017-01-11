@@ -175,17 +175,18 @@ swingArc = 0;
 heatCount = 0;
 
 //********BIRDS
-birdHappyBirthday = true ; //Curse
+birdHappyBirthday = false ; //Curse
 birdDeadPath = birdDead; 
 
 //********PITCHER 
-pitcherSeeingDouble = true; //Curse
+
 pitcherUltraMan = false; //Curse
 
 //*******BALL
 ballMaxSpeed = false; //Curse
 ballGhost = false; //Curse
 ballTrickster = false; //Curse
+ballSplitter = true; //Curse
 //MVC
 ballHit = false;
 ballExitSpeed = 0;
@@ -250,7 +251,7 @@ part_type_speed(global.partTypeFeather, 6, 10, -0.3, 0);
 
 part_type_size(global.partTypeFeather, 0, 0.4, -0.001, -0.1);
 part_type_life(global.partTypeFeather, 30, 60);
-
+part_type_alpha3(global.partTypeFeather,1,1,0); 
 
 /* OLD CONFETTI SYSTEM 
 // Create Confetti Particle Type
@@ -316,8 +317,8 @@ part_type_direction(global.partTypeStarfetti, 0, 180, 1, 30);
 part_type_speed(global.partTypeStarfetti, 5, 6, -0.3, 0);
 
 part_type_size(global.partTypeStarfetti, 0.1, 0.3, -0.1, -0.1);
-part_type_life(global.partTypeStarfetti, 30, 60);
-//part_type_alpha2(global.partTypeConfetti,1,0); 
+part_type_life(global.partTypeStarfetti, 40, 60);
+part_type_alpha3(global.partTypeStarfetti,1,1,0); 
 
 global.partTypeMoreStarfetti = part_type_create();
 part_type_sprite(global.partTypeMoreStarfetti, teststar, false, false, true);
@@ -327,7 +328,7 @@ part_type_direction(global.partTypeMoreStarfetti, 0, 210, 1, 30);
 part_type_gravity(global.partTypeMoreStarfetti, 0.25, 270);
 part_type_orientation(global.partTypeMoreStarfetti, 0, 360, 0, 30, 0);
 part_type_life(global.partTypeMoreStarfetti, 20, 30);
-//part_type_alpha2(global.partTypeMoreConfetti,1,0);
+//part_type_alpha3(global.partTypeMoreConfetti,1,1,0);
 part_type_death(global.partTypeMoreStarfetti, 1, global.partTypeStarfetti);
 </string>
           </argument>

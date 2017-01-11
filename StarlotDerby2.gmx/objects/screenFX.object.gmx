@@ -204,16 +204,16 @@ view_object[0] = ball;
 }
 
 if (hitRippleExpand &lt; 2.75 &amp;&amp; hitRipple) {
-hitRippleExpand = lerp(hitRippleExpand, 2.75, 0.25 * mvc.timeMulti);  
-hitRippleOpacity = lerp(hitRippleOpacity, 0, 0.25 * mvc.timeMulti); 
+hitRippleExpand = lerp(hitRippleExpand, 2.75, 0.2 * mvc.timeMulti);  
+hitRippleOpacity = lerp(hitRippleOpacity, 0, 0.2 * mvc.timeMulti); 
 }
 else {
 rippleReset(0); 
 }
 
 if (birdRippleExpand &lt; 1.5 &amp;&amp; birdRipple) {
-birdRippleExpand = lerp(birdRippleExpand, 1.5, 0.3 * mvc.timeMulti);  
-birdRippleOpacity = lerp(birdRippleOpacity, 0, 0.4 * mvc.timeMulti); 
+birdRippleExpand = lerp(birdRippleExpand, 1.5, 0.25 * mvc.timeMulti);  
+birdRippleOpacity = lerp(birdRippleOpacity, 0, 0.25 * mvc.timeMulti); 
 }
 else {
 rippleReset(1); 

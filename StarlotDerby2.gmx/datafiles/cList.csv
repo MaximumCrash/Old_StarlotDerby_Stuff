@@ -2,7 +2,7 @@ Name,Code,Description
 Trickstar,C~SS,Pitches are more likely to be tricks. 
 Hot Stuff,C~OH,Bat will overheat quicker than usual.
 Happy Birthday,C~HB,Seagulls explode into confetti when hit.
-Seeing Double,C~DD,See two pitches. Only one is Real.
+Splitter,C~DD,"On hit, the ball has a chance of exploding into 3 pieces. You'll lose the directional multiplier. "
 Risky Business,C~RB,Fouls count as strikes.
 Max Speed,C~MS,Max pitch speed.
 Slug Bat,C~SB,Bat speed is set to 1.
