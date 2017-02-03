@@ -71,7 +71,7 @@ overrideSleepHack = false;
         break;
     }
     case speedState.ultraslowmo: {
-         timeMulti = smooth_approach(timeMulti, 0.17, 0.67); 
+         timeMulti = smooth_approach(timeMulti, 0.1, 0.67); 
         break;
     }
     case speedState.fastforward: {

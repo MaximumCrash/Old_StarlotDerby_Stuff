@@ -564,13 +564,13 @@ bat.shakeDown = true;
  }
     else 
     {
-       part_particles_create(global.particles, screenFX.birdRipplePointX, screenFX.birdRipplePointY, global.partTypeFeather, 10 * (birdHitCount+1));
+     //part_particles_create(global.particles, screenFX.birdRipplePointX, screenFX.birdRipplePointY, global.partTypeFeather, 5 * (birdHitCount+1));
       // part_particles_create(global.particles, screenFX.birdRipplePointX, screenFX.birdRipplePointY - 32, global.partTypeFeather, 32 * (birdHitCount+1));
 
     }
     screenFX.birdRipple = true; 
-    screenFX.birdRippleOpacity = 0.5;
-    sleep_hack(sleepHackFall+power(birdHitCount*3,2));
+    screenFX.birdRippleOpacity = 0.7;
+    //sleep_hack(sleepHackFall);
     other.state = 2; //Sets Bird State to Dead. 
     extraYscale += 0.5; 
     tailAlpha += 0.05; 

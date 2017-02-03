@@ -135,6 +135,7 @@
     <extension index="7">extensions\Draw Trail</extension>
     <extension index="8">extensions\Draw Sprite Shadow</extension>
     <extension index="9">extensions\Draw Circle Width</extension>
+    <extension index="10">extensions\Create Trail</extension>
   </NewExtensions>
   <sounds name="sound"/>
   <sprites name="sprites">

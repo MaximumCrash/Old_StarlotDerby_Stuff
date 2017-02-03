@@ -897,6 +897,7 @@ shake1 -= 0.3*mvc.timeMulti ;
 draw_text(view_wview[0] / 2, view_hview[0] / 2, score);
 draw_text(view_wview[0] / 2, view_hview[0] / 2 +40, fps);
 draw_text(view_wview[0] / 2, view_hview[0] / 2 +60, string(mvc.timeMulti));
+draw_text(view_wview[0] / 2, view_hview[0] / 2 +80, speed);
 
 for (a = 0; a &lt; array_length_1d(pitcher.pitch); a++) 
 {
